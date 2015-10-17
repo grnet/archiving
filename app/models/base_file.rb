@@ -4,4 +4,10 @@
 class BaseFile < ActiveRecord::Base
   self.table_name = :BaseFiles
   self.primary_key = :BaseId
+
+  alias_attribute :id, :BaseId
+  alias_attribute :base_job_id, :BaseJobId
+  alias_attribute :job_id, :JobId
+  alias_attribute :file_id, :FileId
+  alias_attribute :file_index, :FileIndex
 end
