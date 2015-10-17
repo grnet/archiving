@@ -4,4 +4,6 @@ class Path < ActiveRecord::Base
 
   alias_attribute :path_id, :PathId
   alias_attribute :path, :Path
+
+  has_many :bacula_files, foreign_key: :PathId
 end

@@ -7,4 +7,6 @@ class Client < ActiveRecord::Base
   alias_attribute :auto_prune, :AutoPrune
   alias_attribute :file_retention, :FileRetention
   alias_attribute :job_retention, :JobRetention
+
+  has_many :jobs, foreign_key: :ClientId
 end

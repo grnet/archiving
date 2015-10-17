@@ -29,4 +29,13 @@ class Job < ActiveRecord::Base
   alias_attribute :has_cache, :HasCache
   alias_attribute :reviewed, :Reviewed
   alias_attribute :comment, :Comment
+
+  belongs_to :pool, foreign_key: :PoolId
+  belongs_to :file_set, foreign_key: :FileSetId
+  belongs_to :client, foreign_key: :ClientId
+
+  has_many :bacula_files, foreign_key: :JobId
+  has_many :base_files, foreign_key: :BaseJobId
+  has_many :job_media, foreign_key: :JobId
+  has_many :logs, foreign_key: :JobId
 end

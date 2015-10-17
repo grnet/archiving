@@ -17,4 +17,6 @@ class Device < ActiveRecord::Base
   alias_attribute :dev_write_time_since_cleaning, :DevWriteTimeSinceCleaning
   alias_attribute :cleaning_date, :CleaningDate
   alias_attribute :cleaning_period, :CleaningPeriod
+
+  has_many :media, foreign_key: :DeviceId
 end

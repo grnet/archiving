@@ -6,4 +6,7 @@ class Location < ActiveRecord::Base
   alias_attribute :location, :Location
   alias_attribute :cost, :Cost
   alias_attribute :enabled, :Enabled
+
+  has_many :media, foreign_key: :LocationId
+  has_many :location_logs, foreign_key: :LocationId
 end

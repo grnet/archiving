@@ -27,4 +27,7 @@ class Pool < ActiveRecord::Base
   alias_attribute :migration_high_bytes, :MigrationHighBytes
   alias_attribute :migration_low_bytes, :MigrationLowBytes
   alias_attribute :migration_time, :MigrationTime
+
+  has_many :jobs, foreign_key: :PoolId
+  has_many :media, foreign_key: :PoolId
 end

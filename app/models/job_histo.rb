@@ -28,4 +28,8 @@ class JobHisto < ActiveRecord::Base
   alias_attribute :has_cache, :HasCache
   alias_attribute :reviewed, :Reviewed
   alias_attribute :comment, :Comment
+
+  belongs_to :client, foreign_key: :ClientId
+  belongs_to :pool, foreign_key: :PoolId
+  belongs_to :file_set, foreign_key: :FileSetId
 end

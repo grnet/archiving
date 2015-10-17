@@ -12,4 +12,7 @@ class JobMedia < ActiveRecord::Base
   alias_attribute :start_block, :StartBlock
   alias_attribute :end_block, :EndBlock
   alias_attribute :vol_index, :VolIndex
+
+  belongs_to :Job, foreign_key: :JobId
+  belongs_to :Media, foreign_key: :MediaId
 end

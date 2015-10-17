@@ -6,4 +6,6 @@ class Log < ActiveRecord::Base
   alias_attribute :job_id, :JobId
   alias_attribute :time, :Time
   alias_attribute :log_text, :LogText
+
+  belongs_to :job, foreign_key: :JobId
 end

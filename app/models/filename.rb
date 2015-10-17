@@ -4,4 +4,6 @@ class Filename < ActiveRecord::Base
 
   alias_attribute :filename_id, :FilenameId
   alias_attribute :name, :Name
+
+  has_many :bacula_files, foreign_key: :FilenameId
 end

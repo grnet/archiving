@@ -9,4 +9,7 @@ class LocationLog < ActiveRecord::Base
   alias_attribute :location_id, :LocationId
   alias_attribute :new_vol_status, :NewVolStatus
   alias_attribute :new_enabled, :NewEnabled
+
+  belongs_to :media, foreign_key: :MediaId
+  belongs_to :location, foreign_key: :LocationId
 end

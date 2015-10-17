@@ -44,4 +44,12 @@ class Media < ActiveRecord::Base
   alias_attribute :scratch_pool_id, :ScratchPoolId
   alias_attribute :recycle_pool_id, :RecyclePoolId
   alias_attribute :comment, :Comment
+
+  belongs_to :pool, foreign_key: :PoolId
+  belongs_to :storage, foreign_key: :StorageId
+  belongs_to :device, foreign_key: :DeviceId
+  belongs_to :location, foreign_key: :LocationId
+
+  has_many :job_media, foreign_key: :MediaId
+  has_many :location_logs, foreign_key: :MediaId
 end

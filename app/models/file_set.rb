@@ -6,4 +6,6 @@ class FileSet < ActiveRecord::Base
   alias_attribute :file_set, :FileSet
   alias_attribute :md5, :MD5
   alias_attribute :create_time, :CreateTime
+
+  has_many :jobs, foreign_key: :FileSetId
 end

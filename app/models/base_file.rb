@@ -10,4 +10,8 @@ class BaseFile < ActiveRecord::Base
   alias_attribute :job_id, :JobId
   alias_attribute :file_id, :FileId
   alias_attribute :file_index, :FileIndex
+
+  belongs_to :base_job, foreign_key: :BaseJobId, class_name: :Job
+  belongs_to :job, foreign_key: :JobId
+  belongs_to :bacula_file, foreign_key: :FileId
 end

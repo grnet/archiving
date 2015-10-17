@@ -10,4 +10,10 @@ class BaculaFile < ActiveRecord::Base
   alias_attribute :mark_id, :MarkId
   alias_attribute :l_stat, :LStat
   alias_attribute :md5, :MD5
+
+  belongs_to :path, foreign_key: :PathId
+  belongs_to :filename, foreign_key: :FilenameId
+  belongs_to :job, foreign_key: :JobId
+
+  has_many :base_files, foreign_key: :FileId
 end
