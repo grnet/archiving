@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20151020192733) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "Client", ["Name"], name: "Name", unique: true, length: {"Name"=>128}, using: :btree
 
   create_table "Counters", id: false, force: true do |t|
-    t.binary  "Counter",      limit: 255,             null: false #this is the primary key
+    t.binary  "Counter",      limit: 255,             null: false
     t.integer "MinValue",                 default: 0
     t.integer "MaxValue",                 default: 0
     t.integer "CurrentValue",             default: 0
@@ -323,6 +323,15 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "Version", id: false, force: true do |t|
     t.integer "VersionId", null: false
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "username",                             null: false
+    t.string   "email"
+    t.integer  "user_type",  limit: 1,                 null: false
+    t.boolean  "enabled",              default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
