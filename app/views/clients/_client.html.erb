@@ -6,8 +6,6 @@
   <td><%= client.file_retention_days %></td>
   <td><%= client.job_retention_days %></td>
   <td><%= number_to_human_size(client.backup_jobs_size) %></td>
-  <td>
-    <%= number_to_human(client.files_count, units: { thousand: :K, million: :M, billion: :G }) %>
-  </td>
+  <td><%= number_by_magnitude(client.files_count) %></td>
   <td><%= client.auto_prune_human %></td>
 </tr>
