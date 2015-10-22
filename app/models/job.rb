@@ -38,4 +38,8 @@ class Job < ActiveRecord::Base
   has_many :base_files, foreign_key: :BaseJobId
   has_many :job_media, foreign_key: :JobId
   has_many :logs, foreign_key: :JobId
+
+  scope :running, -> { where(job_status: 'R') }
+  scope :backup_type, -> { where(type: 'B') }
+  scope :restore_type, -> { where(type: 'R') }
 end

@@ -1,7 +1,13 @@
 <tr>
   <td><%= link_to client.name, client %></td>
   <td><%= client.uname %></td>
-  <td><%= client.auto_prune %></td>
+  <td><%= @active_jobs[client.id] || 0 %></td>
+  <td><%= client.last_job_date %></td>
   <td><%= client.file_retention_days %></td>
   <td><%= client.job_retention_days %></td>
+  <td><%= number_to_human_size(client.backup_jobs_size) %></td>
+  <td>
+    <%= number_to_human(client.files_count, units: { thousand: :K, million: :M, billion: :G }) %>
+  </td>
+  <td><%= client.auto_prune_human %></td>
 </tr>

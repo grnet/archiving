@@ -3,7 +3,8 @@ class ClientsController < ApplicationController
 
   # GET /clients
   def index
-    @clients = Client.all
+    @clients = Client.includes(:jobs).all
+    @active_jobs = Job.running.group(:ClientId).count
   end
 
   # GET /clients/1

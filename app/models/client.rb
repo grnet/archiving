@@ -28,4 +28,36 @@ class Client < ActiveRecord::Base
   def file_retention_days
     file_retention / DAY_SECS
   end
+
+  # Helper method for auto_prune
+  #
+  # @return [String] 'yes' or 'no'
+  def auto_prune_human
+    auto_prune == 1 ? 'yes' : 'no'
+  end
+
+  def last_job_date
+    jobs.maximum(:EndTime)
+  end
+
+  # Shows the total file size of the jobs that run for a specific client
+  #
+  # @return [Integer] Size in Bytes
+  def backup_jobs_size
+    jobs.backup_type.map(&:job_bytes).sum
+  end
+
+  # Shows the total files' count for the jobs that run for a specific client
+  #
+  # @return [Integer] File count
+  def files_count
+    jobs.map(&:job_files).sum
+  end
+
+  # Fetches the client's jobs that are running at the moment
+  #
+  # @return [Integer]
+  def running_jobs
+    jobs.running.count
+  end
 end
