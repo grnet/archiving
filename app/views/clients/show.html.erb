@@ -12,18 +12,42 @@
       <td><%= @client.uname %></td>
     </tr>
     <tr>
-      <td>Auto Prune</td>
-      <td><%= @client.auto_prune %></td>
+      <td>Active Jobs</td>
+      <td><%= @client.running_jobs %></td>
+    </tr>
+    <tr>
+      <td>Last Backup</td>
+      <td><%= @client.last_job_date %></td>
     </tr>
     <tr>
       <td>File Retention</td>
-      <td><%= @client.file_retention %></td>
+      <td><%= @client.file_retention_days %> days</td>
     </tr>
     <tr>
       <td>Job Retention</td>
-      <td><%= @client.job_retention %></td>
+      <td><%= @client.job_retention_days %> days</td>
+    </tr>
+    <tr>
+      <td>Total Space Used</td>
+      <td><%= number_to_human_size @client.backup_jobs_size %></td>
+    </tr>
+    <tr>
+      <td>Files count</td>
+      <td><%= number_by_magnitude(@client.files_count) %></td>
+    </tr>
+    <tr>
+      <td>Auto Prune</td>
+      <td><%= @client.auto_prune_human %></td>
     </tr>
   </table>
 </div>
 
-<%= link_to 'Back', clients_path %>
+<div>
+  <%= link_to 'New Job', '#', class: "btn btn-primary", role: "button" %>
+  <%= link_to 'Restore Files', '#', class: "btn btn-success", role: "button" %>
+  <%= link_to 'Take Backup', '#', class: "btn btn-success", role: "button" %>
+  <%= link_to 'Remove client', '#', class: "btn btn-danger", role: "button" %>
+</div>
+<br/>
+
+<%= link_to 'Back to clients', clients_path %>
