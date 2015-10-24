@@ -11,7 +11,15 @@ else
   require 'jquery-rails'
 end
 
-module Base
+module Baas
+  def self.settings opts = nil
+    @settings ||= {}
+
+    return @settings if opts.nil?
+    @settings.merge! opts
+    @settings
+  end
+
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -25,12 +33,12 @@ module Base
     # config.i18n.default_locale = :de
     config.autoload_paths << Rails.root.join('lib')
 
-    config.x = {}
+#    config.x = {}
   end
 
-  def self.settings
-    Application.config.x
-  end
+#  def self.settings
+#    Application.config.x
+#  end
 
   def self.bean
     @bean ||= Bean::Client.new(
