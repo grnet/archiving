@@ -22,3 +22,4 @@ config/beanstalk.yml
 config/secrets.yml
 
 .ruby-version
+.rspec
