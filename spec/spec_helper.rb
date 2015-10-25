@@ -21,6 +21,14 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
 
+  config.before(:suite) do
+    puts 'Cleaning up sql'
+
+    connection = ActiveRecord::Base.establish_connection(Baas::settings[:local_db]).
+      connection
+    connection.execute("truncate users")
+    connection.execute("truncate hosts")
+  end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
