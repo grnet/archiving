@@ -1,0 +1,13 @@
+<%= bootstrap_form_for(@host) do |f| %>
+  <div>
+  <%= f.text_field :name %>
+  <%= f.text_field :password %>
+  <%= f.number_field :port %>
+  <%= f.text_field :fqdn %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
