@@ -2,8 +2,13 @@ class Host < ActiveRecord::Base
   FILE_RETENTION_DAYS = 60
   JOB_RETENTION_DAYS = 180
   CATALOG = 'MyCatalog'
+  AUTOPRUNE = 1
 
   establish_connection :local_development
+
+  enum status: { draft: 0, pending: 1, config: 2, ready: 3 }
+
+  belongs_to :client, class_name: :Client, foreign_key: :name, primary_key: :name
 
   validates :file_retention, :job_retention,
     :port, :password, presence: true
@@ -13,7 +18,9 @@ class Host < ActiveRecord::Base
 
   validate :fqdn_format
 
-  before_validation :set_retention, :unset_baculized
+  scope :not_baculized, -> { where(baculized: false) }
+
+  before_validation :set_retention, :unset_baculized, :sanitize_name
 
   def to_bacula_config_array
     [
@@ -32,13 +39,17 @@ class Host < ActiveRecord::Base
 
   private
 
+  def sanitize_name
+    self.name = fqdn
+  end
+
   def set_retention
     self.file_retention = FILE_RETENTION_DAYS
     self.job_retention = JOB_RETENTION_DAYS
   end
 
   def unset_baculized
-    self.baculized = false
+    self.baculized = false if new_record?
     true
   end
 

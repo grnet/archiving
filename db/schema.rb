@@ -336,6 +336,8 @@ ActiveRecord::Schema.define(version: 20151025110412) do
     t.string   "password"
     t.boolean  "baculized",                  default: false, null: false
     t.datetime "baculized_at"
+    t.integer  "status",         limit: 1,   default: 0
+    t.integer  "client_id"
   end
 
   add_index "hosts", ["name"], name: "index_hosts_on_name", unique: true, length: {"name"=>128}, using: :btree

@@ -9,6 +9,7 @@ class Client < ActiveRecord::Base
   alias_attribute :job_retention, :JobRetention
 
   has_many :jobs, foreign_key: :ClientId
+  has_one :host, foreign_key: :name, primary_key: :Name
 
   DAY_SECS = 60 * 60 * 24
 
