@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151025110412) do
+ActiveRecord::Schema.define(version: 20151026180147) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -324,6 +324,17 @@ ActiveRecord::Schema.define(version: 20151025110412) do
   create_table "Version", id: false, force: true do |t|
     t.integer "VersionId", null: false
   end
+
+  create_table "filesets", force: true do |t|
+    t.string   "name"
+    t.integer  "host_id"
+    t.text     "exclude_directions"
+    t.text     "include_directions"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "filesets", ["host_id"], name: "index_filesets_on_host_id", using: :btree
 
   create_table "hosts", force: true do |t|
     t.binary   "name",           limit: 255,                 null: false

@@ -9,6 +9,7 @@ class Host < ActiveRecord::Base
   enum status: { draft: 0, pending: 1, config: 2, ready: 3 }
 
   belongs_to :client, class_name: :Client, foreign_key: :name, primary_key: :name
+  has_many :filesets, dependent: :destroy
 
   validates :file_retention, :job_retention,
     :port, :password, presence: true
