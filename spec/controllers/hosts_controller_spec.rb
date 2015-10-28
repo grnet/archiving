@@ -18,7 +18,7 @@ describe HostsController do
       let(:params) do
         {
           host: FactoryGirl.build(:host).attributes.symbolize_keys.
-            slice(:password, :name, :fqdn, :port)
+            slice(:password, :fqdn, :port)
         }
       end
 
@@ -37,7 +37,7 @@ describe HostsController do
       let(:params) do
         {
           host: FactoryGirl.build(:host).attributes.symbolize_keys.
-            slice(:name, :fqdn, :port)
+            slice(:fqdn, :port)
         }
       end
 

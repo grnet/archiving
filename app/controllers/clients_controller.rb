@@ -5,6 +5,7 @@ class ClientsController < ApplicationController
   def index
     @clients = Client.includes(:jobs).all
     @active_jobs = Job.running.group(:ClientId).count
+    @hosts = Host.not_baculized
   end
 
   # GET /clients/1

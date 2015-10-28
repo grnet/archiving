@@ -1,10 +1,13 @@
 class HostsController < ApplicationController
 #  before_action :fetch_params, only: :create
+  before_action :fetch_host, only: [:show, :edit, :update, :destroy]
 
+  # GET /hosts
   def new
     @host = Host.new
   end
 
+  # POST /hosts
   def create
     @host = Host.new(fetch_params)
     if @host.save
@@ -14,9 +17,27 @@ class HostsController < ApplicationController
     end
   end
 
+  # GET /hosts/1
+  def show; end
+
+  # GET /hosts/1/edit
+  def edit; end
+
+  # PUT /hosts/1
+  def update;end
+
+  # DELETE /hosts/1
+  def destroy
+    #@host.destroy
+  end
+
   private
 
+  def fetch_host
+    @host = Host.find(params[:id])
+  end
+
   def fetch_params
-    params.require(:host).permit(:name, :fqdn, :port, :password)
+    params.require(:host).permit(:fqdn, :port, :password)
   end
 end
