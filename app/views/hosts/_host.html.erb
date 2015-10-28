@@ -1,0 +1,10 @@
+<tr>
+  <td><%= link_to host.name, host_path(host) %></td>
+  <td><%= host.fqdn %></td>
+  <td><%= host.port %></td>
+  <td><%= host.password %></td>
+  <td><%= host.file_retention %></td>
+  <td><%= host.job_retention %></td>
+  <td><%= host.auto_prune_human %></td>
+  <td><%= I18n.l(host.created_at, format: :long) %></td>
+</tr>

@@ -38,6 +38,10 @@ class Host < ActiveRecord::Base
     ]
   end
 
+  def auto_prune_human
+    AUTOPRUNE == 1 ? 'yes' : 'no'
+  end
+
   private
 
   def sanitize_name
