@@ -28,6 +28,8 @@ RSpec.configure do |config|
       connection
     connection.execute("truncate users")
     connection.execute("truncate hosts")
+    connection.execute("truncate schedules")
+    connection.execute("truncate filesets")
   end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
