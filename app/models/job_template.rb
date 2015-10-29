@@ -7,6 +7,8 @@ class JobTemplate < ActiveRecord::Base
   belongs_to :fileset
   belongs_to :schedule
 
+  scope :enabled, -> { where(enabled: true) }
+
   # configurable
   DEFAULT_OPTIONS = {
     storage: :File,
