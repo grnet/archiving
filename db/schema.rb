@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028083132) do
+ActiveRecord::Schema.define(version: 20151028171930) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -352,6 +352,16 @@ ActiveRecord::Schema.define(version: 20151028083132) do
   end
 
   add_index "hosts", ["name"], name: "index_hosts_on_name", unique: true, length: {"name"=>128}, using: :btree
+
+  create_table "job_templates", force: true do |t|
+    t.string   "name",                  null: false
+    t.integer  "job_type",    limit: 1
+    t.integer  "host_id"
+    t.integer  "fileset_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "schedules", force: true do |t|
     t.string "name"

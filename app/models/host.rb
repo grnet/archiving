@@ -10,6 +10,7 @@ class Host < ActiveRecord::Base
 
   belongs_to :client, class_name: :Client, foreign_key: :name, primary_key: :name
   has_many :filesets, dependent: :destroy
+  has_many :job_templates, dependent: :destroy
 
   validates :file_retention, :job_retention,
     :port, :password, presence: true
