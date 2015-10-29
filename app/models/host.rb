@@ -24,6 +24,13 @@ class Host < ActiveRecord::Base
 
   before_validation :set_retention, :unset_baculized, :sanitize_name
 
+  def baculize_config
+    templates = job_templates.enabled.includes(:fileset, :schedule)
+
+    result = [self] + templates.map {|x| [x, x.fileset, x.schedule] }.flatten
+    result.map(&:to_bacula_config_array)
+  end
+
   def to_bacula_config_array
     [
       "Client {",

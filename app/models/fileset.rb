@@ -5,6 +5,7 @@ class Fileset < ActiveRecord::Base
   serialize :include_directions, JSON
 
   belongs_to :host
+  has_many :job_templates
 
   DEFAULT_EXCLUDED = %w{/var/lib/bacula /proc /tmp /.journal /.fsck /bacula}
   DEFAULT_INCLUDE_OPTIONS = { signature: :SHA1, compression: :GZIP }

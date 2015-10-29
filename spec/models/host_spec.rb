@@ -72,4 +72,44 @@ describe Host do
       expect(host.to_bacula_config_array).to include("  AutoPrune = yes")
     end
   end
+
+  describe '#baculize_config' do
+    let!(:host) { FactoryGirl.create(:host) }
+
+    let!(:fileset) { FactoryGirl.create(:fileset, host: host) }
+    let!(:other_fileset) { FactoryGirl.create(:fileset, host: host) }
+
+    let!(:schedule) { FactoryGirl.create(:schedule) }
+    let!(:other_schedule) { FactoryGirl.create(:schedule) }
+
+    let!(:enabled_job) do
+      FactoryGirl.create(:job_template, host: host, schedule: schedule,
+                         fileset: fileset, enabled: true)
+    end
+    let!(:disabled_job) do
+      FactoryGirl.create(:job_template, host: host, schedule: other_schedule,
+                         fileset: other_fileset, enabled: false)
+    end
+
+    subject { host.baculize_config }
+
+    it 'includes the client\'s config' do
+      expect(subject).to include(host.to_bacula_config_array)
+    end
+
+    it 'includes the enabled job template\'s configs' do
+      expect(subject).to include(enabled_job.to_bacula_config_array)
+      expect(subject).to_not include(disabled_job.to_bacula_config_array)
+    end
+
+    it 'includes the used schedules\'s configs' do
+      expect(subject).to include(schedule.to_bacula_config_array)
+      expect(subject).to_not include(other_schedule.to_bacula_config_array)
+    end
+
+    it 'includes the used filesets\'s configs' do
+      expect(subject).to include(fileset.to_bacula_config_array)
+      expect(subject).to_not include(other_fileset.to_bacula_config_array)
+    end
+  end
 end
