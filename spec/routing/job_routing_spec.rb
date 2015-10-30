@@ -1,27 +1,27 @@
 require 'spec_helper'
 
 describe HostsController do
-  it 'routes GET /jobs/new' do
-    expect(get('/jobs/new')).to route_to( { controller: 'jobs', action: 'new' })
+  it 'routes GET /hosts/1/jobs/new' do
+    expect(get('/hosts/1/jobs/new')).to route_to( { controller: 'jobs', action: 'new', host_id: '1' })
   end
 
-  it 'routes POST /jobs' do
-    expect(post('/jobs')).to route_to( { controller: 'jobs', action: 'create' })
+  it 'routes POST /hosts/1/jobs' do
+    expect(post('/hosts/1/jobs')).to route_to( { controller: 'jobs', action: 'create', host_id: '1' })
   end
 
-  it 'routes GET /jobs/1' do
-    expect(get('/jobs/1')).to route_to( { controller: 'jobs', action: 'show', id: '1' })
+  it 'routes GET /hosts/1/jobs/1' do
+    expect(get('/hosts/1/jobs/1')).to route_to( { controller: 'jobs', action: 'show', host_id: '1', id: '1' })
   end
 
-  it 'routes GET /jobs/1/edit' do
-    expect(get('/jobs/1/edit')).to route_to( { controller: 'jobs', action: 'edit', id: '1' })
+  it 'routes GET /hosts/1/jobs/1/edit' do
+    expect(get('/hosts/1/jobs/1/edit')).to route_to( { controller: 'jobs', action: 'edit', host_id: '1', id: '1' })
   end
 
-  it 'routes PUT /jobs/1' do
-    expect(put('/jobs/1')).to route_to( { controller: 'jobs', action: 'update', id: '1' })
+  it 'routes PUT /hosts/1/jobs/1' do
+    expect(put('/hosts/1/jobs/1')).to route_to( { controller: 'jobs', action: 'update', host_id: '1', id: '1' })
   end
 
-  it 'routes DELETE /jobs/1' do
-    expect(delete('/jobs/1')).to route_to( { controller: 'jobs', action: 'destroy', id: '1' })
+  it 'routes DELETE /hosts/1/jobs/1' do
+    expect(delete('/hosts/1/jobs/1')).to route_to( { controller: 'jobs', action: 'destroy', host_id: '1', id: '1' })
   end
 end
