@@ -25,6 +25,10 @@ class JobTemplate < ActiveRecord::Base
       ['}']
   end
 
+  def priority
+    DEFAULT_OPTIONS[:priority]
+  end
+
   private
 
   def options_array
