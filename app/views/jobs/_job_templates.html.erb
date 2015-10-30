@@ -1,0 +1,20 @@
+<div class="col-md-8">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>FileSet</th>
+          <th>Schedule</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%= render partial: 'jobs/job_template_details', collection: @host.job_templates, as: :job %>
+      </tbody>
+    </table>
+  </div>
+  <%= link_to 'Add Job', new_host_job_path(host_id: @host.id), class: "btn btn-success", role: "button" %>
+</div>

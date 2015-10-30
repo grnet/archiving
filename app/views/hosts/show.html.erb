@@ -1,47 +1,23 @@
 <p id="notice"><%= notice %></p>
 
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-condensed">
-    <tr>
-      <td>Name</td>
-      <td><%= @host.name %></td>
-    </tr>
-    <tr>
-      <td>FQDN</td>
-      <td><%= @host.fqdn %></td>
-    </tr>
-    <tr>
-      <td>FDPort</td>
-      <td><%= @host.port %></td>
-    </tr>
-    <tr>
-      <td>Password</td>
-      <td><%= @host.password %></td>
-    </tr>
-    <tr>
-      <td>File Retention</td>
-      <td><%= @host.file_retention %> days</td>
-    </tr>
-    <tr>
-      <td>Job Retention</td>
-      <td><%= @host.job_retention %> days</td>
-    </tr>
-    <tr>
-      <td>Auto Prune</td>
-      <td><%= @host.auto_prune_human %></td>
-    </tr>
-    <tr>
-      <td>Created</td>
-      <td><%= I18n.l(@host.created_at, format: :long) %></td>
-    </tr>
-  </table>
+<div class="row right">
+  <%= link_to 'Remove host', host_path(@host), method: :delete,
+    class: "btn btn-danger", role: "button" %>
 </div>
 
-<div>
-  <%= link_to 'Edit', edit_host_path(@host), class: "btn btn-primary", role: "button" %>
-  <%= link_to 'Submit Backup Policy', '#', class: "btn btn-success", role: "button" %>
-  <%= link_to 'Remove host', host_path(@host), method: :delete, class: "btn btn-danger", role: "button" %>
-</div>
+<h2>Configuration for <%= @host.name %></h2>
+
 <br/>
 
-<%= link_to 'Back to clients', clients_path %>
+<div class="row">
+  <div class="col-md-4">
+    <h3>Host Details</h3>
+  </div>
+  <div class="col-md-8">
+    <h3>Jobs</h3>
+  </div>
+</div>
+<div class="row">
+  <%= render partial: "host_details" %>
+  <%= render partial: "jobs/job_templates" %>
+</div>

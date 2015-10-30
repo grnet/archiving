@@ -1,0 +1,8 @@
+<tr>
+  <td><%= link_to job.name, host_job_path(@host, job) %></td>
+  <td><%= job.job_type %></td>
+  <td><%= job.fileset.name %></td>
+  <td><%= job.schedule.name %></td>
+  <td><%= job.priority %></td>
+</tr>
+

@@ -19,3 +19,9 @@
 body {
   padding-top: 70px;
 }
+
+.right {
+  text-align: right;
+  margin-right: 0px;
+  float: right;
+}

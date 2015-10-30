@@ -34,7 +34,7 @@ class HostsController < ApplicationController
   private
 
   def fetch_host
-    @host = Host.find(params[:id])
+    @host = Host.includes(job_templates: [:fileset, :schedule]).find(params[:id])
   end
 
   def fetch_params
