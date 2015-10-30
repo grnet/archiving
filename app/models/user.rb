@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  establish_connection :local_development
+  establish_connection Baas::settings[:local_db]
 
   enum user_type: { institutional: 0, vima: 1, okeanos: 2, admin: 3 }
 

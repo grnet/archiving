@@ -1,10 +1,10 @@
 class Host < ActiveRecord::Base
+  establish_connection Baas::settings[:local_db]
+
   FILE_RETENTION_DAYS = 60
   JOB_RETENTION_DAYS = 180
   CATALOG = 'MyCatalog'
   AUTOPRUNE = 1
-
-  establish_connection :local_development
 
   enum status: { draft: 0, pending: 1, config: 2, ready: 3 }
 
