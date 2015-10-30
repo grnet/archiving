@@ -1,0 +1,56 @@
+<%= bootstrap_form_for(@job, url: host_jobs_path, layout: :horizontal, label_col: 'col-xs-4', control_col: 'col-xs-6') do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@job.errors.count, "error") %>
+        prohibited this host from being saved:
+      </h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.text_field :name %>
+
+  <%= f.select :job_type, options_for_select(JobTemplate.job_types.keys) %>
+
+  <div class="form-group">
+    <%= label :job_template, :fileset_id, 'Fileset', class: 'control-label col-xs-4' %>
+    <div class="col-xs-6">
+      <%= select_tag(:job_template_fileset_id,
+                     options_for_select(Fileset.pluck(:name, :id)),
+                     name: 'job_template[fileset_id]',
+                     class: 'form-control'
+                    ) %>
+    </div>
+
+    <div class="col-xs-1">
+      <%= link_to 'Add', '#', class: 'btn btn-primary', role: 'button' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label :job_template, :schedule_id, 'Schedule', class: 'control-label col-xs-4' %>
+    <div class="col-xs-6">
+      <%= select_tag(:job_template_schedule_id,
+                     options_for_select(Schedule.pluck(:name, :id)),
+                     name: 'job_template[schedule_id]',
+                     class: 'form-control'
+                    ) %>
+    </div>
+
+    <div class="col-xs-1">
+      <%= link_to 'Add', '#', class: 'btn btn-primary', role: 'button' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-offset-4 col-xs-8">
+      <%= f.submit class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

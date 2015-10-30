@@ -25,3 +25,15 @@ body {
   margin-right: 0px;
   float: right;
 }
+
+.graybox {
+  max-width: 500px;
+  margin-right: 0;
+  margin-left: 0;
+  background-color: #F7F7F9;
+  margin-bottom: 30px;
+}
+
+.graybox form {
+  padding-top: 30px;
+}

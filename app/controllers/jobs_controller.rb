@@ -1,14 +1,20 @@
 class JobsController < ApplicationController
   before_action :fetch_job, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_host, only: [:new, :create]
 
   # GET /jobs
   def new
-    @job_template = JobTemplate.new
+    @job = @host.job_templates.new
   end
 
   # POST /jobs
   def create
-    @job_template = JobTemplate.new(fetch_params)
+    @job = @host.job_templates.new(fetch_params)
+    if @job.save
+      redirect_to host_path(@host)
+    else
+      render :new
+    end
   end
 
   # GET /jobs/1
@@ -27,7 +33,11 @@ class JobsController < ApplicationController
   private
 
   def fetch_job
-    @job_template = JobTemplate.find(params[:id])
+    @job = JobTemplate.find(params[:id])
+  end
+
+  def fetch_host
+    @host = Host.find(params[:host_id])
   end
 
   def fetch_params
