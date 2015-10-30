@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <div class="row right">
-  <%= link_to 'Remove host', host_path(@host), method: :delete,
+  <%= link_to 'Remove host', host_path(@host), method: :delete, data: { confirm: 'Are you sure?' },
     class: "btn btn-danger", role: "button" %>
 </div>
 

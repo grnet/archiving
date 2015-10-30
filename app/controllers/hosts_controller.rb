@@ -11,7 +11,7 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(fetch_params)
     if @host.save
-      redirect_to root_path
+      redirect_to host_path @host
     else
       render :new
     end
@@ -28,7 +28,8 @@ class HostsController < ApplicationController
 
   # DELETE /hosts/1
   def destroy
-    #@host.destroy
+    @host.destroy
+    redirect_to root_path
   end
 
   private
