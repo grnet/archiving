@@ -1,11 +1,11 @@
 class JobTemplate < ActiveRecord::Base
-  validates :name, presence: true
-
   enum job_type: { backup: 0, restore: 1, verify: 2, admin: 3 }
 
   belongs_to :host
   belongs_to :fileset
   belongs_to :schedule
+
+  validates :name, :schedule_id, :fileset_id,  presence: true
 
   scope :enabled, -> { where(enabled: true) }
 
