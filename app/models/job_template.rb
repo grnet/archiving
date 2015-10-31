@@ -31,6 +31,10 @@ class JobTemplate < ActiveRecord::Base
     DEFAULT_OPTIONS[:priority]
   end
 
+  def enabled_human
+    enabled? ? 'yes' : 'no'
+  end
+
   private
 
   def options_array
