@@ -21,4 +21,20 @@ describe Fileset do
       expect(subject).to include("  Name = \"#{fileset.name}\"")
     end
   end
+
+  context 'when duplicate exclude_directions are given' do
+    let(:fileset) { FactoryGirl.create(:fileset, exclude_directions: [:foo, :foo, :bar]) }
+
+    it 'keeps its exclude_directions uniq' do
+      expect(fileset.exclude_directions).to eq([:foo, :bar])
+    end
+  end
+
+  context 'when exclude_directions are given' do
+    let(:fileset) { FactoryGirl.create(:fileset, exclude_directions: [:foo, :foo, :bar, '']) }
+
+    it 'rejects them' do
+      expect(fileset.exclude_directions).to eq([:foo, :bar])
+    end
+  end
 end
