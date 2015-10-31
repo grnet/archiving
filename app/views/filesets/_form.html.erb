@@ -1,0 +1,29 @@
+<%= bootstrap_form_for(@fileset, layout: :horizontal,
+                       label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
+  <% if @fileset.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@fileset.errors.count, "error") %> prohibited this fileset from being saved:</h2>
+
+      <ul>
+      <% @fileset.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.text_field :name %>
+    <%= f.text_field :include_files, label: 'Files', placeholder: '/', multiple: true %>
+    <%= f.text_field :include_files, label: 'Files', placeholder: '/media', multiple: true %>
+    <%= f.text_field :exclude_directions, label: 'Exclude', placeholder: '/proc', multiple: true %>
+    <%= f.text_field :exclude_directions, label: 'Exclude', placeholder: '/bacula', multiple: true %>
+  </div>
+
+
+  <div class="form-group">
+    <div class="col-xs-offset-3 col-xs-8">
+      <%= f.submit class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>
