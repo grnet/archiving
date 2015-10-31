@@ -20,4 +20,11 @@
 <div class="row">
   <%= render partial: "host_details" %>
   <%= render partial: "jobs/job_templates" %>
+
+  <div class="col-xs-6">
+    <h3>Config File</h3>
+    <pre class="pre-scrollable">
+<%= @host.baculize_config.join("\n") %>
+    </pre>
+  </div>
 </div>
