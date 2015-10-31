@@ -21,3 +21,11 @@
 
 en:
   hello: "Hello world"
+
+  activerecord:
+    errors:
+      models:
+        schedule:
+          attributes:
+            runtime:
+              not_valid_24h_time: 'Not a valid time format, use HH:MM'
