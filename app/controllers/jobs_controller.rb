@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :fetch_job, only: [:show, :edit, :update, :destroy]
-  before_action :fetch_host, only: [:new, :create]
+  before_action :fetch_host, only: [:new, :edit, :show, :create, :update]
 
   # GET /jobs
   def new
@@ -24,7 +24,13 @@ class JobsController < ApplicationController
   def edit;end
 
   # PUT /jobs/1
-  def update;end
+  def update
+    if @job.update_attributes(fetch_params)
+      redirect_to host_job_path(@host, @job)
+    else
+      render :edit
+    end
+  end
 
   # DELETE /jobs/1
   def destroy

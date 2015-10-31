@@ -30,7 +30,7 @@ describe JobsController do
           to change { JobTemplate.count }.by(1)
       end
 
-      it 'redirects to root' do
+      it 'redirects to host' do
         post :create, params
         expect(response).to redirect_to(host_path(host))
       end

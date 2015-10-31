@@ -1,0 +1,18 @@
+<h1>Edit Job Template <%= @job.name %></h1>
+
+<div class="row">
+  <div class="col-xs-6">
+    <div class="container graybox">
+      <h3> Job Attributes</h3>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>
+
+<br />
+
+<div class="row">
+  <div class="col-xs-1">
+    <%= link_to 'Cancel', host_job_path(@host, @job), class: 'btn btn-danger', role: 'button' %>
+  </div>
+</div>
