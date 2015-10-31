@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
-  before_action :fetch_job, only: [:show, :edit, :update, :destroy]
-  before_action :fetch_host, only: [:new, :edit, :show, :create, :update]
+  before_action :fetch_job, only: [:show, :edit, :update, :destroy, :toggle_enable]
+  before_action :fetch_host, only: [:new, :edit, :show, :create, :update, :toggle_enable]
 
   # GET /jobs
   def new
@@ -34,6 +34,13 @@ class JobsController < ApplicationController
 
   # DELETE /jobs/1
   def destroy
+  end
+
+  # PATCH /hosts/1/jobs/1/enable
+  def toggle_enable
+    @job.enabled = !@job.enabled
+    @job.save
+    redirect_to host_path(@host)
   end
 
   private

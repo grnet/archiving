@@ -25,7 +25,10 @@
         <td><b>Created</b></td>
         <td><%= I18n.l(@job.created_at, format: :long) %></td>
       </tr>
+      <tr>
+        <td><b>Enabled</b></td>
+        <td><%= @job.enabled_human %></td>
+      </tr>
     </table>
   </div>
-  <%= link_to 'Edit', edit_host_job_path(@host, @job), class: "btn btn-primary", role: "button" %>
 </div>
