@@ -10,7 +10,7 @@ class JobsController < ApplicationController
   # POST /jobs
   def create
     @job = @host.job_templates.new(fetch_params)
-    if @job.save
+    if @job.save_and_create_restore_job
       redirect_to host_path(@host)
     else
       render :new

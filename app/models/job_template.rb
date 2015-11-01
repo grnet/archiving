@@ -38,6 +38,19 @@ class JobTemplate < ActiveRecord::Base
     enabled? ? 'yes' : 'no'
   end
 
+  def schedule_human
+    schedule.present? ? schedule.name : '-'
+  end
+
+  def save_and_create_restore_job
+    if save_status = save
+      restore_job = JobTemplate.new(host: host, job_type: :restore,
+                                    fileset: fileset, name: 'Restore_' + name)
+      restore_job.save
+    end
+    save_status
+  end
+
   private
 
   # Sets the default job_type as backup

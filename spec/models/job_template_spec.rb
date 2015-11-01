@@ -43,4 +43,27 @@ describe JobTemplate do
       expect(job_template).to be_backup
     end
   end
+
+  describe '#save_and_create_restore_job' do
+    let(:host) { FactoryGirl.create(:host) }
+    let(:backup_job_template) do
+      FactoryGirl.build(:job_template, job_type: nil, host: host)
+    end
+
+    it 'calls save' do
+      backup_job_template.should_receive(:save)
+      backup_job_template.save_and_create_restore_job
+    end
+
+    it 'creates a restore job for the same host' do
+      expect { backup_job_template.save_and_create_restore_job }.
+        to change { host.job_templates.restore.count }.by(1)
+    end
+
+    it 'creates a restore job for fileset' do
+      backup_job_template.save_and_create_restore_job
+      expect(host.job_templates.restore.pluck(:fileset_id)).
+        to eq([backup_job_template.fileset_id])
+    end
+  end
 end

@@ -25,14 +25,19 @@ describe JobsController do
         }
       end
 
-      it 'creates the job' do
+      it 'creates the jobs (:backup, :restore)' do
         expect { post :create, params }.
-          to change { JobTemplate.count }.by(1)
+          to change { JobTemplate.count }.by(2)
       end
 
       it 'redirects to host' do
         post :create, params
         expect(response).to redirect_to(host_path(host))
+      end
+
+      it 'calls save_and_create_restore_job' do
+        JobTemplate.any_instance.should_receive(:save_and_create_restore_job)
+        post :create, params
       end
     end
 
