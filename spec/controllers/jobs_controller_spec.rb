@@ -21,7 +21,7 @@ describe JobsController do
         {
           host_id: host.id,
           job_template: FactoryGirl.build(:job_template).attributes.symbolize_keys.
-            slice(:name, :schedule_id, :fileset_id).merge(job_type: :backup)
+            slice(:name, :schedule_id, :fileset_id)
         }
       end
 

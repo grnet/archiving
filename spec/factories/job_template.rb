@@ -4,6 +4,5 @@ FactoryGirl.define do
     fileset
     schedule
     sequence(:name) { |n| "Job #{n}" }
-    job_type :backup
   end
 end

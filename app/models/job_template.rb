@@ -9,6 +9,8 @@ class JobTemplate < ActiveRecord::Base
 
   validates :name, :schedule_id, :fileset_id,  presence: true
 
+  before_save :set_job_type
+
   scope :enabled, -> { where(enabled: true) }
 
   # configurable
@@ -36,6 +38,11 @@ class JobTemplate < ActiveRecord::Base
   end
 
   private
+
+  # Sets the default job_type as backup
+  def set_job_type
+    self.job_type = :backup if job_type.nil?
+  end
 
   def options_array
     result = restore? ? ['Where = "/tmp/bacula-restores"'] : []

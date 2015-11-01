@@ -17,4 +17,12 @@ describe JobTemplate do
       end
     end
   end
+
+  context 'when no job_type is given' do
+    let(:job_template) { FactoryGirl.create(:job_template) }
+
+    it 'sets the job_type to :backup' do
+      expect(job_template).to be_backup
+    end
+  end
 end

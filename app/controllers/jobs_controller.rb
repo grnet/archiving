@@ -54,6 +54,6 @@ class JobsController < ApplicationController
   end
 
   def fetch_params
-    params.require(:job_template).permit(:name, :job_type, :fileset_id, :schedule_id)
+    params.require(:job_template).permit(:name, :fileset_id, :schedule_id)
   end
 end
