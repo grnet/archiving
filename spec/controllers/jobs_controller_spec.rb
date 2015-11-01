@@ -20,8 +20,8 @@ describe JobsController do
       let(:params) do
         {
           host_id: host.id,
-          job_template: FactoryGirl.build(:job_template).attributes.symbolize_keys.
-            slice(:name, :schedule_id, :fileset_id)
+          job_template: FactoryGirl.build(:job_template, restore_location: '/foo').
+            attributes.symbolize_keys.slice(:name, :schedule_id, :fileset_id, :restore_location)
         }
       end
 
@@ -36,7 +36,8 @@ describe JobsController do
       end
 
       it 'calls save_and_create_restore_job' do
-        JobTemplate.any_instance.should_receive(:save_and_create_restore_job)
+        JobTemplate.any_instance.
+          should_receive(:save_and_create_restore_job).with('/foo')
         post :create, params
       end
     end

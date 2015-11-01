@@ -10,7 +10,8 @@ class JobsController < ApplicationController
   # POST /jobs
   def create
     @job = @host.job_templates.new(fetch_params)
-    if @job.save_and_create_restore_job
+    @restore_location = params[:job_template][:restore_location]
+    if @restore_location && @job.save_and_create_restore_job(@restore_location)
       redirect_to host_path(@host)
     else
       render :new

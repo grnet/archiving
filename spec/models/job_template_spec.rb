@@ -95,18 +95,24 @@ describe JobTemplate do
 
     it 'calls save' do
       backup_job_template.should_receive(:save)
-      backup_job_template.save_and_create_restore_job
+      backup_job_template.save_and_create_restore_job('/foo')
     end
 
     it 'creates a restore job for the same host' do
-      expect { backup_job_template.save_and_create_restore_job }.
+      expect { backup_job_template.save_and_create_restore_job('/foo') }.
         to change { host.job_templates.restore.count }.by(1)
     end
 
     it 'creates a restore job for fileset' do
-      backup_job_template.save_and_create_restore_job
+      backup_job_template.save_and_create_restore_job('/foo')
       expect(host.job_templates.restore.pluck(:fileset_id)).
         to eq([backup_job_template.fileset_id])
+    end
+
+    it 'sets the correct restore location' do
+      backup_job_template.save_and_create_restore_job('/foo')
+      expect(host.job_templates.restore.pluck(:restore_location)).
+        to eq(['/foo'])
     end
   end
 end

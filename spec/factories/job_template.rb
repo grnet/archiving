@@ -11,6 +11,7 @@ FactoryGirl.define do
 
     trait :restore do
       job_type :restore
+      restore_location '/tmp'
     end
 
     factory :job_template, traits: [:backup]

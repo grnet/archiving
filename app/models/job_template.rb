@@ -47,10 +47,13 @@ class JobTemplate < ActiveRecord::Base
     "#{host.name} #{name}"
   end
 
-  def save_and_create_restore_job
+  def save_and_create_restore_job(location)
     if save_status = save
-      restore_job = JobTemplate.new(host: host, job_type: :restore,
-                                    fileset: fileset, name: 'Restore_' + name)
+      restore_job = JobTemplate.new(
+        host: host, job_type: :restore,
+        fileset: fileset, name: 'Restore ' + name,
+        restore_location: location
+      )
       restore_job.save
     end
     save_status

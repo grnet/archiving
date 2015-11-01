@@ -17,10 +17,17 @@
         <td><b>Fileset</b></td>
         <td><%= @job.fileset.name %></td>
       </tr>
-      <tr>
-        <td><b>Schedule</b></td>
-        <td><%= @job.schedule.name %> days</td>
-      </tr>
+      <% if @job.restore? %>
+        <tr>
+          <td><b>Restore Location</b></td>
+          <td><%= @job.restore_location %></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td><b>Schedule</b></td>
+          <td><%= @job.schedule.name %></td>
+        </tr>
+      <% end %>
       <tr>
         <td><b>Created</b></td>
         <td><%= I18n.l(@job.created_at, format: :long) %></td>
