@@ -7,7 +7,8 @@ class JobTemplate < ActiveRecord::Base
   belongs_to :fileset
   belongs_to :schedule
 
-  validates :name, :schedule_id, :fileset_id,  presence: true
+  validates :name, :fileset_id,  presence: true
+  validates :schedule_id, presence: true, unless: :restore?
 
   before_save :set_job_type
 

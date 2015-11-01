@@ -1,6 +1,24 @@
 require 'spec_helper'
 
 describe JobTemplate do
+  context 'validates' do
+    it 'name must be present' do
+      expect(JobTemplate.new).to have(1).errors_on(:name)
+    end
+
+    it 'fileset_id must be present' do
+      expect(JobTemplate.new).to have(1).errors_on(:fileset_id)
+    end
+
+    it 'schedule_id must be present' do
+      expect(JobTemplate.new).to have(1).errors_on(:schedule_id)
+    end
+
+    it 'schedule_id must NOT be present for :restore jobs' do
+      expect(JobTemplate.new(job_type: :restore)).to have(0).errors_on(:schedule_id)
+    end
+  end
+
   describe '#to_bacula_config_array' do
     let(:job_template) { FactoryGirl.create(:job_template) }
 
