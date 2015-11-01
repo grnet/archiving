@@ -16,7 +16,7 @@ class Host < ActiveRecord::Base
     :port, :password, presence: true
   validates :port, numericality: true
 
-  validates :name, presence: true, uniqueness: true
+  validates :fqdn, presence: true, uniqueness: true
 
   validate :fqdn_format
 
