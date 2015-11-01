@@ -9,6 +9,7 @@ class JobTemplate < ActiveRecord::Base
 
   validates :name, :fileset_id,  presence: true
   validates :schedule_id, presence: true, unless: :restore?
+  validates :name, uniqueness: { scope: :host }
 
   before_save :set_job_type
 
@@ -42,6 +43,10 @@ class JobTemplate < ActiveRecord::Base
     schedule.present? ? schedule.name : '-'
   end
 
+  def name_for_config
+    "#{host.name} #{name}"
+  end
+
   def save_and_create_restore_job
     if save_status = save
       restore_job = JobTemplate.new(host: host, job_type: :restore,
@@ -60,7 +65,7 @@ class JobTemplate < ActiveRecord::Base
 
   def options_array
     result = [
-      "Name = \"#{name}\"",
+      "Name = \"#{name_for_config}\"",
       "FileSet = \"#{fileset.name}\"",
       "Client = \"#{host.name}\"",
       "Type = \"#{job_type.capitalize}\""

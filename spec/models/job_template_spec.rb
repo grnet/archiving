@@ -6,6 +6,14 @@ describe JobTemplate do
       expect(JobTemplate.new).to have(1).errors_on(:name)
     end
 
+    it 'name must be unique on host\'s scope' do
+      job_1 = FactoryGirl.create(:job_template, name: 'a name')
+      job_2 = FactoryGirl.build(:job_template, name: 'a name')
+      job_3 = FactoryGirl.build(:job_template, name: 'a name', host: job_1.host)
+      expect(job_2).to be_valid
+      expect(job_3).to_not be_valid
+    end
+
     it 'fileset_id must be present' do
       expect(JobTemplate.new).to have(1).errors_on(:fileset_id)
     end
@@ -16,6 +24,16 @@ describe JobTemplate do
 
     it 'schedule_id must NOT be present for :restore jobs' do
       expect(JobTemplate.new(job_type: :restore)).to have(0).errors_on(:schedule_id)
+    end
+  end
+
+  # automatic assignments
+
+  context 'when no job_type is given' do
+    let(:job_template) { FactoryGirl.create(:job_template) }
+
+    it 'sets the job_type to :backup' do
+      expect(job_template).to be_backup
     end
   end
 
@@ -34,13 +52,38 @@ describe JobTemplate do
         expect(subject).to include("  #{k.capitalize} = #{v}")
       end
     end
-  end
 
-  context 'when no job_type is given' do
-    let(:job_template) { FactoryGirl.create(:job_template) }
+    it 'assigns Name param prefixed with the host\'s name' do
+      expect(subject).to include("  Name = \"#{job_template.name_for_config}\"")
+    end
 
-    it 'sets the job_type to :backup' do
-      expect(job_template).to be_backup
+    it 'assigns FileSet param' do
+      expect(subject).to include("  FileSet = \"#{job_template.fileset.name}\"")
+    end
+
+    it 'assigns Client param' do
+      expect(subject).to include("  Client = \"#{job_template.host.name}\"")
+    end
+
+    it 'assigns Type param' do
+      expect(subject).to include("  Type = \"#{job_template.job_type.capitalize}\"")
+    end
+
+    it 'assigns Schedule param' do
+      expect(subject).to include("  Schedule = \"#{job_template.schedule.name}\"")
+    end
+
+    context 'for a restore job' do
+      let(:restore_job) { FactoryGirl.create(:job_template, :restore) }
+      subject { restore_job.to_bacula_config_array }
+
+      it 'does not assign a Schedule param' do
+        expect(subject).to_not include("  Schedule = \"#{restore_job.schedule.name}\"")
+      end
+
+      it 'assigns Where param' do
+        expect(subject).to include("  Where = \"#{restore_job.restore_location}\"")
+      end
     end
   end
 
