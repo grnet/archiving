@@ -74,7 +74,7 @@ class JobTemplate < ActiveRecord::Base
       "Type = \"#{job_type.capitalize}\""
     ]
     if restore?
-      result += ['Where = "/tmp/bacula-restores"']
+      result += ["Where = \"#{restore_location}\""]
     else
       result += ["Schedule = \"#{schedule.name}\""]
     end
