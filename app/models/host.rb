@@ -27,7 +27,7 @@ class Host < ActiveRecord::Base
   def baculize_config
     templates = job_templates.enabled.includes(:fileset, :schedule)
 
-    result = [self] + templates.map {|x| [x, x.fileset, x.schedule] }.flatten
+    result = [self] + templates.map {|x| [x, x.fileset, x.schedule] }.flatten.compact.uniq
     result.map(&:to_bacula_config_array)
   end
 

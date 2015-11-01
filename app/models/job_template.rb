@@ -25,8 +25,8 @@ class JobTemplate < ActiveRecord::Base
 
   def to_bacula_config_array
     ['Job {'] +
-      DEFAULT_OPTIONS.map { |k,v| "  #{k.capitalize} = #{v}" } +
       options_array.map { |x| "  #{x}" } +
+      DEFAULT_OPTIONS.map { |k,v| "  #{k.capitalize} = #{v}" } +
       ['}']
   end
 
@@ -59,13 +59,17 @@ class JobTemplate < ActiveRecord::Base
   end
 
   def options_array
-    result = restore? ? ['Where = "/tmp/bacula-restores"'] : []
-    result +=  [
+    result = [
       "Name = \"#{name}\"",
       "FileSet = \"#{fileset.name}\"",
       "Client = \"#{host.name}\"",
-      "Type = \"#{job_type.capitalize}\"",
-      "Schedule = \"#{schedule.name}\""
+      "Type = \"#{job_type.capitalize}\""
     ]
+    if restore?
+      result += ['Where = "/tmp/bacula-restores"']
+    else
+      result += ["Schedule = \"#{schedule.name}\""]
+    end
+    result
   end
 end
