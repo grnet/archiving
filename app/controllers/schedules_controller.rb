@@ -1,6 +1,8 @@
 class SchedulesController < ApplicationController
+  before_action :fetch_host, only: [:new, :create]
+
   def new
-    @schedule = Schedule.new
+    @schedule = @host.schedules.new
   end
 
   def show
@@ -13,11 +15,12 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    @schedule = Schedule.new(fetch_params)
+    @schedule = @host.schedules.new(fetch_params)
+
     @schedule.runtime = params[:schedule][:runtime] if params[:schedule][:runtime]
 
     if @schedule.save
-      redirect_to root_path
+      redirect_to host_path(@host)
     else
       render :new
     end
@@ -27,6 +30,10 @@ class SchedulesController < ApplicationController
   end
 
   private
+
+  def fetch_host
+    @host = Host.find(params[:host_id])
+  end
 
   def fetch_params
     params.require(:schedule).permit(:name)

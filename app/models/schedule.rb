@@ -9,6 +9,8 @@ class Schedule < ActiveRecord::Base
 
   serialize :runs, JSON
 
+  belongs_to :host
+
   validates :name, :runs, presence: true
 
   before_validation :set_runs, if: Proc.new { |s| s.runtime.present? }

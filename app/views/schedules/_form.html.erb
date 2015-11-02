@@ -1,4 +1,4 @@
-<%= bootstrap_form_for(@schedule, layout: :horizontal,
+<%= bootstrap_form_for(@schedule, url: host_schedules_path(@host), layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
   <% if @schedule.errors.any? %>
     <div id="error_explanation">

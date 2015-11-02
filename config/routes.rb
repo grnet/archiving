@@ -9,9 +9,8 @@ Rails.application.routes.draw do
     end
 
     resources :filesets, only: [:show, :new, :create, :destroy]
+    resources :schedules, only: [:show, :new, :edit, :create, :update, :destroy]
   end
-
-  resources :schedules, only: [:show, :new, :edit, :create, :update, :destroy]
 
   root 'clients#index'
 end
