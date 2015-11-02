@@ -1,4 +1,4 @@
-<%= bootstrap_form_for(@fileset, layout: :horizontal,
+<%= bootstrap_form_for(@fileset, url: host_filesets_path(@host, @fileset), layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
   <% if @fileset.errors.any? %>
     <div id="error_explanation">

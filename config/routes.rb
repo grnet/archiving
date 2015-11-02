@@ -7,10 +7,11 @@ Rails.application.routes.draw do
         patch :toggle_enable
       end
     end
+
+    resources :filesets, only: [:show, :new, :create, :destroy]
   end
 
   resources :schedules, only: [:show, :new, :edit, :create, :update, :destroy]
-  resources :filesets, only: [:show, :new, :create, :destroy]
 
   root 'clients#index'
 end

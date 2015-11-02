@@ -1,21 +1,23 @@
 require 'spec_helper'
 
 describe FilesetsController do
-  it 'routes GET /filesets/new' do
-    expect(get('/filesets/new')).to route_to( { controller: 'filesets', action: 'new'})
+  it 'routes GET /hosts/:host_id/filesets/new' do
+    expect(get('/hosts/1/filesets/new')).
+      to route_to(controller: 'filesets', action: 'new', host_id: '1')
   end
 
-  it 'routes POST /filesets' do
-    expect(post('/filesets')).to route_to( { controller: 'filesets', action: 'create'})
+  it 'routes POST /hosts/:host_id/filesets' do
+    expect(post('/hosts/1/filesets')).
+      to route_to(controller: 'filesets', action: 'create', host_id: '1')
   end
 
-  it 'routes GET /filesets/1' do
-    expect(get('/filesets/1')).
-      to route_to( { controller: 'filesets', action: 'show', id: '1' })
+  it 'routes GET /hosts/:host_id/filesets/:id' do
+    expect(get('/hosts/1/filesets/2')).
+      to route_to(controller: 'filesets', action: 'show', host_id: '1', id: '2')
   end
 
-  it 'routes DELETE /filesets/1' do
-    expect(delete('/filesets/1')).
-      to route_to( { controller: 'filesets', action: 'destroy', id: '1' })
+  it 'routes DELETE /hosts/:host_id/filesets/:id' do
+    expect(delete('/hosts/1/filesets/2')).
+      to route_to(controller: 'filesets', action: 'destroy', host_id: '1', id: '2')
   end
 end

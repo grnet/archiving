@@ -5,7 +5,7 @@
     <%= label :job_template, :fileset_id, 'Fileset', class: 'control-label col-xs-4 required' %>
     <div class="col-xs-6">
       <%= select_tag(:job_template_fileset_id,
-                     options_for_select(Fileset.pluck(:name, :id)),
+                     options_for_select(@host.filesets.pluck(:name, :id)),
                      name: 'job_template[fileset_id]',
                      class: 'form-control'
                     ) %>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="col-xs-1">
-      <%= link_to 'Add', '#', class: 'btn btn-primary', role: 'button' %>
+      <%= link_to 'Add', new_host_fileset_path(@host), class: 'btn btn-primary', role: 'button' %>
     </div>
   </div>
 

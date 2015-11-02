@@ -1,16 +1,18 @@
 class FilesetsController < ApplicationController
+  before_action :fetch_host, only: [:new, :create]
+
   def new
-    @fileset = Fileset.new
+    @fileset = @host.filesets.new
   end
 
   def show
   end
 
   def create
-    @fileset = Fileset.new(fetch_params)
+    @fileset = @host.filesets.new(fetch_params)
 
     if @fileset.save
-      redirect_to root_path
+      redirect_to host_path(@host)
     else
       render :new
     end
@@ -20,6 +22,10 @@ class FilesetsController < ApplicationController
   end
 
   private
+
+  def fetch_host
+    @host = Host.find(params[:host_id])
+  end
 
   def fetch_params
     params.require(:fileset).permit(:name, exclude_directions: [], include_files: [])
