@@ -14,6 +14,8 @@ class FilesetsController < ApplicationController
     if @fileset.save
       redirect_to host_path(@host)
     else
+      @fileset.include_files = nil
+      @fileset.exclude_directions = nil
       render :new
     end
   end

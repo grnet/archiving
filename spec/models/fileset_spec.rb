@@ -18,7 +18,8 @@ describe Fileset do
     end
 
     it 'contains the name' do
-      expect(subject).to include("  Name = \"#{fileset.name}\"")
+      name_for_config = [fileset.host.name, fileset.name].join(' ')
+      expect(subject).to include("  Name = \"#{name_for_config}\"")
     end
   end
 
@@ -35,6 +36,21 @@ describe Fileset do
 
     it 'rejects them' do
       expect(fileset.exclude_directions).to eq([:foo, :bar])
+    end
+  end
+
+  context 'when no include_files are given' do
+    let(:fileset) { FactoryGirl.build(:fileset, include_files: []) }
+
+    it 'does not save the fileset' do
+      expect(fileset).to have(1).errors_on(:include_files)
+    end
+  end
+
+  context 'when blank include_files are given' do
+    let(:fileset) { FactoryGirl.create(:fileset, include_files: [:foo, '']) }
+    it 'rejects them' do
+      expect(fileset.include_directions['file']).to eq(['foo'])
     end
   end
 end

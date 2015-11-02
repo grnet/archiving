@@ -9,6 +9,9 @@ class Fileset < ActiveRecord::Base
   belongs_to :host
   has_many :job_templates
 
+  validates :name, presence: true, uniqueness: { scope: :host }
+  validate :has_included_files, on: :create
+
   before_save :sanitize_exclude_directions, :sanitize_include_directions
 
   DEFAULT_EXCLUDED = %w{/var/lib/bacula /proc /tmp /.journal /.fsck /bacula}
@@ -17,7 +20,7 @@ class Fileset < ActiveRecord::Base
 
   def to_bacula_config_array
     ['FileSet {'] +
-      ["  Name = \"#{name}\""] +
+      ["  Name = \"#{name_for_config}\""] +
       include_directions_to_config_array +
       exclude_directions_to_config_array +
       ['}']
@@ -25,14 +28,25 @@ class Fileset < ActiveRecord::Base
 
   private
 
-  def sanitize_include_directions
-    return false if include_files.blank?
+  def name_for_config
+    [host.name, name].join(' ')
+  end
 
-    self.include_directions = { options: DEFAULT_INCLUDE_OPTIONS, file: include_files }
+  def has_included_files
+    if include_files.blank? || include_files.all?(&:blank?)
+      errors.add(:include_files, :cant_be_blank)
+    end
+  end
+
+  def sanitize_include_directions
+    files = include_files.compact.uniq.keep_if(&:present?)
+    return false if files.blank?
+
+    self.include_directions = { options: DEFAULT_INCLUDE_OPTIONS, file: files }
   end
 
   def sanitize_exclude_directions
-    self.exclude_directions = exclude_directions.keep_if(&:present?).uniq rescue []
+    self.exclude_directions = exclude_directions.keep_if(&:present?).uniq rescue nil
   end
 
   def exclude_directions_to_config_array

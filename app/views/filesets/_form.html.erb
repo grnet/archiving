@@ -1,17 +1,5 @@
 <%= bootstrap_form_for(@fileset, url: host_filesets_path(@host, @fileset), layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
-  <% if @fileset.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@fileset.errors.count, "error") %> prohibited this fileset from being saved:</h2>
-
-      <ul>
-      <% @fileset.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <div>
     <%= f.text_field :name %>
     <%= f.text_field :include_files, label: 'Files', placeholder: '/', multiple: true %>
