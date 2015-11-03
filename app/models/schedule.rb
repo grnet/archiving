@@ -24,11 +24,11 @@ class Schedule < ActiveRecord::Base
       ['}']
   end
 
-  private
-
   def name_for_config
     [host.name, name].join(' ')
   end
+
+  private
 
   def set_runs
     if valid_runtime?

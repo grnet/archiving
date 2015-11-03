@@ -1,5 +1,6 @@
 class FilesetsController < ApplicationController
   before_action :fetch_host, only: [:new, :create]
+  before_action :fetch_job_id, only: [:new, :create]
 
   def new
     @fileset = @host.filesets.new
@@ -12,7 +13,11 @@ class FilesetsController < ApplicationController
     @fileset = @host.filesets.new(fetch_params)
 
     if @fileset.save
-      redirect_to host_path(@host)
+      if @job_id.present?
+        redirect_to edit_host_job_path(@host, @job_id, fileset_id: @fileset.id)
+      else
+        redirect_to new_host_job_path(@host, fileset_id: @fileset.id)
+      end
     else
       @fileset.include_files = nil
       @fileset.exclude_directions = nil
@@ -27,6 +32,10 @@ class FilesetsController < ApplicationController
 
   def fetch_host
     @host = Host.find(params[:host_id])
+  end
+
+  def fetch_job_id
+    @job_id = JobTemplate.find(params[:job_id]).id if params[:job_id].present?
   end
 
   def fetch_params

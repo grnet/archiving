@@ -15,6 +15,7 @@
   <div>
     <%= f.text_field :name %>
     <%= f.time_field :runtime, placeholder: 'HH:MM' %>
+    <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
   </div>
 
 

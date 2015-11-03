@@ -58,7 +58,7 @@ describe JobTemplate do
     end
 
     it 'assigns FileSet param' do
-      expect(subject).to include("  FileSet = \"#{job_template.fileset.name}\"")
+      expect(subject).to include("  FileSet = \"#{job_template.fileset.name_for_config}\"")
     end
 
     it 'assigns Client param' do
@@ -70,7 +70,7 @@ describe JobTemplate do
     end
 
     it 'assigns Schedule param' do
-      expect(subject).to include("  Schedule = \"#{job_template.schedule.name}\"")
+      expect(subject).to include("  Schedule = \"#{job_template.schedule.name_for_config}\"")
     end
 
     context 'for a restore job' do

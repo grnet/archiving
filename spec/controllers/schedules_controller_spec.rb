@@ -33,9 +33,19 @@ describe SchedulesController do
           to change { host.schedules(true).count }.by(1)
       end
 
-      it 'redirects to host' do
+      it 'redirects to a new job form' do
         post :create, params
-        expect(response).to redirect_to(host_path(host))
+        expect(response).to redirect_to(new_host_job_path(host, schedule_id: Schedule.last.id))
+      end
+
+      context 'and an existing job' do
+        let(:job) { FactoryGirl.create(:job_template, host: host) }
+
+        it 'redirects to the job\'s edit form' do
+          post :create, params.merge(job_id: job.id)
+          expect(response).
+            to redirect_to(edit_host_job_path(host, job, schedule_id: Schedule.last.id))
+        end
       end
     end
 

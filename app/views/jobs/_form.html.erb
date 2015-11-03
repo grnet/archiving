@@ -3,15 +3,17 @@
 
   <%= select_with_errors_and_button(
     @job, :job_template, :fileset_id, 'Fileset',
-    options_from_collection_for_select(@host.filesets, :id, :name, @job.fileset_id),
-    new_host_fileset_path(@host))
+    options_from_collection_for_select(@host.filesets, :id, :name,
+                                       params[:fileset_id] || @job.fileset_id),
+    new_host_fileset_path(@host, job_id: @job.id))
   %>
 
   <% if !@job.restore? %>
     <%= select_with_errors_and_button(
       @job, :job_template, :schedule_id,
-      'Schedule', options_from_collection_for_select(@host.schedules, :id, :name, @job.schedule_id),
-      new_host_schedule_path(@host))
+      'Schedule', options_from_collection_for_select(@host.schedules, :id, :name,
+                                                     params[:schedule_id] || @job.schedule_id),
+      new_host_schedule_path(@host, job_id: @job.id))
     %>
   <% end %>
 

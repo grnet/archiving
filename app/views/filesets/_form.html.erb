@@ -6,6 +6,7 @@
     <%= f.text_field :include_files, label: 'Files', placeholder: '/media', multiple: true %>
     <%= f.text_field :exclude_directions, label: 'Exclude', placeholder: '/proc', multiple: true %>
     <%= f.text_field :exclude_directions, label: 'Exclude', placeholder: '/bacula', multiple: true %>
+    <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
   </div>
 
 

@@ -1,5 +1,6 @@
 class SchedulesController < ApplicationController
   before_action :fetch_host, only: [:new, :create]
+  before_action :fetch_job_id, only: [:new, :create]
 
   def new
     @schedule = @host.schedules.new
@@ -20,7 +21,11 @@ class SchedulesController < ApplicationController
     @schedule.runtime = params[:schedule][:runtime] if params[:schedule][:runtime]
 
     if @schedule.save
-      redirect_to host_path(@host)
+      if @job_id.present?
+        redirect_to edit_host_job_path(@host, @job_id, schedule_id: @schedule.id)
+      else
+        redirect_to new_host_job_path(@host, schedule_id: @schedule.id)
+      end
     else
       render :new
     end
@@ -33,6 +38,10 @@ class SchedulesController < ApplicationController
 
   def fetch_host
     @host = Host.find(params[:host_id])
+  end
+
+  def fetch_job_id
+    @job_id = JobTemplate.find(params[:job_id]).id if params[:job_id].present?
   end
 
   def fetch_params

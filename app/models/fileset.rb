@@ -26,11 +26,11 @@ class Fileset < ActiveRecord::Base
       ['}']
   end
 
-  private
-
   def name_for_config
     [host.name, name].join(' ')
   end
+
+  private
 
   def has_included_files
     if include_files.blank? || include_files.all?(&:blank?)
