@@ -1,5 +1,4 @@
 class HostsController < ApplicationController
-#  before_action :fetch_params, only: :create
   before_action :fetch_host, only: [:show, :edit, :update, :destroy]
 
   # GET /hosts
@@ -23,8 +22,16 @@ class HostsController < ApplicationController
   # GET /hosts/1/edit
   def edit; end
 
-  # PUT /hosts/1
-  def update;end
+  # PATCH /hosts/1
+  def update
+    updates = fetch_params.slice(:port, :password)
+    if updates.present? && @host.update_attributes(updates)
+      @host.recalculate
+      redirect_to host_path @host
+    else
+      render :edit
+    end
+  end
 
   # DELETE /hosts/1
   def destroy

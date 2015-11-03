@@ -13,6 +13,49 @@ describe HostsController do
     end
   end
 
+  describe 'PATCH #update' do
+    let!(:host) { FactoryGirl.create(:host) }
+
+    context 'with valid params' do
+      let(:params) do
+        {
+          id: host.id,
+          host: { port: 9999, password: 'wrong_pass' }
+        }
+      end
+
+      it 'updates the host' do
+        expect { patch :update, params }.
+          to change { [host.reload.port, host.reload.password] }.
+          to([9999, 'wrong_pass'])
+      end
+
+      it 'redirects to host_show' do
+        patch :update, params
+        expect(response).to redirect_to(host_path(host))
+      end
+    end
+
+    context 'with fqdn in params' do
+      let(:params) do
+        {
+          id: host.id,
+          host: { fqdn: 'another.host.gr' }
+        }
+      end
+
+      it 'does not update the host' do
+        expect { patch :update, params }.
+          to_not change { host.reload.fqdn }
+      end
+
+      it 'renders the edit page' do
+        patch :update, params
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
   describe 'POST #create' do
     context 'with valid params' do
       let(:params) do
