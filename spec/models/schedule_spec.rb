@@ -9,6 +9,20 @@ describe Schedule do
     it 'presence of runs' do
       expect(Schedule.new).to have(1).errors_on(:runs)
     end
+
+    context 'schedule name is unique in the host\'s scope' do
+      let!(:schedule_1) { FactoryGirl.create(:schedule, name: 'Schedule_1') }
+      let(:schedule_2) { FactoryGirl.build(:schedule, name: 'Schedule_1') }
+      let(:schedule_3) { FactoryGirl.build(:schedule, name: 'Schedule_1', host: schedule_1.host) }
+
+      it 'two schedules of diferent hosts can have the same name' do
+        expect(schedule_2).to be_valid
+      end
+
+      it 'two schedules of the same host can NOT have the same name' do
+        expect(schedule_3).to_not be_valid
+      end
+    end
   end
 
   describe '#to_bacula_config_array' do
@@ -32,7 +46,7 @@ describe Schedule do
     end
 
     it 'contains the name' do
-      expect(subject).to include("  Name = \"#{schedule.name}\"")
+      expect(subject).to include("  Name = \"#{[schedule.host.name, schedule.name].join(' ')}\"")
     end
 
     it 'contains the runs' do

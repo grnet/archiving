@@ -13,16 +13,22 @@ class Schedule < ActiveRecord::Base
 
   validates :name, :runs, presence: true
 
+  validates :name, uniqueness: { scope: :host }
+
   before_validation :set_runs, if: Proc.new { |s| s.runtime.present? }
 
   def to_bacula_config_array
     ['Schedule {'] +
-      ["  Name = \"#{name}\""] +
+      ["  Name = \"#{name_for_config}\""] +
       runs.map {|r| "  Run = #{r}" } +
       ['}']
   end
 
   private
+
+  def name_for_config
+    [host.name, name].join(' ')
+  end
 
   def set_runs
     if valid_runtime?
