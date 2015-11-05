@@ -1,0 +1,5 @@
+development:
+  key_file: /home/stratos/.ssh/bacukey
+  username: root
+  host: ser-baculas.lan
+  path: /etc/bacula/clientdefs/
