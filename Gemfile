@@ -32,6 +32,8 @@ gem 'mysql2', '0.3.16'
 gem 'jquery-rails', '3.1.2'
 gem 'beaneater', '1.0.0'
 
+gem 'net-scp', '1.2.1'
+
 group :test do
   gem 'factory_girl_rails', '4.4.1' # pkg:ruby-factory-girl-rails
   gem 'rspec-rails', '2.14.2'

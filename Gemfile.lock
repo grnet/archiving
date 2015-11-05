@@ -175,6 +175,7 @@ DEPENDENCIES
   mime-types (= 1.25)
   minitest (= 5.4.2)
   mysql2 (= 0.3.16)
+  net-scp (= 1.2.1)
   pry-byebug
   rack (= 1.5.2)
   rack-test (= 0.6.2)
