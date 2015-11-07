@@ -3,11 +3,14 @@ AllCops:
   Exclude:
     - 'lib/capistrano/**/*'
     - 'vendor/bootstrap_form/**/*'
+    - 'db/schema.rb'
 
 Metrics/LineLength:
   Max: 120
 Metrics/AbcSize:
   Max: 16
+Metrics/MethodLength:
+  Max: 20
 
 Documentation:
   Enabled: false
@@ -26,6 +29,8 @@ Style/TrailingBlankLines:
 Style/EmptyLinesAroundClassBody:
   Enabled: false
 Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+Style/DotPosition:
   Enabled: false
 Lint/HandleExceptions:
   Enabled: false
