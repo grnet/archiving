@@ -6,7 +6,14 @@ class Host < ActiveRecord::Base
   CATALOG = 'MyCatalog'
   AUTOPRUNE = 1
 
-  enum status: { draft: 0, pending: 1, config: 2, ready: 3 }
+  STATUSES = {
+    pending: 0,
+    configured: 1,
+    dispatched: 2,
+    deployed: 3,
+    updated: 4,
+    redispatched: 5
+  }
 
   belongs_to :client, class_name: :Client, foreign_key: :name, primary_key: :name
 
@@ -25,6 +32,36 @@ class Host < ActiveRecord::Base
   scope :not_baculized, -> { where(baculized: false) }
 
   before_validation :set_retention, :unset_baculized, :sanitize_name
+
+  state_machine :status, initial: :pending do
+    STATUSES.each do |status_name, value|
+      state status_name, value: value
+    end
+
+    event :add_configuration do
+      transition :pending => :configured
+    end
+
+    event :dispatch do
+      transition :configured => :dispatched
+    end
+
+    event :redispatch do
+      transition :updated => :redispatched
+    end
+
+    event :set_deployed do
+      transition [:dispatched, :redispatched, :configured, :updated] => :deployed
+    end
+
+    event :change_deployed_config do
+      transition :deployed => :updated
+    end
+
+    event :disable do
+      transition all => :pending
+    end
+  end
 
   def baculize_config
     templates = job_templates.enabled.includes(:fileset, :schedule)
@@ -50,6 +87,12 @@ class Host < ActiveRecord::Base
 
   def auto_prune_human
     AUTOPRUNE == 1 ? 'yes' : 'no'
+  end
+
+  def send_to_bacula
+  end
+
+  def remove_from_bacula
   end
 
   private
