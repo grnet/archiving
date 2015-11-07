@@ -6,5 +6,17 @@ FactoryGirl.define do
     file_retention 1
     job_retention 2
     baculized false
+
+    trait :configured do
+      status Host::STATUSES[:configured]
+      job_templates { create_list :enabled_job_template, 1 }
+      verified true
+    end
+
+    trait :updated do
+      status Host::STATUSES[:updated]
+      job_templates { create_list :enabled_job_template, 1 }
+      verified true
+    end
   end
 end

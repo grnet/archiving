@@ -112,4 +112,80 @@ describe Host do
       expect(subject).to_not include(other_fileset.to_bacula_config_array)
     end
   end
+
+  describe '#dispatch_to_bacula' do
+    let(:configured_host) { FactoryGirl.create(:host, :configured) }
+    let(:updated_host) { FactoryGirl.create(:host, :updated) }
+
+    context 'for non verified hosts' do
+      let(:unverified_host) { FactoryGirl.create(:host, :configured) }
+
+      it 'returns false' do
+        expect(unverified_host.dispatch_to_bacula).to eq(false)
+      end
+    end
+
+    it 'calls BaculaHandler#deploy_config' do
+      BaculaHandler.any_instance.should_receive(:deploy_config)
+      configured_host.dispatch_to_bacula
+    end
+
+    context 'when the config does not reach bacula' do
+      before do
+        BaculaHandler.any_instance.should_receive(:send_config) { false }
+      end
+
+      it 'returns false' do
+        expect(configured_host.dispatch_to_bacula).to eq(false)
+      end
+
+      it 'does not change the status of a configured host' do
+        expect { configured_host.dispatch_to_bacula }.
+          to_not change { configured_host.reload.status }
+      end
+
+      it 'does not change the status of an updated host' do
+        expect { updated_host.dispatch_to_bacula }.
+          to_not change { updated_host.reload.status }
+      end
+    end
+
+    context 'when the config is sent to bacula' do
+      before do
+        BaculaHandler.any_instance.should_receive(:send_config) { true }
+      end
+
+      context 'and bacula gets reloaded' do
+        before do
+          BaculaHandler.any_instance.should_receive(:reload_bacula) { true }
+        end
+
+        it 'makes the configured host deployed' do
+          configured_host.dispatch_to_bacula
+          expect(configured_host.reload).to be_deployed
+        end
+
+        it 'makes the updated host deployed' do
+          updated_host.dispatch_to_bacula
+          expect(updated_host.reload).to be_deployed
+        end
+      end
+
+      context 'but bacula fails to reload' do
+        before do
+          BaculaHandler.any_instance.should_receive(:reload_bacula) { false }
+        end
+
+        it 'makes the configured host dispatcheda' do
+          configured_host.dispatch_to_bacula
+          expect(configured_host.reload).to be_dispatched
+        end
+
+        it 'makes the updated host redispatched' do
+          updated_host.dispatch_to_bacula
+          expect(updated_host.reload).to be_redispatched
+        end
+      end
+    end
+  end
 end

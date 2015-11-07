@@ -89,13 +89,18 @@ class Host < ActiveRecord::Base
     AUTOPRUNE == 1 ? 'yes' : 'no'
   end
 
-  def send_to_bacula
+  def dispatch_to_bacula
+    return false if not ready?
+    BaculaHandler.new(self).deploy_config
   end
 
-  def remove_from_bacula
+  def ready?
+    verified? && (can_dispatch? || can_redispatch?)
   end
 
   private
+
+  # automatic setters
 
   def sanitize_name
     self.name = fqdn
@@ -110,6 +115,8 @@ class Host < ActiveRecord::Base
     self.baculized = false if new_record?
     true
   end
+
+  # validation
 
   def fqdn_format
     regex = /(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)/
