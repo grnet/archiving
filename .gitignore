@@ -20,6 +20,7 @@
 config/database.yml
 config/beanstalk.yml
 config/secrets.yml
+config/bconsole.conf
 
 .ruby-version
 .rspec

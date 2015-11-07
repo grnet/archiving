@@ -1,0 +1,11 @@
+#
+# Bacula User Agent (or Console) Configuration File
+#
+
+Director {
+  Name = doorblue-dir
+  DIRport = 9101
+  address = ser-baculas.lan
+#  Password = "O1gLjxYviWXU1xqh6wRzAmJ4oUX4OwNQY"
+  Password = "ru4ImGCvXDH6Nqjmnqvm8EySQtrHaucKm"
+}
