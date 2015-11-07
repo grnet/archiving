@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   resources :clients, only: [:index, :show]
 
   resources :hosts, only: [:new, :create, :show, :edit, :update, :destroy] do
+    member do
+      post :submit_config
+    end
+
     resources :jobs, only: [:new, :create, :show, :edit, :update, :destroy] do
       member do
         patch :toggle_enable

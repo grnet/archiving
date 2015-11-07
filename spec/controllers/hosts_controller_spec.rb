@@ -95,4 +95,19 @@ describe HostsController do
       end
     end
   end
+
+  describe 'POST #submit_config' do
+    let(:host) { FactoryGirl.create(:host, :configured) }
+    let(:params) { { id: host.id } }
+
+    it 'redirects to root' do
+      post :submit_config, params
+      expect(response).to redirect_to(host_path(host))
+    end
+
+    it 'calls submit_config_to_bacula on host' do
+      Host.any_instance.should_receive(:dispatch_to_bacula)
+      post :submit_config, params
+    end
+  end
 end

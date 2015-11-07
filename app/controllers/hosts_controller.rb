@@ -1,5 +1,5 @@
 class HostsController < ApplicationController
-  before_action :fetch_host, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config]
 
   # GET /hosts
   def new
@@ -37,6 +37,12 @@ class HostsController < ApplicationController
   def destroy
     @host.destroy
     redirect_to root_path
+  end
+
+  # POST /hosts/1/submit_config
+  def submit_config
+    @host.dispatch_to_bacula
+    redirect_to host_path(@host)
   end
 
   private
