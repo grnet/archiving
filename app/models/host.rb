@@ -94,9 +94,22 @@ class Host < ActiveRecord::Base
     AUTOPRUNE == 1 ? 'yes' : 'no'
   end
 
+  # Uploads the host's config to bacula
+  # Reloads bacula server
+  #
+  # It updates the host's status accordingly
   def dispatch_to_bacula
     return false if not needs_dispatch?
     BaculaHandler.new(self).deploy_config
+  end
+
+  # Removes a Host from bacula configuration.
+  # Reloads bacula server
+  #
+  # If all go well it changes the host's status and returns true
+  def remove_from_bacula
+    return false unless needs_revoke?
+    BaculaHandler.new(self).undeploy_config
   end
 
   def needs_dispatch?

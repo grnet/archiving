@@ -30,6 +30,21 @@ class BaculaHandler
     end
   end
 
+  # Removes the host's configuration from the bacula director by
+  #
+  # * removing the host's configuration files
+  # * reloading the bacula director
+  #
+  # Updates the host's status accordingly
+  #
+  # @return [Boolean] false if something went wrong
+  def undeploy_config
+    return false unless remove_config
+    host.disable if reload_bacula
+  end
+
+  private
+
   def get_config_file
     file = Tempfile.new(host.name)
     file.chmod(0666)
@@ -47,6 +62,18 @@ class BaculaHandler
         ssh_settings[:path] + host.name + '.conf',
         ssh: { keys: [ssh_settings[:key_file]] }
       )
+    rescue
+      return false
+    end
+    true
+  end
+
+  def remove_config
+    begin
+      Net::SSH.start(ssh_settings[:host], ssh_settings[:username],
+                     keys: ssh_settings[:key_file]) do |ssh|
+        ssh.exec!("rm #{ssh_settings[:path] + host.name}.conf")
+      end
     rescue
       return false
     end

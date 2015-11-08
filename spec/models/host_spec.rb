@@ -189,6 +189,40 @@ describe Host do
     end
   end
 
+  describe '#remove_from_bacula' do
+    let(:host) { FactoryGirl.create(:host, status: Host::STATUSES[:for_removal]) }
+
+    context 'when the config is NOT removed from bacula' do
+      before { BaculaHandler.any_instance.should_receive(:remove_config) { false } }
+
+      it 'returns false' do
+        expect(host.remove_from_bacula).to eq(false)
+      end
+
+      it 'does not alter the host\'s status' do
+        expect { host.remove_from_bacula }.
+          to_not change { host.reload.status }
+      end
+    end
+
+    context 'when the config is removed from bacula' do
+      before { BaculaHandler.any_instance.should_receive(:remove_config) { true } }
+
+      context 'and bacula gets reloaded' do
+        before { BaculaHandler.any_instance.should_receive(:reload_bacula) { true } }
+
+        it 'returns true' do
+          expect(host.remove_from_bacula).to eq(true)
+        end
+
+        it 'changes the host\'s status to pending' do
+          expect { host.remove_from_bacula }.
+            to change { host.reload.human_status_name }.from('for removal').to('pending')
+        end
+      end
+    end
+  end
+
   describe '#recalculate' do
     context 'when the host does NOT have enabled jobs' do
       let(:host) { FactoryGirl.create(:host, :with_disabled_jobs) }
