@@ -12,6 +12,7 @@ class JobTemplate < ActiveRecord::Base
   validates :name, uniqueness: { scope: :host }
 
   before_save :set_job_type
+  after_save :notify_host
 
   scope :enabled, -> { where(enabled: true) }
 
@@ -60,6 +61,10 @@ class JobTemplate < ActiveRecord::Base
   end
 
   private
+
+  def notify_host
+    host.recalculate
+  end
 
   # Sets the default job_type as backup
   def set_job_type

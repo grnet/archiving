@@ -37,6 +37,73 @@ describe JobTemplate do
     end
   end
 
+  context 'when enabling a job' do
+
+    [:pending, :dispatched].each do |status|
+      context "of a #{status} host" do
+        let(:host) { FactoryGirl.create(:host) }
+        let!(:job) { FactoryGirl.create(:job_template, host: host) }
+
+        before { host.update_column(:status, Host::STATUSES[status]) }
+
+        it 'becomes configured' do
+          expect {
+            job.enabled = true
+            job.save
+          }.to change {
+            host.reload.human_status_name
+          }.from(status.to_s).to('configured')
+        end
+      end
+    end
+
+    context 'of a configured host' do
+      let(:host) { FactoryGirl.create(:host) }
+      let!(:job) { FactoryGirl.create(:job_template, host: host) }
+
+      before { host.update_column(:status, Host::STATUSES[:configured]) }
+
+      it 'stays configured' do
+        expect {
+          job.enabled = true
+          job.save
+        }.to_not change { host.reload.human_status_name }
+      end
+    end
+
+    context 'of a updated host' do
+      let(:host) { FactoryGirl.create(:host) }
+      let!(:job) { FactoryGirl.create(:job_template, host: host) }
+
+      before { host.update_column(:status, Host::STATUSES[:updated]) }
+
+      it 'stays updated' do
+        expect {
+          job.enabled = true
+          job.save
+        }.to_not change { host.reload.human_status_name }
+      end
+    end
+
+    [:deployed, :redispatched].each do |status|
+      context "of a #{status} host" do
+        let(:host) { FactoryGirl.create(:host) }
+        let!(:job) { FactoryGirl.create(:job_template, host: host) }
+
+        before { host.update_column(:status, Host::STATUSES[status]) }
+
+        it 'becomes updated' do
+          expect {
+            job.enabled = true
+            job.save
+          }.to change {
+            host.reload.human_status_name
+          }.from(status.to_s).to('updated')
+        end
+      end
+    end
+  end
+
   describe '#to_bacula_config_array' do
     let(:job_template) { FactoryGirl.create(:job_template) }
 

@@ -12,7 +12,8 @@ class Host < ActiveRecord::Base
     dispatched: 2,
     deployed: 3,
     updated: 4,
-    redispatched: 5
+    redispatched: 5,
+    for_removal: 6
   }
 
   belongs_to :client, class_name: :Client, foreign_key: :name, primary_key: :name
@@ -39,7 +40,7 @@ class Host < ActiveRecord::Base
     end
 
     event :add_configuration do
-      transition :pending => :configured
+      transition [:pending, :dispatched] => :configured
     end
 
     event :dispatch do
@@ -55,7 +56,11 @@ class Host < ActiveRecord::Base
     end
 
     event :change_deployed_config do
-      transition :deployed => :updated
+      transition [:deployed, :redispatched, :for_removal] => :updated
+    end
+
+    event :mark_for_removal do
+      transition [:dispatched, :deployed, :updated, :redispatched] => :for_removal
     end
 
     event :disable do
@@ -90,12 +95,25 @@ class Host < ActiveRecord::Base
   end
 
   def dispatch_to_bacula
-    return false if not ready?
+    return false if not needs_dispatch?
     BaculaHandler.new(self).deploy_config
   end
 
-  def ready?
+  def needs_dispatch?
     verified? && (can_dispatch? || can_redispatch?)
+  end
+
+  def needs_revoke?
+    for_removal?
+  end
+
+  # Handles the host's job changes by updating the host's status
+  def recalculate
+    if job_templates(true).enabled.any?
+      add_configuration || change_deployed_config
+    else
+      mark_for_removal || disable
+    end
   end
 
   private

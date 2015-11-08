@@ -18,5 +18,14 @@ FactoryGirl.define do
       job_templates { create_list :enabled_job_template, 1 }
       verified true
     end
+
+    trait :with_disabled_jobs do
+      job_templates { create_list(:job_template, 1) }
+      verified true
+    end
+
+    trait :with_enabled_jobs do
+      job_templates { create_list :enabled_job_template, 1 }
+    end
   end
 end

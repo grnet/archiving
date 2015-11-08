@@ -188,4 +188,76 @@ describe Host do
       end
     end
   end
+
+  describe '#recalculate' do
+    context 'when the host does NOT have enabled jobs' do
+      let(:host) { FactoryGirl.create(:host, :with_disabled_jobs) }
+
+      context 'and is configured' do
+        before { host.update_column(:status, Host::STATUSES[:configured]) }
+
+        it 'becomes pending' do
+          expect { host.recalculate }.
+            to change { host.reload.human_status_name }.from('configured').to('pending')
+        end
+      end
+
+      [:dispatched, :deployed, :updated, :redispatched].each do |status|
+        context "and is #{status}" do
+          before { host.update_column(:status, Host::STATUSES[status]) }
+
+          it 'becomes for_removal' do
+            expect { host.recalculate }.
+              to change { host.reload.human_status_name }.from(status.to_s).to('for removal')
+          end
+        end
+      end
+    end
+
+    context 'when host has enabled jobs' do
+      let(:host) { FactoryGirl.create(:host, :with_enabled_jobs) }
+
+      [:configured, :updated].each do |status|
+        context "a #{status} host" do
+          before { host.update_column(:status, Host::STATUSES[status]) }
+
+          it "stays #{status}" do
+            expect { host.recalculate }.to_not change { host.reload.status }
+          end
+        end
+      end
+
+      context 'a pending host' do
+        before { host.update_column(:status, Host::STATUSES[:pending]) }
+
+        it 'becomes configured' do
+          expect { host.recalculate }.
+            to change { host.reload.human_status_name }.
+            from('pending').to('configured')
+        end
+      end
+
+      context 'a dispatched host' do
+        before { host.update_column(:status, Host::STATUSES[:dispatched]) }
+
+        it 'becomes configured' do
+          expect { host.recalculate }.
+            to change { host.reload.human_status_name }.
+            from('dispatched').to('configured')
+        end
+      end
+
+      [:deployed, :redispatched, :for_removal].each do |status|
+        context "a #{status} host" do
+          before { host.update_column(:status, Host::STATUSES[status]) }
+
+          it 'becomes updated' do
+            expect { host.recalculate }.
+              to change { host.reload.human_status_name }.
+              from(host.human_status_name).to('updated')
+          end
+        end
+      end
+    end
+  end
 end
