@@ -29,4 +29,9 @@ describe HostsController do
     expect(post('/hosts/1/submit_config')).
       to route_to(controller: 'hosts', action: 'submit_config', id: '1')
   end
+
+  it 'routes DELETE /hosts/1/revoke' do
+    expect(delete('/hosts/1/revoke')).
+      to route_to(controller: 'hosts', action: 'revoke', id: '1')
+  end
 end

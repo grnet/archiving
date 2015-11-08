@@ -110,4 +110,19 @@ describe HostsController do
       post :submit_config, params
     end
   end
+
+  describe 'DELETE #revoke' do
+    let(:host) { FactoryGirl.create(:host, status: Host::STATUSES[:for_removal]) }
+    let(:params) { { id: host.id } }
+
+    it 'redirects to root' do
+      delete :revoke, params
+      expect(response).to redirect_to(root_path)
+    end
+
+    it 'calls remove_from_bacula on host' do
+      Host.any_instance.should_receive(:remove_from_bacula)
+      delete :revoke, params
+    end
+  end
 end
