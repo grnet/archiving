@@ -30,7 +30,9 @@ class Host < ActiveRecord::Base
 
   validate :fqdn_format
 
-  scope :not_baculized, -> { where(baculized: false) }
+  scope :not_baculized, -> {
+    joins("left join Client on Client.Name = hosts.name").where(Client: { Name: nil })
+  }
 
   before_validation :set_retention, :unset_baculized, :sanitize_name
 

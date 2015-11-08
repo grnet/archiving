@@ -1,7 +1,7 @@
 class HostsController < ApplicationController
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config, :revoke]
 
-  # GET /hosts
+  # GET /hosts/new
   def new
     @host = Host.new
   end
