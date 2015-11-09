@@ -40,6 +40,7 @@
     <div class='col-xs-2'>
       <%= link_to 'Edit', edit_host_path(@host), class: "btn btn-primary", role: "button" %>
     </div>
+
     <% if @host.needs_dispatch? %>
       <div class='col-xs-4 pull-right text-right'>
         <%= link_to 'Deploy Changes', submit_config_host_path(@host), method: :post,
@@ -52,6 +53,15 @@
                     class: 'btn btn-danger', role: 'button' %>
       </div>
     <% end %>
+  </div>
 
+  <br />
+
+  <div class='row'>
+    <% if @host.client %>
+      <div class='col-xs-12 text-right'>
+        <%= link_to "Back to <b>#{@host.name}</b> client".html_safe, client_path(@host.client) %>
+      </div>
+    <% end %>
   </div>
 </div>
