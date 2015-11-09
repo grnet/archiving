@@ -1,5 +1,11 @@
 <p id="notice"><%= notice %></p>
+<% if @client.host %>
+  <div class="row right">
+    <%= link_to 'Manage Client', host_path(@client.host), class: "btn btn-primary", role: "button" %>
+  </div>
+<% end %>
 
+<h2><%= @client.name %></h2>
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-condensed">
@@ -43,10 +49,8 @@
 </div>
 
 <div>
-  <%= link_to 'New Job', '#', class: "btn btn-primary", role: "button" %>
-  <%= link_to 'Restore Files', '#', class: "btn btn-success", role: "button" %>
+  <%= link_to 'Restore Files', '#', class: "btn btn-warning", role: "button" %>
   <%= link_to 'Take Backup', '#', class: "btn btn-success", role: "button" %>
-  <%= link_to 'Remove client', '#', class: "btn btn-danger", role: "button" %>
 </div>
 <br/>
 
