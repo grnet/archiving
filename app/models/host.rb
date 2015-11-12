@@ -16,6 +16,9 @@ class Host < ActiveRecord::Base
     for_removal: 6
   }
 
+  has_many :ownerships
+  has_many :users, through: :ownerships, inverse_of: :hosts
+
   belongs_to :client, class_name: :Client, foreign_key: :name, primary_key: :name
 
   has_many :filesets, dependent: :destroy

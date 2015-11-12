@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151106210604) do
+ActiveRecord::Schema.define(version: 20151112212531) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -364,6 +364,13 @@ ActiveRecord::Schema.define(version: 20151106210604) do
     t.datetime "updated_at"
     t.boolean  "enabled",                    default: false
     t.binary   "restore_location"
+  end
+
+  create_table "ownerships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "host_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "schedules", force: true do |t|
