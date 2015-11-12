@@ -11,6 +11,8 @@ class Client < ActiveRecord::Base
   has_many :jobs, foreign_key: :ClientId
   has_one :host, foreign_key: :name, primary_key: :Name
 
+  scope :for_user, ->(user_id) { joins(host: :users).where(users: { id: user_id }) }
+
   DAY_SECS = 60 * 60 * 24
 
   # Helper method. It shows the client's  job retention,
