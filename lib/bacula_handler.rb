@@ -43,6 +43,17 @@ class BaculaHandler
     host.disable if reload_bacula
   end
 
+  # Schedules an immediate backup to the bacula director for the given host and job
+  #
+  # @params job_name[String] the job's name
+  def backup_now(job_name)
+    job = host.job_templates.enabled.find_by(name: job_name)
+    return false unless job
+    command = "echo \"run job=\\\"#{job.name_for_config}\\\" yes\" | #{bconsole}"
+    Rails.logger.warn("[BaculaHandler] : #{command}")
+    exec_with_timeout(command, 2)
+  end
+
   private
 
   def get_config_file
