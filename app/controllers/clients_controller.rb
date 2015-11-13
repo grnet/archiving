@@ -3,9 +3,10 @@ class ClientsController < ApplicationController
 
   # GET /clients
   def index
-    @clients = Client.includes(:jobs).all
-    @active_jobs = Job.running.group(:ClientId).count
-    @hosts = Host.not_baculized
+    client_ids = Client.for_user(current_user.id).pluck(:ClientId)
+    @clients = Client.where(ClientId: client_ids).includes(:jobs)
+    @active_jobs = Job.running.where(ClientId: client_ids).group(:ClientId).count
+    @hosts = current_user.hosts.not_baculized
   end
 
   # GET /clients/1
@@ -14,6 +15,6 @@ class ClientsController < ApplicationController
   private
 
   def set_client
-    @client = Client.find(params[:id])
+    @client = Client.for_user(current_user.id).find(params[:id])
   end
 end

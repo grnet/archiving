@@ -7,6 +7,12 @@ FactoryGirl.define do
     job_retention 2
     baculized false
 
+    trait :with_client do
+      after(:create) do |host|
+        create(:client, name: host.name)
+      end
+    end
+
     trait :configured do
       status Host::STATUSES[:configured]
       job_templates { create_list :enabled_job_template, 1 }
