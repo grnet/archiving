@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
-  before_action :fetch_job, only: [:show, :edit, :update, :destroy, :toggle_enable]
   before_action :fetch_host, only: [:new, :edit, :show, :create, :update, :toggle_enable]
+  before_action :fetch_job, only: [:show, :edit, :update, :destroy, :toggle_enable]
 
   # GET /jobs
   def new
@@ -47,11 +47,11 @@ class JobsController < ApplicationController
   private
 
   def fetch_job
-    @job = JobTemplate.find(params[:id])
+    @job = @host.job_templates.find(params[:id])
   end
 
   def fetch_host
-    @host = Host.find(params[:host_id])
+    @host = current_user.hosts.find(params[:host_id])
   end
 
   def fetch_params
