@@ -37,11 +37,11 @@ class SchedulesController < ApplicationController
   private
 
   def fetch_host
-    @host = Host.find(params[:host_id])
+    @host = current_user.hosts.find(params[:host_id])
   end
 
   def fetch_job_id
-    @job_id = JobTemplate.find(params[:job_id]).id if params[:job_id].present?
+    @job_id = @host.job_templates.find(params[:job_id]).id if params[:job_id].present?
   end
 
   def fetch_params

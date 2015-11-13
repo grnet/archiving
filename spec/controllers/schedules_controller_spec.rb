@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe SchedulesController do
   let(:host) { FactoryGirl.create(:host) }
+  let(:user) { FactoryGirl.create(:user) }
+
+  before do
+    host.users << user
+    controller.stub(:current_user) { user }
+  end
 
   describe 'GET #new' do
     before { get :new, host_id: host.id }
