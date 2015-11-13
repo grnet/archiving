@@ -10,6 +10,7 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(fetch_params)
     if @host.save
+      current_user.hosts << @host
       redirect_to host_path @host
     else
       render :new
@@ -54,7 +55,7 @@ class HostsController < ApplicationController
   private
 
   def fetch_host
-    @host = Host.includes(job_templates: [:fileset, :schedule]).find(params[:id])
+    @host = current_user.hosts.includes(job_templates: [:fileset, :schedule]).find(params[:id])
   end
 
   def fetch_params

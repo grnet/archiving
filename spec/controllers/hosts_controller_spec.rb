@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe HostsController do
+  let(:user) { FactoryGirl.create(:user) }
+  before { controller.stub(:current_user) { user } }
+
   describe 'GET #new' do
     before { get :new }
 
@@ -15,6 +18,8 @@ describe HostsController do
 
   describe 'PATCH #update' do
     let!(:host) { FactoryGirl.create(:host) }
+
+    before { host.users << user }
 
     context 'with valid params' do
       let(:params) do
@@ -74,6 +79,11 @@ describe HostsController do
         post :create, params
         expect(response).to redirect_to(host_path(Host.last))
       end
+
+      it 'assigns the host to the user' do
+        expect { post :create, params }.
+          to change { user.hosts(true).count }.from(0).to(1)
+      end
     end
 
     context 'with invalid params' do
@@ -100,6 +110,8 @@ describe HostsController do
     let(:host) { FactoryGirl.create(:host, :configured) }
     let(:params) { { id: host.id } }
 
+    before { host.users << user }
+
     it 'redirects to root' do
       post :submit_config, params
       expect(response).to redirect_to(host_path(host))
@@ -114,6 +126,8 @@ describe HostsController do
   describe 'DELETE #revoke' do
     let(:host) { FactoryGirl.create(:host, status: Host::STATUSES[:for_removal]) }
     let(:params) { { id: host.id } }
+
+    before { host.users << user }
 
     it 'redirects to root' do
       delete :revoke, params
