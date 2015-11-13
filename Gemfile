@@ -38,4 +38,5 @@ gem 'state_machine', '1.2.0'
 group :test do
   gem 'factory_girl_rails', '4.4.1' # pkg:ruby-factory-girl-rails
   gem 'rspec-rails', '2.14.2'
+  gem 'database_cleaner', '1.3.0'
 end

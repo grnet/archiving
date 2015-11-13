@@ -20,25 +20,25 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
-
   config.before(:suite) do
-    puts 'Cleaning up sql'
-
-    connection = ActiveRecord::Base.establish_connection(Baas::settings[:local_db]).
-      connection
-    connection.execute("truncate users")
-    connection.execute("truncate hosts")
-    connection.execute("truncate schedules")
-    connection.execute("truncate filesets")
-    connection.execute("truncate job_templates")
+    puts "cleaning sql..."
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
   end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+#  config.use_transactional_fixtures = true
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
