@@ -44,6 +44,11 @@ class Host < ActiveRecord::Base
       state status_name, value: value
     end
 
+    after_transition [:dispatched, :redispatched, :configured, :updated] => :deployed do |host|
+      host.job_templates.enabled.
+        update_all(baculized: true, baculized_at: Time.now, updated_at: Time.now)
+    end
+
     event :add_configuration do
       transition [:pending, :dispatched] => :configured
     end
