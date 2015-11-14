@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :jobs, only: [:new, :create, :show, :edit, :update, :destroy] do
       member do
         patch :toggle_enable
+        post :backup_now
       end
     end
 

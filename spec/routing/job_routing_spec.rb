@@ -29,4 +29,9 @@ describe HostsController do
   it 'routes DELETE /hosts/1/jobs/1' do
     expect(delete('/hosts/1/jobs/1')).to route_to(controller: 'jobs', action: 'destroy', host_id: '1', id: '1')
   end
+
+  it 'routes POST /hosts/1/jobs/1/backup_now' do
+    expect(post('/hosts/1/jobs/1/backup_now')).
+      to route_to(controller: 'jobs', action: 'backup_now', host_id: '1', id: '1')
+  end
 end

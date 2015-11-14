@@ -7,7 +7,8 @@
   <td><%= I18n.l(job.created_at, format: :long) %></td>
   <td>
     <% if job.enabled? && job.baculized? && job.backup? %>
-      <%= link_to 'Take Backup', '#', class: "btn btn-success", role: "button" %>
+      <%= link_to 'Backup Now', backup_now_host_job_path(job.host, job),
+                  method: :post, class: "btn btn-success", role: "button" %>
     <% end %>
   </td>
 </tr>

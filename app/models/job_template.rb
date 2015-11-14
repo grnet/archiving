@@ -48,6 +48,12 @@ class JobTemplate < ActiveRecord::Base
     "#{host.name} #{name}"
   end
 
+  # Sends a hot backup request to Bacula via BaculaHandler
+  def backup_now
+    return false if not (enabled? && baculized? && backup?)
+    BaculaHandler.new(host).backup_now(name)
+  end
+
   def save_and_create_restore_job(location)
     if save_status = save
       restore_job = JobTemplate.new(
