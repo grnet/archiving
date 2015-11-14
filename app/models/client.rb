@@ -15,6 +15,14 @@ class Client < ActiveRecord::Base
 
   DAY_SECS = 60 * 60 * 24
 
+  # Fetches the client's job_templates that are already persisted to
+  #  Bacula's configuration
+  #
+  # @return [ActiveRecord::Relation] of `JobTemplate`
+  def persisted_jobs
+    host.job_templates.where(baculized: true).includes(:fileset, :schedule)
+  end
+
   # Helper method. It shows the client's  job retention,
   # (which is expressed in seconds) in days.
   #
@@ -22,7 +30,6 @@ class Client < ActiveRecord::Base
   def job_retention_days
     job_retention / DAY_SECS
   end
-
 
   # Helper method. It shows the client's  file retention,
   # (which is expressed in seconds) in days.

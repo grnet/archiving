@@ -1,0 +1,8 @@
+<tr>
+  <td><%= job.name %></td>
+  <td><%= job.job_type %></td>
+  <td><%= job.fileset.try(:name) %></td>
+  <td><%= job.restore_location %></td>
+  <td><%= job.schedule_human %></td>
+  <td><%= I18n.l(job.created_at, format: :long) %></td>
+</tr>
