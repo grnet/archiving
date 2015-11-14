@@ -42,4 +42,56 @@ class Job < ActiveRecord::Base
   scope :running, -> { where(job_status: 'R') }
   scope :backup_type, -> { where(type: 'B') }
   scope :restore_type, -> { where(type: 'R') }
+
+  HUMAN_STATUS = {
+      'A' => 'Canceled by user',
+      'B' => 'Blocked',
+      'C' => 'Created, not yet running',
+      'D' => 'Verify found differences',
+      'E' => 'Terminated with errors',
+      'F' => 'Waiting for Client',
+      'M' => 'Waiting for media mount',
+      'R' => 'Running',
+      'S' => 'Waiting for Storage daemon',
+      'T' => 'Completed successfully',
+      'a' => 'SD despooling attributes',
+      'c' => 'Waiting for client resource',
+      'd' => 'Waiting on maximum jobs',
+      'e' => 'Non-fatal error',
+      'f' => 'Fatal error',
+      'i' => 'Doing batch insert file records',
+      'j' => 'Waiting for job resource',
+      'm' => 'Waiting for new media',
+      'p' => 'Waiting on higher priority jobs',
+      's' => 'Waiting for storage resource',
+      't' => 'Waiting on start time'
+  }
+
+  def level_human
+    {
+      'F' => 'Full',
+      'D' => 'Differential',
+      'I' => 'Incremental'
+    }[level]
+  end
+
+  def status_human
+    HUMAN_STATUS[job_status]
+  end
+
+  def fileset
+    file_set.try(:file_set) || '-'
+  end
+
+  def start_time_formatted
+    if start_time
+      I18n.l(start_time, format: :long)
+    end
+  end
+
+  def end_time_formatted
+    if end_time
+      I18n.l(end_time, format: :long)
+    end
+  end
 end

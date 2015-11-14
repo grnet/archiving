@@ -15,7 +15,9 @@
       </tr>
       <tr>
         <td>Last Backup</td>
-        <td><%= @client.last_job_date %></td>
+        <td>
+          <%= @client.last_job_date_formatted %>
+        </td>
       </tr>
       <tr>
         <td>File Retention</td>
@@ -38,5 +40,9 @@
         <td><%= @client.auto_prune_human %></td>
       </tr>
     </table>
+  </div>
+  <div>
+    <%= link_to 'Restore Files', '#', class: "btn btn-warning", role: "button" %>
+    <%= link_to 'Take Backup', '#', class: "btn btn-success", role: "button" %>
   </div>
 </div>

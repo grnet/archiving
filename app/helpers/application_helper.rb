@@ -40,4 +40,14 @@ module ApplicationHelper
       attr_label.concat(select_div).concat(button_part)
     end
   end
+
+  # Returns a style class depending on the given parameter
+  #
+  # @param status[Char]
+  def success_class(status)
+    case status
+      when 'T' then 'success'
+      when 'E' then 'danger'
+    end
+  end
 end

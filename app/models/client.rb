@@ -14,6 +14,7 @@ class Client < ActiveRecord::Base
   scope :for_user, ->(user_id) { joins(host: :users).where(users: { id: user_id }) }
 
   DAY_SECS = 60 * 60 * 24
+  RECENT_JOBS_COUNT = 5
 
   # Fetches the client's job_templates that are already persisted to
   #  Bacula's configuration
@@ -21,6 +22,13 @@ class Client < ActiveRecord::Base
   # @return [ActiveRecord::Relation] of `JobTemplate`
   def persisted_jobs
     host.job_templates.where(baculized: true).includes(:fileset, :schedule)
+  end
+
+  # Fetches the client's performed jobs in reverse chronological order
+  #
+  # @return [ActiveRecord::Relation] of `Job`
+  def recent_jobs
+    jobs.order(EndTime: :desc).limit(RECENT_JOBS_COUNT).includes(:file_set)
   end
 
   # Helper method. It shows the client's  job retention,
@@ -46,8 +54,11 @@ class Client < ActiveRecord::Base
     auto_prune == 1 ? 'yes' : 'no'
   end
 
-  def last_job_date
-    jobs.maximum(:EndTime)
+  # Helper method for displayin the last job's datetime in a nice format.
+  def last_job_date_formatted
+    if job_time = jobs.backup_type.last.try(:end_time)
+      I18n.l(job_time, format: :long)
+    end
   end
 
   # Shows the total file size of the jobs that run for a specific client

@@ -18,13 +18,21 @@
 
 <div class="row">
   <%= render partial: 'client_details' %>
-  <%= render partial: 'jobs' %>
+  <div class="col-xs-8">
+    <div class="row">
+      <%= render partial: 'jobs' %>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <h3>Recent Jobs</h3>
+      </div>
+    </div>
+    <div class="row">
+      <%= render partial: 'recent_jobs' %>
+    </div>
+  </div>
 </div>
 
-<div>
-  <%= link_to 'Restore Files', '#', class: "btn btn-warning", role: "button" %>
-  <%= link_to 'Take Backup', '#', class: "btn btn-success", role: "button" %>
-</div>
 <br/>
 
 <%= link_to 'Back to clients', clients_path %>

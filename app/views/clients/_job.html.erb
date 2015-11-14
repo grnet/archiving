@@ -5,4 +5,9 @@
   <td><%= job.restore_location %></td>
   <td><%= job.schedule_human %></td>
   <td><%= I18n.l(job.created_at, format: :long) %></td>
+  <td>
+    <% if job.enabled? && job.baculized? && job.backup? %>
+      <%= link_to 'Take Backup', '#', class: "btn btn-success", role: "button" %>
+    <% end %>
+  </td>
 </tr>
