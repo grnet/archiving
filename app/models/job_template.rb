@@ -66,17 +66,12 @@ class JobTemplate < ActiveRecord::Base
   end
 
   def options_array
-    result = [
+    [
       "Name = \"#{name_for_config}\"",
       "FileSet = \"#{fileset.name_for_config}\"",
       "Client = \"#{host.name}\"",
-      "Type = \"#{job_type.capitalize}\""
+      "Type = \"#{job_type.capitalize}\"",
+      "Schedule = \"#{schedule.name_for_config}\""
     ]
-    if restore?
-      result += ["Where = \"#{restore_location}\""]
-    else
-      result += ["Schedule = \"#{schedule.name_for_config}\""]
-    end
-    result
   end
 end

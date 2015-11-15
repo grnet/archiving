@@ -139,18 +139,5 @@ describe JobTemplate do
     it 'assigns Schedule param' do
       expect(subject).to include("  Schedule = \"#{job_template.schedule.name_for_config}\"")
     end
-
-    context 'for a restore job' do
-      let(:restore_job) { FactoryGirl.create(:job_template, :restore) }
-      subject { restore_job.to_bacula_config_array }
-
-      it 'does not assign a Schedule param' do
-        expect(subject).to_not include("  Schedule = \"#{restore_job.schedule.name}\"")
-      end
-
-      it 'assigns Where param' do
-        expect(subject).to include("  Where = \"#{restore_job.restore_location}\"")
-      end
-    end
   end
 end
