@@ -26,6 +26,7 @@ module Baas
     # -- all .rb files in that directory are automatically loaded.
 
     # Store/Read localtime from the database
+    config.time_zone = 'Athens'
     config.active_record.default_timezone = :local
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
