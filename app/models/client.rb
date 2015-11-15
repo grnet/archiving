@@ -61,6 +61,13 @@ class Client < ActiveRecord::Base
     end
   end
 
+  # Shows if a client has any backup jobs to Bacule config
+  #
+  # @return [Boolean]
+  def is_backed_up?
+    jobs.backup_type.any?
+  end
+
   # Shows the total file size of the jobs that run for a specific client
   #
   # @return [Integer] Size in Bytes

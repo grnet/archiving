@@ -1,5 +1,6 @@
 class HostsController < ApplicationController
-  before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config, :revoke]
+  before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
+                                    :revoke, :restore]
 
   # GET /hosts/new
   def new
@@ -50,6 +51,12 @@ class HostsController < ApplicationController
   def revoke
     @host.remove_from_bacula
     redirect_to root_path
+  end
+
+  # POST /hosts/1/restore
+  def restore
+    @host.restore
+    redirect_to client_path(@host.client)
   end
 
   private
