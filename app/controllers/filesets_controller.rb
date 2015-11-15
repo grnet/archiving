@@ -13,6 +13,7 @@ class FilesetsController < ApplicationController
     @fileset = @host.filesets.new(fetch_params)
 
     if @fileset.save
+      flash[:success] = 'Fileset created'
       if @job_id.present?
         redirect_to edit_host_job_path(@host, @job_id, fileset_id: @fileset.id)
       else

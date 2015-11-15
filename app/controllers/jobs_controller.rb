@@ -12,6 +12,7 @@ class JobsController < ApplicationController
   def create
     @job = @host.job_templates.new(fetch_params)
     if @job.save
+      flash[:success] = 'Job created successfully'
       redirect_to host_path(@host)
     else
       render :new
@@ -27,6 +28,7 @@ class JobsController < ApplicationController
   # PUT /jobs/1
   def update
     if @job.update_attributes(fetch_params)
+      flash[:success] = 'Job updated'
       redirect_to host_job_path(@host, @job)
     else
       render :edit
@@ -41,12 +43,19 @@ class JobsController < ApplicationController
   def toggle_enable
     @job.enabled = !@job.enabled
     @job.save
+    flash[:success] = @job.enabled? ? 'Job enabled' : 'Job disabled'
+
     redirect_to host_path(@host)
   end
 
   # POST /hosts/1/jobs/1/backup_now
   def backup_now
-    @job.backup_now
+    if @job.backup_now
+      flash[:success] = 'Backup directive was sent to bacula. Backup will be taken in a while'
+    else
+      flash[:error] = 'Backup was not sent, try again later'
+    end
+
     redirect_to client_path(@host.client)
   end
 

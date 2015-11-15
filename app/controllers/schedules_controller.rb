@@ -21,6 +21,7 @@ class SchedulesController < ApplicationController
     @schedule.runtime = params[:schedule][:runtime] if params[:schedule][:runtime]
 
     if @schedule.save
+      flash[:success] = 'Schedule created successfully'
       if @job_id.present?
         redirect_to edit_host_job_path(@host, @job_id, schedule_id: @schedule.id)
       else
