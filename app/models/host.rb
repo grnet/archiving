@@ -110,7 +110,7 @@ class Host < ActiveRecord::Base
   # It updates the host's status accordingly
   def dispatch_to_bacula
     return false if not needs_dispatch?
-    BaculaHandler.new(self).deploy_config
+    bacula_handler.deploy_config
   end
 
   # Removes a Host from bacula configuration.
@@ -119,7 +119,18 @@ class Host < ActiveRecord::Base
   # If all go well it changes the host's status and returns true
   def remove_from_bacula
     return false unless needs_revoke?
-    BaculaHandler.new(self).undeploy_config
+    bacula_handler.undeploy_config
+  end
+
+  # Restores a host's backup to a preselected location
+  def restore
+    return false if client.jobs.backup_type.empty?
+    bacula_handler.restore
+  end
+
+  # Runs the given backup job ASAP
+  def backup_now(job_name)
+    bacula_handler.backup_now(job_name)
   end
 
   def needs_dispatch?
@@ -164,5 +175,9 @@ class Host < ActiveRecord::Base
     unless fqdn =~ regex
       self.errors.add(:fqdn)
     end
+  end
+
+  def bacula_handler
+    BaculaHandler.new(self)
   end
 end

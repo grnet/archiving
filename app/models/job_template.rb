@@ -51,7 +51,7 @@ class JobTemplate < ActiveRecord::Base
   # Sends a hot backup request to Bacula via BaculaHandler
   def backup_now
     return false if not (enabled? && baculized? && backup?)
-    BaculaHandler.new(host).backup_now(name)
+    host.backup_now(name)
   end
 
   private
