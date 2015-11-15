@@ -50,7 +50,14 @@ class BaculaHandler
     job = host.job_templates.enabled.find_by(name: job_name)
     return false unless job
     command = "echo \"run job=\\\"#{job.name_for_config}\\\" yes\" | #{bconsole}"
-    Rails.logger.warn("[BaculaHandler] : #{command}")
+    log(command)
+    exec_with_timeout(command, 2)
+  end
+
+  # Schedules an immediate restore to the bacula director for the given host.
+  def restore
+    command = "echo \"restore client=\\\"#{host.name}\\\" where=\\\"/tmp/bacula-restore\\\" select current all done yes\" | #{bconsole}"
+    log(command)
     exec_with_timeout(command, 2)
   end
 
@@ -114,5 +121,9 @@ class BaculaHandler
   def ssh_settings
     @ssh_settings ||= YAML::load(File.open("#{Rails.root}/config/ssh.yml"))[Rails.env].
       symbolize_keys
+  end
+
+  def log(msg)
+    Rails.logger.warn("[BaculaHandler]: #{msg}")
   end
 end
