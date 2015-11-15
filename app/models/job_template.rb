@@ -54,18 +54,6 @@ class JobTemplate < ActiveRecord::Base
     BaculaHandler.new(host).backup_now(name)
   end
 
-  def save_and_create_restore_job(location)
-    if save_status = save
-      restore_job = JobTemplate.new(
-        host: host, job_type: :restore,
-        fileset: fileset, name: 'Restore ' + name,
-        restore_location: location
-      )
-      restore_job.save
-    end
-    save_status
-  end
-
   private
 
   def notify_host
