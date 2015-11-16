@@ -36,3 +36,5 @@
 <br/>
 
 <%= link_to 'Back to clients', clients_path %>
+
+<%= render partial: 'client_graphs', locals: { path: client_path(@client) } %>

@@ -37,3 +37,7 @@ body {
 .graybox form {
   padding-top: 30px;
 }
+
+#_days_back {
+  margin: auto 10px;
+}

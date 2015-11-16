@@ -29,23 +29,25 @@
 <% if @hosts.any? %>
   <h1>My Pending Hosts</h1>
 
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>FQDN</th>
-        <th>Port</th>
-        <th>Password</th>
-        <th>FileRetention (days)</th>
-        <th>JobRetention (days)</th>
-        <th>AutoPrune</th>
-        <th>Created At</th>
-      </tr>
-    </thead>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>FQDN</th>
+          <th>Port</th>
+          <th>Password</th>
+          <th>FileRetention (days)</th>
+          <th>JobRetention (days)</th>
+          <th>AutoPrune</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'hosts/host', collection: @hosts %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
 
-    <tbody>
-      <%= render partial: 'hosts/host', collection: @hosts %>
-    </tbody>
-  </table>
-</div>
+<%= render partial: 'client_graphs', locals: { path: clients_path } %>
