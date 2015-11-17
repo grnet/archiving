@@ -15,3 +15,26 @@
 //= require bootstrap.min
 //= require_tree .
 //= require highcharts
+
+$(document).ready(function() {
+  $(".include_files-plus-sign").click(function() {
+    addIncludedFileTextArea();
+  });
+  $(".exclude_directions-plus-sign").click(function() {
+    addExcludeDirectionsTextArea();
+  });
+});
+
+function addIncludedFileTextArea() {
+  var textArrea = $('.include_files:last').clone(true).val("");
+  $('.include_files-plus-sign:first').parent().remove();
+  textArrea.insertAfter('.include_files:last');
+  $('.include_files:last input').val("");
+}
+
+function addExcludeDirectionsTextArea() {
+  var textArrea = $('.exclude_directions:last').clone(true).val("");
+  $('.exclude_directions-plus-sign:first').parent().remove();
+  textArrea.insertAfter('.exclude_directions:last');
+  $('.exclude_directions:last input').val("");
+}
