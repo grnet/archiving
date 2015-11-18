@@ -1,11 +1,13 @@
-<p id="notice"><%= notice %></p>
+<%= notifier(@host.display_message) unless @host.deployed? %>
 
 <div class="row right">
   <%= link_to 'Remove host', host_path(@host), method: :delete, data: { confirm: 'Are you sure?' },
     class: "btn btn-danger", role: "button" %>
 </div>
 
-<h2>Configuration for <%= @host.name %></h2>
+<h2>Configuration for <%= @host.name %>
+  <small><%= host_status_label(@host) %></small>
+</h2>
 
 <br/>
 

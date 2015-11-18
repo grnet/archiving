@@ -21,4 +21,10 @@ module FlashHelper
 
     nil
   end
+
+  def notifier(msg)
+    content_tag(:div, class: "alert #{bootstrap_class_for(msg[:severity])} fade in") do
+      content_tag(:p, msg[:message])
+    end
+  end
 end

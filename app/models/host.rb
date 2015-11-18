@@ -150,6 +150,22 @@ class Host < ActiveRecord::Base
     end
   end
 
+  def display_message
+    if !verified?
+      { message: 'Your host needs to be verified by an admin', severity: :alert }
+    elsif pending?
+      { message: 'client not configured yet', severity: :alert }
+    elsif configured? || dispatched?
+      { message: 'client not deployed to Bacula', severity: :alert }
+    elsif updated? || redispatched?
+      { message: 'client configuration changed, deploy needed', severity: :alert }
+    elsif for_removal?
+      { message: 'pending client configuration withdraw', severity: :error }
+    elsif inactive?
+      { message: 'client disabled', severity: :alert }
+    end
+  end
+
   private
 
   # automatic setters

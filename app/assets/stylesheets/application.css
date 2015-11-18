@@ -41,3 +41,7 @@ body {
 #_days_back {
   margin: auto 10px;
 }
+
+tr.fatal > td {
+  background-color: #EA7272;
+}
