@@ -8,4 +8,10 @@ class Log < ActiveRecord::Base
   alias_attribute :log_text, :LogText
 
   belongs_to :job, foreign_key: :JobId
+
+  def time_formatted
+    if time
+      I18n.l(time, format: :long)
+    end
+  end
 end

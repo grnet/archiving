@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   before_action :set_client, only: :show
+  before_action :fetch_logs
 
   # GET /clients
   def index
