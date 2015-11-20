@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151113234535) do
+ActiveRecord::Schema.define(version: 20151120182046) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -355,17 +355,19 @@ ActiveRecord::Schema.define(version: 20151113234535) do
   add_index "hosts", ["name"], name: "index_hosts_on_name", unique: true, length: {"name"=>128}, using: :btree
 
   create_table "job_templates", force: true do |t|
-    t.string   "name",                                       null: false
-    t.integer  "job_type",         limit: 1
+    t.string   "name",                                             null: false
+    t.integer  "job_type",               limit: 1
     t.integer  "host_id"
     t.integer  "fileset_id"
     t.integer  "schedule_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "enabled",                    default: false
+    t.boolean  "enabled",                          default: false
     t.binary   "restore_location"
-    t.boolean  "baculized",                  default: false
+    t.boolean  "baculized",                        default: false
     t.datetime "baculized_at"
+    t.string   "client_before_run_file"
+    t.string   "client_after_run_file"
   end
 
   create_table "ownerships", force: true do |t|
