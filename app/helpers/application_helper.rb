@@ -20,8 +20,8 @@ module ApplicationHelper
   def select_with_errors_and_button(object, resource, attr, attr_name, options, path)
     has_errors = object.errors[attr].present?
     content_tag(:div, class: "form-group #{' has-error' if has_errors }") do
-      attr_label = label(resource, attr, attr_name, class: 'control-label col-xs-4 required')
-      select_div = content_tag(:div, class: 'col-xs-6') do
+      attr_label = label(resource, attr, attr_name, class: 'control-label col-xs-5 required')
+      select_div = content_tag(:div, class: 'col-xs-5') do
         select_part = select_tag([resource, attr].join('_').to_sym,
                                  options,
                                  name: "#{resource}[#{attr}]",

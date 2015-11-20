@@ -29,6 +29,14 @@
         </tr>
       <% end %>
       <tr>
+        <td><b>Client Run Before Job</b></td>
+        <td><%= @job.client_before_run_file %></td>
+      </tr>
+      <tr>
+        <td><b>Client Run After Job</b></td>
+        <td><%= @job.client_after_run_file %></td>
+      </tr>
+      <tr>
         <td><b>Created</b></td>
         <td><%= I18n.l(@job.created_at, format: :long) %></td>
       </tr>

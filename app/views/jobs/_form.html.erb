@@ -1,4 +1,5 @@
-<%= bootstrap_form_for(@job, url: @job.new_record? ? host_jobs_path : host_job_path(@host, @job), layout: :horizontal, label_col: 'col-xs-4', control_col: 'col-xs-6') do |f| %>
+<%= bootstrap_form_for(@job, url: @job.new_record? ? host_jobs_path : host_job_path(@host, @job),
+                       layout: :horizontal, label_col: 'col-xs-5', control_col: 'col-xs-5') do |f| %>
   <%= f.text_field :name %>
 
   <%= select_with_errors_and_button(
@@ -16,6 +17,9 @@
       new_host_schedule_path(@host, job_id: @job.id))
     %>
   <% end %>
+
+  <%= f.text_field :client_before_run_file, label: 'Client Run Before Job' %>
+  <%= f.text_field :client_after_run_file, label: 'Client Run After Job' %>
 
   <div class="form-group">
     <div class="col-xs-offset-4 col-xs-8">

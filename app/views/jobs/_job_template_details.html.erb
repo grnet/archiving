@@ -3,6 +3,8 @@
   <td><%= job.job_type %></td>
   <td><%= job.fileset.name %></td>
   <td><%= job.schedule_human %></td>
+  <td><%= job.client_before_run_file %></td>
+  <td><%= job.client_after_run_file %></td>
   <td><%= job.priority %></td>
   <td>
     <% if job.enabled? %>
