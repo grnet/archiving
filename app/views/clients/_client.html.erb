@@ -1,11 +1,11 @@
 <tr>
   <td><%= link_to client.name, client %></td>
   <td><%= client.uname %></td>
-  <td><%= @active_jobs[client.id] || 0 %></td>
-  <td><%= client.last_job_date_formatted %></td>
+  <td><%= @stats.active_jobs[client.id] || 0 %></td>
+  <td><%= @stats.last_jobs[client.id] %></td>
   <td><%= client.file_retention_days %></td>
   <td><%= client.job_retention_days %></td>
-  <td><%= number_to_human_size(client.backup_jobs_size) %></td>
-  <td><%= number_by_magnitude(client.files_count) %></td>
+  <td><%= number_to_human_size(@stats.jobs_sizes[client.id]) %></td>
+  <td><%= number_by_magnitude(@stats.jobs_files[client.id]) %></td>
   <td><%= client.auto_prune_human %></td>
 </tr>
