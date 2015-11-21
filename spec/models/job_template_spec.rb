@@ -105,7 +105,10 @@ describe JobTemplate do
   end
 
   describe '#to_bacula_config_array' do
-    let(:job_template) { FactoryGirl.create(:job_template) }
+    let(:job_template) do
+      FactoryGirl.create(:job_template, client_before_run_file: 'test',
+                         client_after_run_file: 'test2')
+    end
 
     subject { job_template.to_bacula_config_array }
 
@@ -138,6 +141,14 @@ describe JobTemplate do
 
     it 'assigns Schedule param' do
       expect(subject).to include("  Schedule = \"#{job_template.schedule.name_for_config}\"")
+    end
+
+    it 'assigns Client Run After Job param' do
+      expect(subject).to include("  Client Run After Job = \"#{job_template.client_after_run_file}\"")
+    end
+
+    it 'assigns Client Run After Job param' do
+      expect(subject).to include("  Client Run Before Job = \"#{job_template.client_before_run_file}\"")
     end
   end
 end

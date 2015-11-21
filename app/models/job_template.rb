@@ -66,12 +66,21 @@ class JobTemplate < ActiveRecord::Base
   end
 
   def options_array
-    [
+    result = [
       "Name = \"#{name_for_config}\"",
       "FileSet = \"#{fileset.name_for_config}\"",
       "Client = \"#{host.name}\"",
       "Type = \"#{job_type.capitalize}\"",
       "Schedule = \"#{schedule.name_for_config}\""
     ]
+
+    if client_before_run_file.present?
+      result += ["Client Run Before Job = \"#{client_before_run_file}\""]
+    end
+    if client_after_run_file.present?
+      result += ["Client Run After Job = \"#{client_after_run_file}\""]
+    end
+
+    result
   end
 end
