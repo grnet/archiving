@@ -45,7 +45,7 @@ class BaculaHandler
 
   # Schedules an immediate backup to the bacula director for the given host and job
   #
-  # @params job_name[String] the job's name
+  # @param job_name[String] the job's name
   def backup_now(job_name)
     job = host.job_templates.enabled.find_by(name: job_name)
     return false unless job
@@ -55,8 +55,10 @@ class BaculaHandler
   end
 
   # Schedules an immediate restore to the bacula director for the given host.
-  def restore
-    command = "echo \"restore client=\\\"#{host.name}\\\" where=\\\"/tmp/bacula-restore\\\" select current all done yes\" | #{bconsole}"
+  #
+  # @param location[String] the desired restore location
+  def restore(location="/tmp/bacula-restore")
+    command = "echo \"restore client=\\\"#{host.name}\\\" where=\\\"#{location}\\\" select current all done yes\" | #{bconsole}"
     log(command)
     exec_with_timeout(command, 2)
   end

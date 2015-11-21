@@ -44,11 +44,7 @@
   <div>
     <% if @client.is_backed_up? %>
       <%= link_to 'Restore Files', restore_host_path(@client.host),
-        class: "btn btn-warning", role: "button", method: :post,
-        data: {
-          confirm: "This will restore all your files at the most recent backup (#{@client.last_job_date_formatted})"
-        }
-        %>
+        class: "btn btn-warning", role: "button" %>
     <% end %>
   </div>
 </div>

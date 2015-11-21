@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   resources :hosts, only: [:new, :create, :show, :edit, :update, :destroy] do
     member do
       post :submit_config
-      post :restore
+      get :restore
+      post :run_restore
       delete :revoke
     end
 

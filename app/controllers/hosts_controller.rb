@@ -1,6 +1,6 @@
 class HostsController < ApplicationController
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
-                                    :revoke, :restore]
+                                    :revoke, :restore, :run_restore]
 
   # GET /hosts/new
   def new
@@ -71,10 +71,19 @@ class HostsController < ApplicationController
     redirect_to root_path
   end
 
-  # POST /hosts/1/restore
+  # GET /hosts/1/restore
   def restore
-    if @host.restore
-      flash[:success] = 'Restore job issued successfully, files will be soon available in your restore location'
+    if !@host.restorable?
+      flash[:error] = "Can not issue a restore for this client"
+      redirect_to @host.client.present? ? client_path(@host.client) : root_path
+    end
+  end
+
+  # POST /hosts/1/run_estore
+  def run_restore
+    location = params[:restore_location]
+    if location.present? && @host.restore(location)
+      flash[:success] = "Restore job issued successfully, files will be soon available in #{location}"
     else
       flash[:error] = 'Something went wrong, try again later'
     end

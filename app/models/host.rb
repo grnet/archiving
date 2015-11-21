@@ -123,9 +123,11 @@ class Host < ActiveRecord::Base
   end
 
   # Restores a host's backup to a preselected location
-  def restore
-    return false if client.jobs.backup_type.empty?
-    bacula_handler.restore
+  #
+  # @param location[String] the desired restore location
+  def restore(location)
+    return false if not restorable?
+    bacula_handler.restore(location)
   end
 
   # Runs the given backup job ASAP
@@ -164,6 +166,13 @@ class Host < ActiveRecord::Base
     elsif inactive?
       { message: 'client disabled', severity: :alert }
     end
+  end
+
+  # Determines if a host can issue a restore job.
+  #
+  # @returns [Boolean] true if the host's client can issue a restore job
+  def restorable?
+    client.present? && client.is_backed_up?
   end
 
   private
