@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'clients#index'
+
   resources :clients, only: [:index, :show]
 
   resources :hosts, only: [:new, :create, :show, :edit, :update, :destroy] do
@@ -20,5 +22,7 @@ Rails.application.routes.draw do
     resources :schedules, only: [:show, :new, :edit, :create, :update, :destroy]
   end
 
-  root 'clients#index'
+  namespace :admin do
+    get '/' => 'base#index'
+  end
 end
