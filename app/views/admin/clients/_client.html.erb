@@ -1,0 +1,12 @@
+<tr>
+  <td><%= link_to "##{client.id}", admin_client_path(client) %></td>
+  <td><%= link_to client.name, admin_client_path(client) %></td>
+  <td><%= client.uname %></td>
+  <td><%= @stats.active_jobs[client.id] || 0 %></td>
+  <td><%= @stats.last_jobs[client.id] %></td>
+  <td><%= client.file_retention_days %></td>
+  <td><%= client.job_retention_days %></td>
+  <td><%= number_to_human_size(@stats.jobs_sizes[client.id]) %></td>
+  <td><%= number_by_magnitude(@stats.jobs_files[client.id]) %></td>
+  <td><%= client.auto_prune_human %></td>
+</tr>

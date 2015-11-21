@@ -1,0 +1,18 @@
+<br />
+<div class='row'>
+  <div class="col-xs-4">
+    <div id="jobs_status"></div>
+  </div>
+  <div class="col-xs-4">
+    <div id="jobs_stats"></div>
+  </div>
+  <div class="col-xs-4">
+    <%= bootstrap_form_tag(url: path, method: :get, layout: :inline) do |f| %>
+      <%= f.select(:days_back, [['1 week', 7], ['2 weeks', 14], ['1 month', 30]]) %>
+      <%= f.submit 'See Stats', class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<%= baas_chart('jobs_status', @job_status) %>
+<%= baas_chart('jobs_stats', @job_stats) %>

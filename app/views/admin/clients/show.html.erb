@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+<% if @client.host %>
+  <div class="row right">
+    <%= link_to 'Manage Client', 'admin_host_path(@client.host)', class: "btn btn-primary", role: "button" %>
+  </div>
+<% end %>
+
+<h2><%= @client.name %></h2>
+
+<div class="row">
+  <div class="col-xs-4">
+    <h3>Client Details</h3>
+  </div>
+  <div class="col-xs-6">
+    <h3>Bacula Jobs</h3>
+  </div>
+</div>
+
+<div class="row">
+  <%= render partial: 'client_details' %>
+  <div class="col-xs-8">
+    <div class="row">
+      <% if @client.host %>
+        <%= render partial: 'jobs' %>
+      <% end %>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <h3>Recent Jobs</h3>
+      </div>
+    </div>
+    <div class="row">
+      <%= render partial: 'recent_jobs' %>
+    </div>
+  </div>
+</div>
+
+<br/>
+
+<%= render partial: 'client_graphs', locals: { path: admin_client_path(@client) } %>
+
+<br/>
+
+<%= render partial: 'logs' %>
