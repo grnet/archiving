@@ -11,6 +11,7 @@ class Fileset < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { scope: :host }
   validate :has_included_files, on: :create
+  validates_with NameValidator
 
   before_save :sanitize_exclude_directions, :sanitize_include_directions
 

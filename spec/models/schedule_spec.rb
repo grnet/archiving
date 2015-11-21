@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Schedule do
   context 'validates' do
     it 'presence of name' do
-      expect(Schedule.new).to have(1).errors_on(:name)
+      expect(Schedule.new).to have(2).errors_on(:name)
     end
 
     it 'presence of runs' do

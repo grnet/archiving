@@ -10,6 +10,7 @@ class JobTemplate < ActiveRecord::Base
   validates :name, :fileset_id,  presence: true
   validates :schedule_id, presence: true, unless: :restore?
   validates :name, uniqueness: { scope: :host }
+  validates_with NameValidator
 
   before_save :set_job_type
   after_save :notify_host
@@ -55,6 +56,12 @@ class JobTemplate < ActiveRecord::Base
   end
 
   private
+
+  def name_format
+    unless name =~ /^[a-zA-Z0-1\.-_ ]+$/
+      self.errors.add(:name, :format)
+    end
+  end
 
   def notify_host
     host.recalculate

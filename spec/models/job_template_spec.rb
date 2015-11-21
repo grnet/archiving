@@ -3,7 +3,7 @@ require 'spec_helper'
 describe JobTemplate do
   context 'validates' do
     it 'name must be present' do
-      expect(JobTemplate.new).to have(1).errors_on(:name)
+      expect(JobTemplate.new).to have(2).errors_on(:name)
     end
 
     it 'name must be unique on host\'s scope' do

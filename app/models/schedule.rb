@@ -12,8 +12,8 @@ class Schedule < ActiveRecord::Base
   belongs_to :host
 
   validates :name, :runs, presence: true
-
   validates :name, uniqueness: { scope: :host }
+  validates_with NameValidator
 
   before_validation :set_runs, if: Proc.new { |s| s.runtime.present? }
 
