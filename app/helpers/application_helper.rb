@@ -50,4 +50,32 @@ module ApplicationHelper
       when 'E' then 'danger'
     end
   end
+
+  # Fetches the html class for a given path
+  #
+  # @param path[String] the path to check for
+  # @param partial[Boolean] forces a left partial match
+  #
+  # @return [Hash] { class: 'active' } if the given path is the current page
+  def active_class(path, partial = false)
+    if current_page?(path) || (partial && request.path.starts_with?(path))
+      { class: 'active' }
+    else
+      {}
+    end
+  end
+
+  # Constructs a breadcrumb out the given options
+  #
+  # @param options[Hash] a hash containing the breadcrumb links in name: path sets
+  # @return an html ol breadcrumb
+  def breadcrumb_with(options)
+    content_tag(:ol, class: 'breadcrumb') do
+      options.map { |name, path|
+        content_tag(:li, active_class(path)) do
+          link_to_if !current_page?(path), name, path
+        end
+      }.inject { |result, element| result.concat(element) }
+    end
+  end
 end
