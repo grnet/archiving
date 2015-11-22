@@ -1,0 +1,25 @@
+<h1>Settings</h1>
+
+<% if !@settings.persisted? %>
+  <div class="alert alert-warning" role="alert">
+    The following configuration is the default configuration.
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-xs-4">
+    <h3>Client Settings</h3>
+  </div>
+  <div class="col-xs-4">
+    <h3>Job Settings</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <%= table_for(ConfigurationSetting.current_job_settings) %>
+  </div>
+  <div class="col-xs-4">
+    <%= table_for(ConfigurationSetting.current_client_settings) %>
+  </div>
+</div>
