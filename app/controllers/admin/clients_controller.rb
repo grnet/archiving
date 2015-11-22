@@ -1,5 +1,6 @@
 class Admin::ClientsController < Admin::BaseController
-  before_action :fetch_client, only: [:show]
+  before_action :fetch_client, only: [:show, :jobs, :logs, :stats]
+  before_action :fetch_logs, only: [:logs]
 
   # Shows all available clients
   #
@@ -14,8 +15,19 @@ class Admin::ClientsController < Admin::BaseController
   #
   # GET /admin/clients/1
   def show
-    @client_ids = [@client.id]
-    get_logs
+    get_charts
+  end
+
+  # GET /admin/clients/1/jobs
+  def jobs; end
+
+  # GET /admin/clients/1/logs
+  def logs
+  end
+
+  # GET /admin/clients/1/stats
+  # POST /admin/clients/1/stats
+  def stats
     get_charts
   end
 
@@ -24,6 +36,7 @@ class Admin::ClientsController < Admin::BaseController
   # Fetches the client based on the given id
   def fetch_client
     @client = Client.find(params[:id])
+    @client_ids = [@client.id]
   end
 
   def fetch_jobs_info

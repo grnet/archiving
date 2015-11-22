@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
-  before_action :set_client, only: :show
-  before_action :fetch_logs
+  before_action :set_client, only: [:show, :jobs, :logs, :stats]
+  before_action :fetch_logs, only: [:logs]
 
   # GET /clients
   def index
@@ -13,7 +13,16 @@ class ClientsController < ApplicationController
 
   # GET /clients/1
   def show
-    @client_ids = [@client.id]
+  end
+
+  # GET /clients/1/jobs
+  def jobs; end
+
+  # GET /clients/1/logs
+  def logs; end
+
+  # GET /clients/1/stats
+  def stats
     get_charts
   end
 
@@ -21,6 +30,7 @@ class ClientsController < ApplicationController
 
   def set_client
     @client = Client.for_user(current_user.id).find(params[:id])
+    @client_ids = [@client.id]
   end
 
   def fetch_jobs_info

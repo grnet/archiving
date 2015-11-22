@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
   root 'clients#index'
 
-  resources :clients, only: [:index, :show]
+  resources :clients, only: [:index, :show] do
+    member do
+      get :jobs
+      get :logs
+      get :stats
+    end
+  end
 
   resources :hosts, only: [:new, :create, :show, :edit, :update, :destroy] do
     member do
@@ -25,6 +31,13 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/' => 'base#index'
 
-    resources :clients, only: [:index, :show]
+    resources :clients, only: [:index, :show] do
+      member do
+        get :jobs
+        get :logs
+        get :stats
+        post :stats
+      end
+    end
   end
 end

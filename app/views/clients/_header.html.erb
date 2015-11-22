@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+<% if @client.host %>
+  <div class="row right">
+    <%= link_to 'Manage Client', host_path(@client.host), class: "btn btn-primary", role: "button" %>
+  </div>
+<% end %>
+
+<%= breadcrumb_with Client: client_path(@client), Jobs: jobs_client_path(@client),
+                    Stats: stats_client_path(@client), Logs: logs_client_path(@client) %>
+
+<h2>
+  <%= @client.name %>
+  <small><%= host_status_label(@client.host) %></small>
+</h2>
