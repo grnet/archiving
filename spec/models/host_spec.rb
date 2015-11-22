@@ -51,7 +51,8 @@ describe Host do
     end
 
     it "contains Catalog directive" do
-      expect(host.to_bacula_config_array).to include("  Catalog = #{Host::CATALOG}")
+      expect(host.to_bacula_config_array).
+        to include("  Catalog = #{ConfigurationSetting.current_client_settings[:catalog]}")
     end
 
     it "contains Password directive" do

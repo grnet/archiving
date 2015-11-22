@@ -1,11 +1,6 @@
 class Host < ActiveRecord::Base
   establish_connection Baas::settings[:local_db]
 
-  FILE_RETENTION_DAYS = 60
-  JOB_RETENTION_DAYS = 180
-  CATALOG = 'MyCatalog'
-  AUTOPRUNE = 1
-
   STATUSES = {
     pending: 0,
     configured: 1,
@@ -93,17 +88,17 @@ class Host < ActiveRecord::Base
       "  Name = #{name}",
       "  Address = #{fqdn}",
       "  FDPort = #{port}",
-      "  Catalog = #{CATALOG}",
+      "  Catalog = #{client_settings[:catalog]}",
       "  Password = \"#{password}\"",
-      "  File Retention = #{file_retention} days",
-      "  Job Retention = #{job_retention} days",
-      "  AutoPrune = yes",
+      "  File Retention = #{file_retention} #{file_retention_period_type}",
+      "  Job Retention = #{job_retention} #{job_retention_period_type}",
+      "  AutoPrune = #{auto_prune_human}",
       "}"
     ]
   end
 
   def auto_prune_human
-    AUTOPRUNE == 1 ? 'yes' : 'no'
+    client_settings[:autoprune]
   end
 
   # Uploads the host's config to bacula
@@ -200,9 +195,12 @@ class Host < ActiveRecord::Base
     self.name = fqdn
   end
 
+  # Sets the file and job retention according to the global settings
   def set_retention
-    self.file_retention = FILE_RETENTION_DAYS
-    self.job_retention = JOB_RETENTION_DAYS
+    self.file_retention = client_settings[:file_retention]
+    self.file_retention_period_type = client_settings[:file_retention_period_type]
+    self.job_retention = client_settings[:job_retention]
+    self.job_retention_period_type = client_settings[:job_retention_period_type]
   end
 
   def unset_baculized
@@ -221,5 +219,13 @@ class Host < ActiveRecord::Base
 
   def bacula_handler
     BaculaHandler.new(self)
+  end
+
+  # Fetches and memoizes the general configuration settings for Clients
+  #
+  # @see ConfigurationSetting.current_client_settings
+  # @return [Hash] containing the settings
+  def client_settings
+    @client_settings ||= ConfigurationSetting.current_client_settings
   end
 end

@@ -25,13 +25,16 @@ class ConfigurationSetting < ActiveRecord::Base
   }
 
   CLIENT = {
+    catalog: 'MyCatalog',
     file_retention: 60,
-    file_retention_period: :days,
+    file_retention_period_type: 'days',
     job_retention: 180,
-    job_retention_period: :days
+    job_retention_period_type: 'days',
+    autoprune: 'yes'
   }
 
   RETENTION_PERIODS = %w{seconds minutes hours days weeks months quarters years}
+  AUTOPRUNE_OPTIONS = ['yes', 'no']
 
   # Fetches the current configuration for jobs.
   #
