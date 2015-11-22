@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151122124400) do
+ActiveRecord::Schema.define(version: 20151122190659) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -323,6 +323,13 @@ ActiveRecord::Schema.define(version: 20151122124400) do
 
   create_table "Version", id: false, force: true do |t|
     t.integer "VersionId", null: false
+  end
+
+  create_table "configuration_settings", force: true do |t|
+    t.string   "job",        default: "{}"
+    t.string   "client",     default: "{}"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "filesets", force: true do |t|
