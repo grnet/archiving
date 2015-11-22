@@ -117,7 +117,7 @@ describe JobTemplate do
       expect(subject.last).to eq('}')
     end
 
-    JobTemplate::DEFAULT_OPTIONS.each do |k, v|
+    ConfigurationSetting.current_job_settings.each do |k, v|
       it "assigns #{k.capitalize} param" do
         expect(subject).to include("  #{k.capitalize} = #{v}")
       end

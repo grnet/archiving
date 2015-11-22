@@ -17,24 +17,15 @@ class JobTemplate < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
 
-  # configurable
-  DEFAULT_OPTIONS = {
-    storage: :File,
-    pool: :Default,
-    messages: :Standard,
-    priority: 10,
-    :'Write Bootstrap' => '"/var/lib/bacula/%c.bsr"'
-  }
-
   def to_bacula_config_array
     ['Job {'] +
       options_array.map { |x| "  #{x}" } +
-      DEFAULT_OPTIONS.map { |k,v| "  #{k.capitalize} = #{v}" } +
+      job_settings.map { |k,v| "  #{k.capitalize} = #{v}" } +
       ['}']
   end
 
   def priority
-    DEFAULT_OPTIONS[:priority]
+    job_settings[:priority]
   end
 
   def enabled_human
@@ -89,5 +80,13 @@ class JobTemplate < ActiveRecord::Base
     end
 
     result
+  end
+
+  # Fetches and memoizes the general configuration settings for Jobs
+  #
+  # @see ConfigurationSetting.current_job_settings
+  # @return [Hash] containing the settings
+  def job_settings
+    @job_settings ||= ConfigurationSetting.current_job_settings
   end
 end
