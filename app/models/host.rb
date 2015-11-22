@@ -20,6 +20,7 @@ class Host < ActiveRecord::Base
   has_many :users, through: :ownerships, inverse_of: :hosts
 
   belongs_to :client, class_name: :Client, foreign_key: :name, primary_key: :name
+  belongs_to :verifier, class_name: :User, foreign_key: :verifier_id, primary_key: :id
 
   has_many :filesets, dependent: :destroy
   has_many :job_templates, dependent: :destroy

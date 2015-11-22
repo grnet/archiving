@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120182046) do
+ActiveRecord::Schema.define(version: 20151122124400) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -350,6 +350,8 @@ ActiveRecord::Schema.define(version: 20151120182046) do
     t.integer  "status",         limit: 1,   default: 0
     t.integer  "client_id"
     t.boolean  "verified",                   default: false
+    t.datetime "verified_at"
+    t.integer  "verifier_id"
   end
 
   add_index "hosts", ["name"], name: "index_hosts_on_name", unique: true, length: {"name"=>128}, using: :btree
