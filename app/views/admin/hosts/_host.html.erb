@@ -1,0 +1,13 @@
+<tr>
+  <td><%= link_to host.name, admin_host_path(host) %></td>
+  <td><%= host.fqdn %></td>
+  <td><%= host.first_user.display_name %></td>
+  <td><%= host.port %></td>
+  <td><%= I18n.l(host.created_at, format: :long) %></td>
+  <td>
+    <%= link_to 'Verify', verify_admin_host_path(host), method: :post,
+      class: "btn btn-success", role: "button",
+      data: { confirm: "Host #{host.name} will be ready to be dispatched to Bacula" }
+    %>
+  </td>
+</tr>

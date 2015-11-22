@@ -44,5 +44,15 @@ Rails.application.routes.draw do
         post :stats
       end
     end
+
+    resources :hosts, only: [:show] do
+      collection do
+        get :unverified
+      end
+
+      member do
+        post :verify
+      end
+    end
   end
 end

@@ -34,6 +34,9 @@
           <%= content_tag(:li, active_class(admin_clients_path, true)) do %>
             <%= link_to 'Clients', admin_clients_path %>
           <% end %>
+          <%= content_tag(:li, active_class(unverified_admin_hosts_path, true)) do %>
+            <%= link_to 'Hosts', unverified_admin_hosts_path %>
+          <% end %>
         <% end %>
       </ul>
     </div><!--/.nav-collapse -->

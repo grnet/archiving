@@ -37,6 +37,7 @@ class Host < ActiveRecord::Base
   scope :not_baculized, -> {
     joins("left join Client on Client.Name = hosts.name").where(Client: { Name: nil })
   }
+  scope :unverified, -> { where(verified: false) }
 
   before_validation :set_retention, :unset_baculized, :sanitize_name
 
@@ -174,6 +175,11 @@ class Host < ActiveRecord::Base
   # @returns [Boolean] true if the host's client can issue a restore job
   def restorable?
     client.present? && client.is_backed_up?
+  end
+
+  # @return [User] the first of the host's users
+  def first_user
+    users.order('ownerships.created_at asc').first
   end
 
   # Marks the host as verified and sets the relevant metadata
