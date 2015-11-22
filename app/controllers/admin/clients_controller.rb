@@ -1,5 +1,5 @@
 class Admin::ClientsController < Admin::BaseController
-  before_action :fetch_client, only: [:show, :jobs, :logs, :stats]
+  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :configuration]
   before_action :fetch_logs, only: [:logs]
 
   # Shows all available clients
@@ -31,6 +31,10 @@ class Admin::ClientsController < Admin::BaseController
   # POST /admin/clients/1/stats
   def stats
     get_charts
+  end
+
+  # GET /admin/clients/1/configuration
+  def configuration
   end
 
   private

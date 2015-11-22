@@ -42,6 +42,7 @@ Rails.application.routes.draw do
         get :logs
         get :stats
         post :stats
+        get :configuration
       end
     end
 
