@@ -9,6 +9,8 @@ class Log < ActiveRecord::Base
 
   belongs_to :job, foreign_key: :JobId
 
+  paginates_per 20
+
   def time_formatted
     if time
       I18n.l(time, format: :long)

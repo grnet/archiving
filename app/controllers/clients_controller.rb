@@ -17,7 +17,9 @@ class ClientsController < ApplicationController
   end
 
   # GET /clients/1/jobs
-  def jobs; end
+  def jobs
+    @jobs = @client.recent_jobs.page(params[:page])
+  end
 
   # GET /clients/1/logs
   def logs; end

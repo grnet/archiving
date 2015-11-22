@@ -2,9 +2,19 @@
 
 <div class="row">
   <div class="col-xs-6">
-    <h3>Recent Jobs</h3>
+    <h3>Recent Jobs <small>(<%= @jobs.total_count %>)</small></h3>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <%= page_entries_info @jobs, entry_name: 'job' %>
+  </div>
+  <div class="col-xs-4 right text-right">
+    <%= paginate @jobs %>
+  </div>
+</div>
+
 <div class="row">
   <%= render partial: 'recent_jobs' %>
 </div>

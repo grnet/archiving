@@ -67,6 +67,8 @@ class Job < ActiveRecord::Base
       't' => 'Waiting on start time'
   }
 
+  paginates_per 20
+
   def level_human
     {
       'F' => 'Full',

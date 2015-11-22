@@ -14,7 +14,6 @@ class Client < ActiveRecord::Base
   scope :for_user, ->(user_id) { joins(host: :users).where(users: { id: user_id }) }
 
   DAY_SECS = 60 * 60 * 24
-  RECENT_JOBS_COUNT = 5
 
   # Fetches the client's job_templates that are already persisted to
   #  Bacula's configuration
@@ -28,7 +27,7 @@ class Client < ActiveRecord::Base
   #
   # @return [ActiveRecord::Relation] of `Job`
   def recent_jobs
-    jobs.order(EndTime: :desc).limit(RECENT_JOBS_COUNT).includes(:file_set)
+    jobs.order(EndTime: :desc).includes(:file_set)
   end
 
   # Helper method. It shows the client's  job retention,
