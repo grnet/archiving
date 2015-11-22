@@ -87,4 +87,13 @@ class Client < ActiveRecord::Base
   def running_jobs
     jobs.running.count
   end
+
+  # Displays the bacula config that is generated from the client's
+  # host
+  #
+  # @return [String]
+  def bacula_config
+    return unless host
+    host.baculize_config.join("\n")
+  end
 end
