@@ -48,6 +48,7 @@ module ApplicationHelper
     case status
       when 'T' then 'success'
       when 'E' then 'danger'
+      when 'f' then 'fatal'
     end
   end
 
