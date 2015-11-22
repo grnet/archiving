@@ -1,6 +1,8 @@
 class Admin::BaseController < ApplicationController
   before_action :require_admin
 
+  # GET /admin
+  # POST /admin
   def index
     @client_ids = Client.pluck(:ClientId)
     get_charts

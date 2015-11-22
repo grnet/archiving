@@ -6,6 +6,11 @@ Rails.application.routes.draw do
       get :jobs
       get :logs
       get :stats
+      post :stats
+    end
+
+    collection do
+      post :index
     end
   end
 
@@ -29,7 +34,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get '/' => 'base#index'
+    match '/', to: 'base#index', via: [:get, :post]
 
     resources :clients, only: [:index, :show] do
       member do

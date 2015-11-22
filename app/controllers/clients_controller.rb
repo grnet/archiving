@@ -3,6 +3,7 @@ class ClientsController < ApplicationController
   before_action :fetch_logs, only: [:logs]
 
   # GET /clients
+  # POST /clients
   def index
     @client_ids = Client.for_user(current_user.id).pluck(:ClientId)
     @clients = Client.where(ClientId: @client_ids).includes(:jobs)
@@ -22,6 +23,7 @@ class ClientsController < ApplicationController
   def logs; end
 
   # GET /clients/1/stats
+  # POST /clients/1/stats
   def stats
     get_charts
   end
