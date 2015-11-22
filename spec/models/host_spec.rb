@@ -294,4 +294,20 @@ describe Host do
       end
     end
   end
+
+  describe '#verify' do
+    let!(:host) { FactoryGirl.create(:host, verified: false) }
+    let(:admin) { FactoryGirl.create(:user, :admin) }
+
+    it 'verifies host' do
+      host.verify(admin.id)
+      expect(host).to be_verified
+    end
+
+    it 'sets the verification credentials' do
+      host.verify(admin.id)
+      expect(host.verifier_id).to eq(admin.id)
+      expect(host.verified_at).not_to be nil
+    end
+  end
 end

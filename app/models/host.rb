@@ -176,6 +176,16 @@ class Host < ActiveRecord::Base
     client.present? && client.is_backed_up?
   end
 
+  # Marks the host as verified and sets the relevant metadata
+  #
+  # @param admin_verifier[Integer] the verifier's id
+  def verify(admin_verifier)
+    self.verified = true
+    self.verifier_id = admin_verifier
+    self.verified_at = Time.now
+    save
+  end
+
   private
 
   # automatic setters
