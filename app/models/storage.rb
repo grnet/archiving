@@ -7,4 +7,8 @@ class Storage < ActiveRecord::Base
   alias_attribute :auto_changer, :AutoChanger
 
   has_many :media, foreign_key: :StorageId
+
+  def self.available_options
+    pluck(:Name)
+  end
 end

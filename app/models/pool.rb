@@ -30,4 +30,8 @@ class Pool < ActiveRecord::Base
 
   has_many :jobs, foreign_key: :PoolId
   has_many :media, foreign_key: :PoolId
+
+  def self.available_options
+    pluck(:Name)
+  end
 end

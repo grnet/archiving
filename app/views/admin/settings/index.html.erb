@@ -23,3 +23,20 @@
     <%= table_for(ConfigurationSetting.current_client_settings) %>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xs-2">
+    <%= link_to 'Change Config',
+      @settings.persisted? ? edit_admin_setting_path(@settings) : new_admin_setting_path,
+      class: 'btn btn-primary', role: 'button'
+    %>
+  </div>
+  <% if @settings.persisted? %>
+    <div class="col-xs-2">
+      <%= link_to 'Restore to defaults', reset_admin_setting_path(@settings), method: :delete,
+          data: { confirm: 'This will reset the configuration to the defaults' },
+          class: 'btn btn-danger', role: 'button'
+      %>
+    </div>
+  <% end %>
+</div>

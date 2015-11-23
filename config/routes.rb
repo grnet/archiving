@@ -36,7 +36,11 @@ Rails.application.routes.draw do
   namespace :admin do
     match '/', to: 'base#index', via: [:get, :post]
 
-    resources :settings
+    resources :settings, only: [:index, :new, :create, :edit, :update] do
+      member do
+        delete :reset
+      end
+    end
 
     resources :clients, only: [:index, :show] do
       member do

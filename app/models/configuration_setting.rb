@@ -57,4 +57,24 @@ class ConfigurationSetting < ActiveRecord::Base
   def self.current_client_settings
     (last || new).client.symbolize_keys.reverse_merge(CLIENT.dup)
   end
+
+  # Fetches the record's configuration for jobs.
+  #
+  # The configuration is the record's configuration patched to the default
+  # settings.
+  #
+  # @return [Hash] with settings
+  def current_job_settings
+    job.symbolize_keys.reverse_merge(JOB.dup)
+  end
+
+  # Fetches the record's configuration for clients.
+  #
+  # The configuration is the record's configuration patched to the default
+  # settings.
+  #
+  # @return [Hash] with settings
+  def current_client_settings
+    client.symbolize_keys.reverse_merge(CLIENT.dup)
+  end
 end
