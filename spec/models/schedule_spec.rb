@@ -6,10 +6,6 @@ describe Schedule do
       expect(Schedule.new).to have(2).errors_on(:name)
     end
 
-    it 'presence of runs' do
-      expect(Schedule.new).to have(1).errors_on(:runs)
-    end
-
     context 'schedule name is unique in the host\'s scope' do
       let!(:schedule_1) { FactoryGirl.create(:schedule, name: 'Schedule_1') }
       let(:schedule_2) { FactoryGirl.build(:schedule, name: 'Schedule_1') }
@@ -26,17 +22,11 @@ describe Schedule do
   end
 
   describe '#to_bacula_config_array' do
-    let(:runs) do
-      [
-        'Full 1st sun at 23:05',
-        'Differential 2nd-5th sun at 23:50',
-        'Incremental mon-sat at 23:50'
-      ]
+    let(:schedule) do
+      FactoryGirl.create(:schedule, name: 'Test Schedule')
     end
 
-    let(:schedule) do
-      FactoryGirl.create(:schedule, name: 'Test Schedule', runs: runs)
-    end
+    let!(:schedule_run) { FactoryGirl.create(:schedule_run, schedule: schedule) }
 
     subject { schedule.to_bacula_config_array }
 
@@ -50,9 +40,7 @@ describe Schedule do
     end
 
     it 'contains the runs' do
-      runs.each do |r|
-        expect(subject).to include("  Run = #{r}")
-      end
+      expect(subject).to include("  Run = #{schedule.schedule_runs.first.schedule_line}")
     end
   end
 end

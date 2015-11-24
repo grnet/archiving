@@ -1,23 +1,45 @@
 <%= bootstrap_form_for(@schedule, url: host_schedules_path(@host), layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
-  <% if @schedule.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@schedule.errors.count, "error") %> prohibited this schedule from being saved:</h2>
+  <%= f.text_field :name, required: true %>
 
+  <hr />
+  <% if ['schedule_runs.day','schedule_runs.month','scheduled_runs.time'] - @schedule.errors.keys %>
+    <div id="error_explanation" class="has-error">
       <ul>
-      <% @schedule.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @schedule.errors.full_messages.each do |message| %>
+          <li><span class="help-block"><%= message %></span></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= f.text_field :name %>
-    <%= f.time_field :runtime, placeholder: 'HH:MM' %>
-    <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
+  <%= f.fields_for :schedule_runs_attributes, index: nil do |r| %>
+    <div class="schedule_run_form">
+      <%= r.select :level, options_for_select(ScheduleRun.levels.keys) %>
+      <%= r.text_field :month, placeholder: '[month | month-range]' %>
+      <p class="col-xs-10 col-xs-offset-1 help-block text-right">eg: jan-mar, feb, monthly</p>
+      <%= r.text_field :day, placeholder: '[week | week-range] day | day-range',
+        required: true %>
+      <p class="col-xs-10 col-xs-offset-1 help-block text-right">
+eg: first sun, second-fifth mon, mon-sat
+      </p>
+      <%= r.time_field :time, placeholder: 'HH:MM', required: true %>
+    </div>
+    <hr />
+  <% end %>
+
+  <div class="col-xs-1 col-xs-offset-10">
+    <%= link_to '#', class: 'schedule_run_form_remove', style: 'display:none;' do %>
+      <span class="glyphicon glyphicon-remove text-danger"></span>
+    <% end %>
+  </div>
+  <div class="col-xs-1 col-xs-offset-10">
+    <%= link_to '#', class: 'schedule_run_form_plus' do %>
+      <span class="glyphicon glyphicon-plus text-success"></span>
+    <% end %>
   </div>
 
+  <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
 
   <div class="form-group">
     <div class="col-xs-offset-3 col-xs-8">

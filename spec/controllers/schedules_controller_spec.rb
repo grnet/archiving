@@ -30,7 +30,7 @@ describe SchedulesController do
       let(:params) do
         {
           host_id: host.id,
-          schedule: { name: FactoryGirl.build(:schedule).name, runtime: '19:17' }
+          schedule: { name: FactoryGirl.build(:schedule).name }
         }
       end
 

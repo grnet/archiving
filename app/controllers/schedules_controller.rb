@@ -46,6 +46,7 @@ class SchedulesController < ApplicationController
   end
 
   def fetch_params
-    params.require(:schedule).permit(:name)
+    params.require(:schedule).
+      permit(:name, { schedule_runs_attributes: [[:level, :month, :day, :time]] })
   end
 end

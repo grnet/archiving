@@ -23,6 +23,12 @@ $(document).ready(function() {
   $(".exclude_directions-plus-sign").click(function() {
     addExcludeDirectionsTextArea();
   });
+  $(".schedule_run_form_plus").click(function() {
+    addScheduleRun();
+  });
+  $(".schedule_run_form_remove").click(function() {
+    removeScheduleRun();
+  });
 });
 
 function addIncludedFileTextArea() {
@@ -37,4 +43,25 @@ function addExcludeDirectionsTextArea() {
   $('.exclude_directions-plus-sign:first').parent().remove();
   textArrea.insertAfter('.exclude_directions:last');
   $('.exclude_directions:last input').val("");
+}
+
+function addScheduleRun() {
+  var scheduleRun = $('.schedule_run_form:last').clone();
+  scheduleRun.insertAfter('.schedule_run_form:last');
+  $('.schedule_run_form:last input').val('');
+  if ($('.schedule_run_form').size() > 1) {
+    $(".schedule_run_form_remove").show();
+  };
+}
+
+function removeScheduleRun() {
+  if ($('.schedule_run_form').size() > 1) {
+    $('.schedule_run_form:last').remove();
+    if ($('.schedule_run_form').size() == 1) {
+      $(".schedule_run_form_remove").hide();
+    };
+  }
+  else {
+    alert('nothing to remove');
+  };
 }

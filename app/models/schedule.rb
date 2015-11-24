@@ -1,45 +1,22 @@
 class Schedule < ActiveRecord::Base
-  DEFAULT_RUNS = [
-    'Level=Full 1st sun at ',
-    'Level=Differential 2nd-5th sun at ',
-    'Level=Incremental mon-sat at '
-  ]
-
-  attr_accessor :runtime
-
-  serialize :runs, JSON
+  has_many :schedule_runs
 
   belongs_to :host
 
-  validates :name, :runs, presence: true
+  validates :name, presence: true
   validates :name, uniqueness: { scope: :host }
   validates_with NameValidator
 
-  before_validation :set_runs, if: Proc.new { |s| s.runtime.present? }
+  accepts_nested_attributes_for :schedule_runs
 
   def to_bacula_config_array
     ['Schedule {'] +
       ["  Name = \"#{name_for_config}\""] +
-      runs.map {|r| "  Run = #{r}" } +
+      schedule_runs.map {|r| "  Run = #{r.schedule_line}" } +
       ['}']
   end
 
   def name_for_config
     [host.name, name].join(' ')
-  end
-
-  private
-
-  def set_runs
-    if valid_runtime?
-      self.runs = DEFAULT_RUNS.map { |r| r + runtime }
-    else
-      self.errors.add(:runtime, :not_valid_24h_time)
-      false
-    end
-  end
-
-  def valid_runtime?
-    runtime && runtime[/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/]
   end
 end
