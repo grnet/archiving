@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151122202041) do
+ActiveRecord::Schema.define(version: 20151123203102) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -387,6 +387,18 @@ ActiveRecord::Schema.define(version: 20151122202041) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "schedule_runs", force: true do |t|
+    t.integer  "schedule_id"
+    t.integer  "level",       limit: 1
+    t.string   "month"
+    t.string   "day"
+    t.string   "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schedule_runs", ["schedule_id"], name: "index_schedule_runs_on_schedule_id", using: :btree
 
   create_table "schedules", force: true do |t|
     t.string  "name"
