@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151123203102) do
+ActiveRecord::Schema.define(version: 20151125222951) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -415,6 +415,9 @@ ActiveRecord::Schema.define(version: 20151123203102) do
     t.boolean  "enabled",              default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "identifier"
   end
+
+  add_index "users", ["identifier"], name: "index_users_on_identifier", using: :btree
 
 end
