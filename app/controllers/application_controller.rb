@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def unauthenticated
+    flash[:error] = warden.message
     redirect_to root_path
   end
 
@@ -20,6 +21,17 @@ class ApplicationController < ActionController::Base
       current_user
     end
     redirect_to admin_path
+  end
+
+  # POST /vima
+  def vima
+    begin
+      warden.authenticate!(:vima)
+    rescue
+      return unauthenticated
+    end
+    current_user
+    redirect_to clients_path
   end
 
   def logout

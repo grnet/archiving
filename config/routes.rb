@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'application#index'
   post 'login' => 'application#login'
+  match 'vima', to: 'application#vima', :via => [:get, :post]
   get 'logout' => 'application#logout'
 
   resources :clients, only: [:index, :show] do
