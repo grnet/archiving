@@ -2,16 +2,21 @@ class HostsController < ApplicationController
   before_action :require_logged_in
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
                                     :revoke, :restore, :run_restore]
+  before_action :fetch_hosts_of_user, only: [:new, :edit, :create]
 
   # GET /hosts/new
   def new
     @host = Host.new
+    @host.port = 9102
   end
 
   # POST /hosts
   def create
     @host = Host.new(fetch_params)
-    if @host.save
+
+    @host.verified = current_user.needs_host_list?
+
+    if user_can_add_this_host? && @host.save
       flash[:success] = 'Host created successfully'
       current_user.hosts << @host
       redirect_to host_path @host
@@ -94,11 +99,21 @@ class HostsController < ApplicationController
 
   private
 
+  def fetch_hosts_of_user
+    return if not current_user.needs_host_list?
+
+    @hosts_of_user = session[:vms] - current_user.hosts.pluck(:fqdn)
+  end
+
   def fetch_host
     @host = current_user.hosts.includes(job_templates: [:fileset, :schedule]).find(params[:id])
   end
 
   def fetch_params
     params.require(:host).permit(:fqdn, :port, :password)
+  end
+
+  def user_can_add_this_host?
+    !current_user.needs_host_list? || @hosts_of_user.include?(@host.fqdn)
   end
 end

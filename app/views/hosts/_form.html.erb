@@ -2,9 +2,14 @@
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
   <div>
 
-    <%= f.text_field :fqdn, disabled: @host.persisted? %>
-    <%= f.text_field :password %>
-    <%= f.number_field :port, value: 9102 %>
+    <% if current_user.needs_host_list? %>
+      <%= f.select :fqdn, options_for_select(@hosts_of_user, @host.fqdn), {},
+                   disabled: @host.persisted? %>
+    <% else %>
+      <%= f.text_field :fqdn, disabled: @host.persisted? %>
+    <% end %>
+    <%= f.password_field :password %>
+    <%= f.number_field :port, min: 1 %>
   </div>
 
 
