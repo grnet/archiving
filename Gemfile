@@ -32,6 +32,7 @@ gem 'mysql2', '0.3.16'
 gem 'jquery-rails', '3.1.2'
 gem 'beaneater', '1.0.0'
 gem 'warden', '1.2.3'
+gem 'oauth2', '0.9.3'
 
 gem 'net-scp', '1.2.1'
 gem 'state_machine', '1.2.0'
