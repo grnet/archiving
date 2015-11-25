@@ -25,6 +25,10 @@
             <li><a href="#">Edit</a></li>
           </ul>
         </li>
+        <% if current_user %>
+          <li><%= link_to current_user.username, '#' %></li>
+        <% end %>
+        <li><%= link_to 'logout', logout_path %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if current_user.admin? %>

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root 'clients#index'
+  root 'application#index'
+  post 'login' => 'application#login'
+  get 'logout' => 'application#logout'
 
   resources :clients, only: [:index, :show] do
     member do

@@ -5,13 +5,13 @@ describe ClientsController do
   let(:user) { FactoryGirl.create(:user) }
 
   before do
-    allow_any_instance_of(ClientsController).to receive(:current_user) { user }
+    allow_any_instance_of(ApplicationController).to receive(:current_user) { user }
     host.users << user
   end
 
   describe '#index' do
     it 'fetches the host' do
-      get root_path
+      get clients_path
       expect(response.body).to match(host.name)
     end
   end

@@ -9,10 +9,6 @@ describe ClientsController do
     expect(post('/clients')).to route_to(controller: 'clients', action: 'index')
   end
 
-  it 'routes GET /' do
-    expect(get('/')).to route_to(controller: 'clients', action: 'index')
-  end
-
   it 'routes GET /clients/1' do
     expect(get('/clients/1')).to route_to(controller: 'clients', action: 'show', id: '1')
   end

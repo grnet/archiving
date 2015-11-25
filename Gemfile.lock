@@ -163,6 +163,8 @@ GEM
     tilt (1.4.1)
     tzinfo (1.1.0)
       thread_safe (~> 0.1)
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -195,6 +197,7 @@ DEPENDENCIES
   state_machine (= 1.2.0)
   thread_safe (= 0.3.3)
   tzinfo (= 1.1.0)
+  warden (= 1.2.3)
 
 BUNDLED WITH
    1.10.6
