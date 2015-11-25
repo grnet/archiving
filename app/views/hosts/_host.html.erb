@@ -6,5 +6,12 @@
   <td><%= host.file_retention %></td>
   <td><%= host.job_retention %></td>
   <td><%= host.auto_prune_human %></td>
+  <td>
+    <% if host.verified? %>
+      <span class="label label-success">yes</span>
+    <% else %>
+      <span class="label label-danger">no</span>
+    <% end %>
+  </td>
   <td><%= I18n.l(host.created_at, format: :long) %></td>
 </tr>

@@ -30,6 +30,16 @@
         <td><%= @host.auto_prune_human %></td>
       </tr>
       <tr>
+        <td><b>Verified</b></td>
+        <td>
+          <% if @host.verified? %>
+            <span class="label label-success">yes</span>
+          <% else %>
+            <span class="label label-danger">no</span>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
         <td><b>Created</b></td>
         <td><%= I18n.l(@host.created_at, format: :long) %></td>
       </tr>
