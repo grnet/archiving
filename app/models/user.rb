@@ -14,4 +14,12 @@ class User < ActiveRecord::Base
   def display_name
     "#{username} <#{email}>"
   end
+
+  # Determines if the user must select hosts from a list or enter their
+  # FQDN manually
+  #
+  # @return [Boolean]
+  def needs_host_list?
+    vima? || okeanos?
+  end
 end
