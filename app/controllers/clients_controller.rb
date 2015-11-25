@@ -1,4 +1,5 @@
 class ClientsController < ApplicationController
+  before_action :require_logged_in
   before_action :set_client, only: [:show, :jobs, :logs, :stats]
   before_action :fetch_logs, only: [:logs]
 

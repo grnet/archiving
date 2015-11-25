@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :warden
 
+  def index
+    redirect_to clients_path if current_user
+  end
+
   def unauthenticated
     redirect_to root_path
   end

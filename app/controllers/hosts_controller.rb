@@ -1,4 +1,5 @@
 class HostsController < ApplicationController
+  before_action :require_logged_in
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
                                     :revoke, :restore, :run_restore]
 

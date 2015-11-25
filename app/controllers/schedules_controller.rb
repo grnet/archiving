@@ -1,4 +1,5 @@
 class SchedulesController < ApplicationController
+  before_action :require_logged_in
   before_action :fetch_host, only: [:new, :create]
   before_action :fetch_job_id, only: [:new, :create]
 

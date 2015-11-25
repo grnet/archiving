@@ -1,4 +1,5 @@
 class JobsController < ApplicationController
+  before_action :require_logged_in
   before_action :fetch_host, only: [:new, :edit, :show, :create, :update,
                                     :toggle_enable, :backup_now]
   before_action :fetch_job, only: [:show, :edit, :update, :destroy, :toggle_enable, :backup_now]
