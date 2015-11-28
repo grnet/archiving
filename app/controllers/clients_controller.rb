@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   before_action :require_logged_in
-  before_action :set_client, only: [:show, :jobs, :logs, :stats]
+  before_action :set_client, only: [:show, :jobs, :logs, :stats, :users]
   before_action :fetch_logs, only: [:logs]
 
   # GET /clients
@@ -29,6 +29,11 @@ class ClientsController < ApplicationController
   # POST /clients/1/stats
   def stats
     get_charts
+  end
+
+  # GET /clients/1/users
+  def users
+    @users = @client.host.users
   end
 
   private

@@ -1,0 +1,13 @@
+<%= render partial: 'header' %>
+
+<div class="row">
+  <div class="col-xs-6">
+    <h3>Collaborators for <%= @client.host.name %></h3>
+  </div>
+</div>
+
+<div class="row">
+  <%= render partial: 'users' %>
+</div>
+
+<%= link_to 'Back to clients', clients_path %>
