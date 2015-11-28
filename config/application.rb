@@ -8,8 +8,13 @@ if ENV['RAILS_ENV'] != 'production'
   Bundler.require(*Rails.groups)
 else
   # Dependencies to load before starting rails in production
+  require 'kaminari'
   require 'jquery-rails'
+  require 'state_machine'
   require 'beaneater'
+  require 'oauth2'
+  require 'warden'
+  require 'net/scp'
 end
 
 module Baas
