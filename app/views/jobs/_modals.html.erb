@@ -1,0 +1,34 @@
+<% @schedules.each do |schedule| %>
+
+  <div class="modal fade js-schedule-<%= schedule.id %>" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="panel panel-default">
+          <div class="panel-heading">Schedule "<%= schedule.name %>"</div>
+          <div class="panel-body">
+            <pre>
+<%= schedule.to_bacula_config_array.join("\n") %>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% @filesets.each do |fileset| %>
+  <div class="modal fade js-fileset-<%= fileset.id %>" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="panel panel-default">
+          <div class="panel-heading">Fileset "<%= fileset.name %>"</div>
+          <div class="panel-body">
+            <pre>
+<%= fileset.to_bacula_config_array.join("\n") %>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,8 +1,14 @@
 <tr>
   <td><%= link_to job.name, host_job_path(@host, job) %></td>
   <td><%= job.job_type %></td>
-  <td><%= job.fileset.name %></td>
-  <td><%= job.schedule_human %></td>
+  <td>
+    <%= link_to job.fileset.name, '#',
+      data: { toggle: 'modal', target: ".js-fileset-#{job.fileset_id}:first"} %>
+  </td>
+  <td>
+    <%= link_to job.schedule_human, '#',
+      data: { toggle: 'modal', target: ".js-schedule-#{job.schedule_id}:first"} %>
+  </td>
   <td><%= job.client_before_run_file %></td>
   <td><%= job.client_after_run_file %></td>
   <td><%= job.priority %></td>
@@ -16,4 +22,3 @@
     <% end %>
   </td>
 </tr>
-

@@ -27,7 +27,10 @@ class HostsController < ApplicationController
   end
 
   # GET /hosts/1
-  def show; end
+  def show
+    @schedules = @host.job_templates.map(&:schedule)
+    @filesets = @host.job_templates.map(&:fileset)
+  end
 
   # GET /hosts/1/edit
   def edit; end
