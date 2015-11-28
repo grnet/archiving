@@ -1,5 +1,5 @@
 <!-- Fixed navbar -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -8,11 +8,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Baas</a>
     </div>
-    <% if current_user %>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="logo">
+          <%= link_to root_path do %>
+            <p><b>GRNET NOC</b></p>
+            <p>Archiving</p>
+          <% end %>
+        </li>
+        <% if current_user %>
           <%= content_tag(:li, active_class(clients_path, true)) do %>
             <%= link_to 'Clients', clients_path %>
           <% end %>
@@ -30,24 +35,24 @@
             <li><%= link_to current_user.username, '#' %></li>
           <% end %>
           <li><%= link_to 'logout', logout_path %></li>
-        </ul>
+        <% end %>
+      </ul>
+      <% if current_user.try(:admin?) %>
         <ul class="nav navbar-nav navbar-right">
-          <% if current_user.admin? %>
-            <%= content_tag(:li, active_class(admin_path)) do %>
-              <%= link_to 'Admin', admin_path %>
-            <% end %>
-            <%= content_tag(:li, active_class(admin_clients_path, true)) do %>
-              <%= link_to 'Clients', admin_clients_path %>
-            <% end %>
-            <%= content_tag(:li, active_class(unverified_admin_hosts_path, true)) do %>
-              <%= link_to 'Hosts', unverified_admin_hosts_path %>
-            <% end %>
-            <%= content_tag(:li, active_class(admin_settings_path)) do %>
-              <%= link_to 'Settings', admin_settings_path %>
-            <% end %>
+          <%= content_tag(:li, active_class(admin_path)) do %>
+            <%= link_to 'Admin', admin_path %>
+          <% end %>
+          <%= content_tag(:li, active_class(admin_clients_path, true)) do %>
+            <%= link_to 'Clients', admin_clients_path %>
+          <% end %>
+          <%= content_tag(:li, active_class(unverified_admin_hosts_path, true)) do %>
+            <%= link_to 'Hosts', unverified_admin_hosts_path %>
+          <% end %>
+          <%= content_tag(:li, active_class(admin_settings_path)) do %>
+            <%= link_to 'Settings', admin_settings_path %>
           <% end %>
         </ul>
-      </div><!--/.nav-collapse -->
-    <% end %>
+      <% end %>
+    </div><!--/.nav-collapse -->
   </div>
 </nav>

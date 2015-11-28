@@ -49,3 +49,19 @@ tr.fatal > td {
 tr.fatal > td {
   background-color: #EA7272;
 }
+
+li.logo {
+}
+
+li.logo > a {
+  padding-left: 60px;
+  background: url('/images/logo.png') no-repeat scroll 4px 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+li.logo > a > p {
+  font-size: 13px;
+  margin-bottom: 0;
+  color: #333333px;
+}
