@@ -65,5 +65,7 @@ Rails.application.routes.draw do
         post :verify
       end
     end
+
+    resources :users, only: [:index]
   end
 end

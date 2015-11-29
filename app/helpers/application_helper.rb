@@ -79,4 +79,28 @@ module ApplicationHelper
       }.inject { |result, element| result.concat(element) }
     end
   end
+
+  # Constructs a list with the given array elements
+  #
+  # @example:
+  #  inline_list([:foo, :bar])
+  #
+  #  <ul class="list-inline'>
+  #   <li><span class="label label-default">foo</span></li>
+  #   <li><span class="label label-default">bar</span></li>
+  #  </ul>
+  #
+  # @param arr[Array]
+  # @return an html ul list
+  def inline_list(arr)
+    content_tag(:ul, class: 'list-inline') do
+      arr.map { |element|
+        content_tag(:li) do
+          content_tag(:span, class: 'label label-default') do
+            element
+          end
+        end
+      }.inject { |result, element| result.concat(element) }
+    end
+  end
 end
