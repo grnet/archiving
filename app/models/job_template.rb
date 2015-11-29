@@ -1,3 +1,10 @@
+# JobTemplate class is a helper class that enables us to configure Bacula job
+# configurations, without messing with Bacula's native models (Job).
+# It has a unique:
+#
+# * host
+# * fileset
+# * schedule
 class JobTemplate < ActiveRecord::Base
   establish_connection Baas::settings[:local_db]
 
@@ -17,6 +24,9 @@ class JobTemplate < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
 
+  # Constructs an array where each element is a line for the Job's bacula config
+  #
+  # @return [Array]
   def to_bacula_config_array
     ['Job {'] +
       options_array.map { |x| "  #{x}" } +
@@ -24,18 +34,28 @@ class JobTemplate < ActiveRecord::Base
       ['}']
   end
 
+  # Fetches the Job's priority
   def priority
     job_settings[:priority]
   end
 
+  # Helper method for the job template's enabled status
   def enabled_human
     enabled? ? 'yes' : 'no'
   end
 
+  # Helper method for the job template's schedule name
+  #
+  # @return [String] The schedule's name or nothing
   def schedule_human
     schedule.present? ? schedule.name : '-'
   end
 
+  # Generates a name that will be used for the configuration file.
+  # It is the name that will be sent to Bacula through the configuration
+  # files.
+  #
+  # @return [String]
   def name_for_config
     "#{host.name} #{name}"
   end
