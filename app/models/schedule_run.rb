@@ -1,3 +1,32 @@
+# ScheduleRun is a helper class that modelizes the run directives of a schedule
+# resource.
+#
+# It can have 3 levels:
+#
+# * full
+# * differential
+# * incremental
+#
+# Each ScheduleRun instance holds info about the execution time of the schedule:
+#
+# * month specification is optional and is described by:
+#   - month: full name (eg april) | month name three first letters (eg jul)
+#   - month_range: month-month
+#   - monthly: 'monthly'
+# * day specification is required and is described by:
+#   - week_number (optional): weeks number in full text (eg: third, fourth)
+#   - week_range (optional): week_number-week_number
+#   - day: first three letters of day (eg: mon, fri)
+#   - day_range: day-day
+# * time specification is required and is described by:
+#   - 24h time (eg: 03:00)
+#
+# Schedule Run examples:
+#
+#  Level=Full monthly first mon at 12:21
+#  Level=Full first sun at 12:34
+#  Level=Differential second-fifth sat at 15:23
+#  Level=Incremental  mon-sat at 08:00
 class ScheduleRun < ActiveRecord::Base
   enum level: { full: 0, differential: 1, incremental: 2 }
 
