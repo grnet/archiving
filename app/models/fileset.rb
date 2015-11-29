@@ -1,3 +1,5 @@
+# Fileset model is the application representation of Bacula's Fileset.
+# It has references to a host and job templates.
 class Fileset < ActiveRecord::Base
   serialize :exclude_directions
   serialize :include_directions, JSON
@@ -17,6 +19,9 @@ class Fileset < ActiveRecord::Base
   DEFAULT_INCLUDE_OPTIONS = { signature: :SHA1, compression: :GZIP }
   DEFAULT_INCLUDE_FILE_LIST = ['/']
 
+  # Constructs an array where each element is a line for the Fileset's bacula config
+  #
+  # @return [Array]
   def to_bacula_config_array
     ['FileSet {'] +
       ["  Name = \"#{name_for_config}\""] +
@@ -25,6 +30,11 @@ class Fileset < ActiveRecord::Base
       ['}']
   end
 
+  # Generates a name that will be used for the configuration file.
+  # It is the name that will be sent to Bacula through the configuration
+  # files.
+  #
+  # @return [String]
   def name_for_config
     [host.name, name].join(' ')
   end
