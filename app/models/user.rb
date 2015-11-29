@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  establish_connection Baas::settings[:local_db]
-
   has_many :ownerships
   has_many :hosts, through: :ownerships, inverse_of: :users
 

@@ -1,6 +1,4 @@
 class Fileset < ActiveRecord::Base
-  establish_connection Baas::settings[:local_db]
-
   serialize :exclude_directions
   serialize :include_directions, JSON
 

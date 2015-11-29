@@ -1,8 +1,4 @@
 class CreateJobTemplates < ActiveRecord::Migration
-  def connection
-    ActiveRecord::Base.establish_connection(Baas::settings[:local_db]).connection
-  end
-
   def change
     create_table :job_templates do |t|
       t.string :name, null: false

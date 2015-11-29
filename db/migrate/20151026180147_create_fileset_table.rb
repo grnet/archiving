@@ -1,8 +1,4 @@
 class CreateFilesetTable < ActiveRecord::Migration
-  def connection
-    ActiveRecord::Base.establish_connection(Baas::settings[:local_db]).connection
-  end
-
   def up
     create_table :filesets do |t|
       t.string :name

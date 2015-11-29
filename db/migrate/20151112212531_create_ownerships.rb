@@ -1,8 +1,4 @@
 class CreateOwnerships < ActiveRecord::Migration
-  def connection
-    ActiveRecord::Base.establish_connection(Baas::settings[:local_db]).connection
-  end
-
   def up
     create_table :ownerships do |t|
       t.integer :user_id, index: true

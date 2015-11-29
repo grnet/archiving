@@ -1,8 +1,4 @@
 class CreateSettingsTable < ActiveRecord::Migration
-  def connection
-    ActiveRecord::Base.establish_connection(Baas::settings[:local_db]).connection
-  end
-
   def up
     create_table :configuration_settings do |t|
       t.string :job, default: {}.to_json

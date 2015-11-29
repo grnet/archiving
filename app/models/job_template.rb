@@ -6,8 +6,6 @@
 # * fileset
 # * schedule
 class JobTemplate < ActiveRecord::Base
-  establish_connection Baas::settings[:local_db]
-
   enum job_type: { backup: 0, restore: 1, verify: 2, admin: 3 }
 
   belongs_to :host

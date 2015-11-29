@@ -1,8 +1,4 @@
 class CreateHostsTable < ActiveRecord::Migration
-  def connection
-    ActiveRecord::Base.establish_connection(Baas::settings[:local_db]).connection
-  end
-
   def change
     create_table :hosts do |t|
       t.binary :name, limit: 255, null: false
