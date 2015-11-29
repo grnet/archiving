@@ -1,3 +1,6 @@
+# Bacula Client class.
+# All hosts that are getting backed up with Bacula have a Client entry, with
+# attributes concerning the Client.
 class Client < ActiveRecord::Base
   self.table_name = :Client
   self.primary_key = :ClientId

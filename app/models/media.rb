@@ -1,3 +1,9 @@
+# Bacula Media table (Volume)
+#
+# Media table contains one entry for each volume, that is each tape, cassette (8mm, DLT, DAT, ...),
+# or file on which information is or was backed up.
+# There is one Volume record created for each of the NumVols specified in the
+# Pool resource record.
 class Media < ActiveRecord::Base
   self.table_name = :Media
   self.primary_key = :MediaId

@@ -1,3 +1,6 @@
+# Bacula Counter table
+#
+# The Counter table contains one entry for each permanent counter defined by the user.
 class Counter < ActiveRecord::Base
   self.table_name = :Counters
   self.primary_key = :Counter

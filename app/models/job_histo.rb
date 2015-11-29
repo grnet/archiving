@@ -1,3 +1,7 @@
+# Bacula JobHisto table.
+#
+# The bf JobHisto table is the same as the Job table,
+#  but it keeps long term statistics (i.e. it is not pruned with the Job).
 class JobHisto < ActiveRecord::Base
   self.table_name = :JobHisto
 

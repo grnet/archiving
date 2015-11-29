@@ -1,3 +1,6 @@
+# Bacula Storage table
+#
+# The Storage table contains one entry for each Storage used.
 class Storage < ActiveRecord::Base
   self.table_name = :Storage
   self.primary_key = :StorageId

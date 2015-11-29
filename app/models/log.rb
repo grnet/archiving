@@ -1,3 +1,6 @@
+# Bacula Log table.
+#
+# The Log table contains a log of all Job output.
 class Log < ActiveRecord::Base
   self.table_name = :Log
   self.primary_key = :LogId

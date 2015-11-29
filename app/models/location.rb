@@ -1,3 +1,6 @@
+# Bacula Location table.
+#
+# The Location table defines where a Volume is physically.
 class Location < ActiveRecord::Base
   self.table_name = :Location
   self.primary_key = :LocationId

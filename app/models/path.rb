@@ -1,3 +1,10 @@
+# Bacula Path table.
+#
+# The Path table contains shown above the path or directory names of all directories on
+# the system or systems.
+# As with the filename, only one copy of each directory name is kept regardless of how
+# many machines or drives have the same directory.
+# These path names should be stored in Unix path name format.
 class Path < ActiveRecord::Base
   self.table_name = :Path
   self.primary_key = :PathId

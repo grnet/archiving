@@ -1,3 +1,11 @@
+# Bacula Pool
+#
+# The Pool table contains one entry for each media pool controlled by Bacula in
+# this database. One media record exists for each of the NumVols contained in the Pool.
+# The PoolType is a Bacula defined keyword.
+# The MediaType is defined by the administrator, and corresponds to the MediaType
+# specified in the Director's Storage definition record.
+# The CurrentVol is the sequence number of the Media record for the current volume.
 class Pool < ActiveRecord::Base
   self.table_name = :Pool
   self.primary_key = :PoolId
