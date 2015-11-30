@@ -1,6 +1,6 @@
 class FilesetsController < ApplicationController
   before_action :require_logged_in
-  before_action :fetch_host, only: [:new, :create]
+  before_action :fetch_host, only: [:new, :create, :show]
   before_action :fetch_job_id, only: [:new, :create]
 
   def new
@@ -8,6 +8,11 @@ class FilesetsController < ApplicationController
   end
 
   def show
+    @fileset = @host.filesets.find(params[:id])
+
+    respond_to do |format|
+      format.js {}
+    end
   end
 
   def create

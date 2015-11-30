@@ -24,7 +24,10 @@ class JobsController < ApplicationController
   def show; end
 
   # GET /jobs/1/edit
-  def edit;end
+  def edit
+    @fileset = @host.filesets.find(params[:fileset_id]) if params[:fileset_id]
+    @schedule = @host.schedules.find(params[:schedule_id]) if params[:schedule_id]
+  end
 
   # PUT /jobs/1
   def update

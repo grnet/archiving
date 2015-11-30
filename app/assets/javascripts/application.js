@@ -15,6 +15,7 @@
 //= require bootstrap.min
 //= require_tree .
 //= require highcharts
+//= require jobs
 
 $(document).ready(function() {
   $(".include_files-plus-sign").click(function() {

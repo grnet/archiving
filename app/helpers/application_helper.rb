@@ -34,7 +34,9 @@ module ApplicationHelper
       end
 
       button_part = content_tag(:div, class: 'col-xs-1') do
-        link_to 'Add', path, class: 'btn btn-primary', role: 'button'
+        link_to path do
+          content_tag(:span, class: 'glyphicon glyphicon-plus text-success') {}
+        end
       end
 
       attr_label.concat(select_div).concat(button_part)
