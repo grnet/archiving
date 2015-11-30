@@ -1,8 +1,14 @@
 <tr>
   <td><%= job.name %></td>
   <td><%= job.job_type %></td>
-  <td><%= job.fileset.try(:name) %></td>
-  <td><%= job.schedule_human %></td>
+  <td>
+    <%= link_to job.fileset.name, '#',
+      data: { toggle: 'modal', target: ".js-fileset-#{job.fileset_id}:first"} %>
+  </td>
+  <td>
+    <%= link_to job.schedule_human, '#',
+      data: { toggle: 'modal', target: ".js-schedule-#{job.schedule_id}:first"} %>
+  </td>
   <td><%= I18n.l(job.created_at, format: :long) %></td>
   <td>
     <% if job.enabled? && job.baculized? && job.backup? %>

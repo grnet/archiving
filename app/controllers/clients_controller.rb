@@ -15,6 +15,8 @@ class ClientsController < ApplicationController
 
   # GET /clients/1
   def show
+    @schedules = @client.host.job_templates.map(&:schedule)
+    @filesets = @client.host.job_templates.map(&:fileset)
   end
 
   # GET /clients/1/jobs
