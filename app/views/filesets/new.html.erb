@@ -3,3 +3,6 @@
 <div class="container graybox">
   <%= render 'form' %>
 </div>
+
+<%= link_to 'Back to job',
+  @job_id.present? ? edit_host_job_path(@host, @job_id) : new_host_job_path(@host) %>
