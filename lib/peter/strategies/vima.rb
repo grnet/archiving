@@ -74,7 +74,10 @@ Warden::Strategies.add(:vima) do
   end
 
   def assign_vms(user, vms)
-    session[:vms] = vms
+    Rails.logger.warn("ViMa: user: #{user.username}")
+    Rails.logger.warn("ViMa: vms: #{vms}")
+    Rails.logger.warn("ViMa: session vms: #{session[:vms]}")
+    session[:vms] = vms.first(50)
     Host.where(fqdn: vms).each do |host|
       host.users << user unless host.users.include?(user)
     end
