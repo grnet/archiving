@@ -96,6 +96,22 @@ class Host < ActiveRecord::Base
     result.map(&:to_bacula_config_array)
   end
 
+  # Constructs the final Bacula configuration for the host by appending configs for
+  #
+  # * Client
+  # * Jobs
+  # * Schedules
+  # * Filesets
+  #
+  # by calling their `to_bacula_config_array` methods.
+  #
+  # It hides the password.
+  #
+  # @return [Array] containing each element's configuration line by line
+  def baculize_config_no_pass
+    baculize_config.join("\n").gsub(/Password = ".*"$/, 'Password = "*************"')
+  end
+
   # Constructs an array where each element is a line for the Client's bacula config
   #
   # @return [Array]
