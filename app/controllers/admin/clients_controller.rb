@@ -1,5 +1,5 @@
 class Admin::ClientsController < Admin::BaseController
-  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :configuration]
+  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :configuration, :disable]
   before_action :fetch_logs, only: [:logs]
 
   # Shows all available clients
@@ -35,6 +35,17 @@ class Admin::ClientsController < Admin::BaseController
 
   # GET /admin/clients/1/configuration
   def configuration
+  end
+
+  # POST /admin/clients/1/disable
+  def disable
+    if @client.host.disable_jobs_and_update
+      flash[:success] = 'Client disabled'
+    else
+      flash[:error] = 'Something went wrong, try again later'
+    end
+
+    redirect_to admin_client_path(@client)
   end
 
   private

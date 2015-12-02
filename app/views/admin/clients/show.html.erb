@@ -1,5 +1,14 @@
 <%= render partial: 'header' %>
 
+<div class="row right">
+  <% if !@client.host.inactive? %>
+    <%= link_to 'Disable client', disable_admin_client_path(@client), method: :post,
+      data: { confirm: 'This will disable the client. Are you sure?' },
+      class: "btn btn-warning", role: "button" %>
+  <% end %>
+</div>
+
+
 <div class="row">
   <div class="col-xs-4">
     <h3>Client Details</h3>

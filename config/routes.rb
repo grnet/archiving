@@ -54,6 +54,7 @@ Rails.application.routes.draw do
         get :stats
         post :stats
         get :configuration
+        post :disable
       end
     end
 
