@@ -11,7 +11,7 @@ class BaculaHandler
   # @param host[Host] A the host instance the the bacula handler will act upon
   def initialize(host)
     @host = host
-    @templates = host.job_templates.enabled.includes(:fileset, :schedule)
+    @templates = host.job_templates.includes(:fileset, :schedule)
 
     @client = get_client_file
     @jobs = get_jobs_file

@@ -84,6 +84,7 @@ class JobTemplate < ActiveRecord::Base
   def options_array
     result = [
       "Name = \"#{name_for_config}\"",
+      "Enabled = #{enabled_human}",
       "FileSet = \"#{fileset.name_for_config}\"",
       "Client = \"#{host.name}\"",
       "Type = \"#{job_type.capitalize}\"",

@@ -123,6 +123,10 @@ describe JobTemplate do
       end
     end
 
+    it 'assigns Enabled param' do
+      expect(subject).to include("  Enabled = #{job_template.enabled_human}")
+    end
+
     it 'assigns Name param prefixed with the host\'s name' do
       expect(subject).to include("  Name = \"#{job_template.name_for_config}\"")
     end

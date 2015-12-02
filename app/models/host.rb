@@ -90,7 +90,7 @@ class Host < ActiveRecord::Base
   #
   # @return [Array] containing each element's configuration line by line
   def baculize_config
-    templates = job_templates.enabled.includes(:fileset, :schedule)
+    templates = job_templates.includes(:fileset, :schedule)
 
     result = [self] + templates.map {|x| [x, x.fileset, x.schedule] }.flatten.compact.uniq
     result.map(&:to_bacula_config_array)
@@ -185,11 +185,7 @@ class Host < ActiveRecord::Base
 
   # Handles the host's job changes by updating the host's status
   def recalculate
-    if job_templates(true).enabled.any?
-      add_configuration || change_deployed_config
-    else
-      mark_for_removal || disable
-    end
+    add_configuration || change_deployed_config
   end
 
   # Fetches an info message concerning the host's deploy status
