@@ -20,4 +20,16 @@ class User < ActiveRecord::Base
   def needs_host_list?
     vima? || okeanos?
   end
+
+  # Marks a user as not enabled
+  def ban
+    self.enabled = false
+    save
+  end
+
+  # Marks a user as enabled
+  def unban
+    self.enabled = true
+    save
+  end
 end

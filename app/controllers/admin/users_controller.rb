@@ -17,4 +17,28 @@ class Admin::UsersController < Admin::BaseController
       end
     end
   end
+
+  # PATCH /admin/users/1/ban
+  def ban
+    @user = User.find(params[:id])
+    if @user.ban
+      flash[:success] = 'User banned'
+    else
+      flash[:error] = 'User NOT banned'
+    end
+
+    redirect_to admin_users_path
+  end
+
+  # PATCH /admin/users/1/unban
+  def unban
+    @user = User.find(params[:id])
+    if @user.unban
+      flash[:success] = 'User enabled'
+    else
+      flash[:error] = 'User NOT enabled'
+    end
+
+    redirect_to admin_users_path
+  end
 end

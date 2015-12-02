@@ -67,6 +67,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users, only: [:index]
+    resources :users, only: [:index] do
+      member do
+        patch :ban
+        patch :unban
+      end
+    end
   end
 end

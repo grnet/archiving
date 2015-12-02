@@ -7,4 +7,19 @@
   <td><%= inline_list @baculized_host_names[user.id] %></td>
   <td><%= inline_list @unverified_host_names[user.id] %></td>
   <td><%= inline_list @non_baculized_host_names[user.id] %></td>
+  <td>
+    <% if user.enabled? %>
+      <%= link_to ban_admin_user_path(user), method: :patch, class: 'btn btn-default',
+                  data: { confirm: 'User will be banned' } do %>
+        <label class="glyphicon glyphicon-remove text-danger"></label>
+        Ban
+      <% end %>
+    <% else %>
+      <%= link_to unban_admin_user_path(user), method: :patch, class: 'btn btn-default',
+                  data: { confirm: 'User will be unbanned' } do %>
+        <label class="glyphicon glyphicon-ok text-success"></label>
+        Unban
+      <% end %>
+    <% end %>
+  </td>
 </tr>
