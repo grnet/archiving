@@ -12,7 +12,8 @@ class Host < ActiveRecord::Base
     deployed: 3,
     updated: 4,
     redispatched: 5,
-    for_removal: 6
+    for_removal: 6,
+    inactive: 7
   }
 
   has_many :ownerships
@@ -51,7 +52,7 @@ class Host < ActiveRecord::Base
     end
 
     event :add_configuration do
-      transition [:pending, :dispatched] => :configured
+      transition [:pending, :dispatched, :inactive] => :configured
     end
 
     event :dispatch do
@@ -72,6 +73,10 @@ class Host < ActiveRecord::Base
 
     event :mark_for_removal do
       transition [:dispatched, :deployed, :updated, :redispatched] => :for_removal
+    end
+
+    event :set_inactive do
+      transition [:deployed, :dispatched, :updated, :redispatched] => :inactive
     end
 
     event :disable do
@@ -166,6 +171,12 @@ class Host < ActiveRecord::Base
     bacula_handler.backup_now(job_name)
   end
 
+  # Disables all jobs and sends the configuration to Bacula
+  def disable_jobs_and_update
+    job_templates.update_all(enabled: false)
+    bacula_handler.deploy_config
+  end
+
   # Determinex weather a host:
   #
   # * has all it takes to be deployed but
@@ -225,6 +236,14 @@ class Host < ActiveRecord::Base
     self.verifier_id = admin_verifier
     self.verified_at = Time.now
     save
+  end
+
+  # Determines if a host can be disabled or not.
+  # Equivalent to is_deployed
+  #
+  # @return [Boolean]
+  def can_be_disabled?
+    dispatched? || deployed? || updated? || redispatched?
   end
 
   private

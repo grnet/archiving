@@ -16,6 +16,8 @@ module HostsHelper
       klass = "primary"
     when host.for_removal?
       klass = "danger"
+    when host.inactive?
+      klass = "warning"
     end
 
     content_tag(:span, class: "label label-#{klass}") { host.human_status_name.upcase }

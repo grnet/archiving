@@ -30,7 +30,11 @@ class BaculaHandler
   def deploy_config
     return false unless send_config
     if reload_bacula
-      host.set_deployed
+      if host.job_templates.enabled.any?
+        host.set_deployed
+      else
+        host.set_inactive
+      end
     else
       host.dispatch || host.redispatch
     end

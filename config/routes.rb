@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       post :submit_config
       get :restore
       post :run_restore
+      post :disable
       delete :revoke
     end
 

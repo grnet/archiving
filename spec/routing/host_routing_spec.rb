@@ -30,6 +30,11 @@ describe HostsController do
       to route_to(controller: 'hosts', action: 'submit_config', id: '1')
   end
 
+  it 'routes POST /hosts/1/disable' do
+    expect(post('/hosts/1/disable')).
+      to route_to(controller: 'hosts', action: 'disable', id: '1')
+  end
+
   it 'routes DELETE /hosts/1/revoke' do
     expect(delete('/hosts/1/revoke')).
       to route_to(controller: 'hosts', action: 'revoke', id: '1')

@@ -237,13 +237,15 @@ describe Host do
       end
     end
 
-    context 'a pending host' do
-      before { host.update_column(:status, Host::STATUSES[:pending]) }
+    [:pending, :dispatched, :inactive].each do |status|
+      context "a #{status} host" do
+        before { host.update_column(:status, Host::STATUSES[status]) }
 
-      it 'becomes configured' do
-        expect { host.recalculate }.
-          to change { host.reload.human_status_name }.
-          from('pending').to('configured')
+        it 'becomes configured' do
+          expect { host.recalculate }.
+            to change { host.reload.human_status_name }.
+            from(host.human_status_name).to('configured')
+        end
       end
     end
 

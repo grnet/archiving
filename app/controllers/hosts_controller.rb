@@ -1,7 +1,7 @@
 class HostsController < ApplicationController
   before_action :require_logged_in
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
-                                    :revoke, :restore, :run_restore]
+                                    :revoke, :restore, :run_restore, :disable]
   before_action :fetch_hosts_of_user, only: [:new, :edit, :create]
 
   # GET /hosts/new
@@ -56,6 +56,17 @@ class HostsController < ApplicationController
     end
 
     redirect_to root_path
+  end
+
+  # POST /hosts/1/disable
+  def disable
+    if @host.disable_jobs_and_update
+      flash[:success] = 'Client disabled'
+    else
+      flash[:error] = 'Something went wrong, try again later'
+    end
+
+    redirect_to host_path(@host)
   end
 
   # POST /hosts/1/submit_config
