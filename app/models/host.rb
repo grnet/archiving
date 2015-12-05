@@ -105,8 +105,10 @@ class Host < ActiveRecord::Base
   # Reloads bacula server
   #
   # If all go well it changes the host's status and returns true
-  def remove_from_bacula
-    return false unless needs_revoke?
+  #
+  # @param force[Boolean] forces removal
+  def remove_from_bacula(force=false)
+    return false if not (force || needs_revoke?)
     bacula_handler.undeploy_config
   end
 

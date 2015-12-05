@@ -39,4 +39,9 @@ describe Admin::ClientsController do
     expect(post('/admin/clients/1/disable')).
       to route_to(controller: 'admin/clients', action: 'disable', id: '1')
   end
+
+  it 'routes DELETE /admin/clients/1/revoke' do
+    expect(delete('/admin/clients/1/revoke')).
+      to route_to(controller: 'admin/clients', action: 'revoke', id: '1')
+  end
 end

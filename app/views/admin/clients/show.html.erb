@@ -6,6 +6,9 @@
       data: { confirm: 'This will disable the client. Are you sure?' },
       class: "btn btn-warning", role: "button" %>
   <% end %>
+  <%= link_to 'Remove client', revoke_admin_client_path(@client), method: :delete,
+    data: { confirm: 'This will REMOVE the client from Bacula. Are you sure?' },
+    class: "btn btn-danger", role: "button" %>
 </div>
 
 

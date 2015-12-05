@@ -55,6 +55,7 @@ Rails.application.routes.draw do
         post :stats
         get :configuration
         post :disable
+        delete :revoke
       end
     end
 

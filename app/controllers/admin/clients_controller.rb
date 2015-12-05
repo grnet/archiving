@@ -1,5 +1,6 @@
 class Admin::ClientsController < Admin::BaseController
-  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :configuration, :disable]
+  before_action :fetch_client, only: [:show, :jobs, :logs, :stats,
+                                      :configuration, :disable, :revoke]
   before_action :fetch_logs, only: [:logs]
 
   # Shows all available clients
@@ -51,6 +52,17 @@ class Admin::ClientsController < Admin::BaseController
     end
 
     redirect_to admin_client_path(@client)
+  end
+
+  # DELETE /admin/clients/1/revoke
+  def revoke
+    if @client.host.remove_from_bacula(true)
+      flash[:success] = 'Client removed. It will be visible to until its jobs get cleaned up'
+    else
+      flash[:error] = 'Something went wrong, try again later'
+    end
+
+    redirect_to admin_clients_path
   end
 
   private
