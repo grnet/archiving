@@ -1,6 +1,9 @@
-<div class="panel-heading">
-  <h4>Fileset "<%= fileset.name %>"</h4>
-</div>
-<pre>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4>Fileset "<%= fileset.name %>"</h4>
+  </div>
+  <br />
+  <pre>
 <%= fileset.to_bacula_config_array.join("\n") %>
-</pre>
+  </pre>
+</div>

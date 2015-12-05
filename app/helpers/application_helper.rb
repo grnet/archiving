@@ -24,6 +24,7 @@ module ApplicationHelper
       select_div = content_tag(:div, class: 'col-xs-5') do
         select_part = select_tag([resource, attr].join('_').to_sym,
                                  options,
+                                 include_blank: true,
                                  name: "#{resource}[#{attr}]",
                                  class: 'form-control'
                                 )

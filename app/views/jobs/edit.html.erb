@@ -12,17 +12,13 @@
   </div>
 
   <div class="col-xs-4">
-    <div class="panel panel-default">
-      <div id="fileset">
-        <% fileset = @fileset || @job.fileset %>
-        <%= render partial: 'fileset', locals: { fileset: fileset } if fileset %>
-      </div>
+    <div id="fileset">
+      <% fileset = @fileset || @job.fileset %>
+      <%= render partial: 'fileset', locals: { fileset: fileset } if fileset %>
     </div>
-    <div class="panel panel-default">
-      <div id="schedule">
-        <% schedule = @schedule || @job.schedule %>
-        <%= render partial: 'schedule', locals: { schedule: schedule } if schedule %>
-      </div>
+    <div id="schedule">
+      <% schedule = @schedule || @job.schedule %>
+      <%= render partial: 'schedule', locals: { schedule: schedule } if schedule %>
     </div>
   </div>
 </div>

@@ -1,6 +1,8 @@
-<div class="panel-heading">
-  <h4>Schedule "<%= schedule.name %>"</h4>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4>Schedule "<%= schedule.name %>"</h4>
+  </div>
+  <pre>
+  <%= schedule.to_bacula_config_array.join("\n") %>
+  </pre>
 </div>
-<pre>
-<%= schedule.to_bacula_config_array.join("\n") %>
-</pre>
