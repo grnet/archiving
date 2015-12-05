@@ -80,4 +80,42 @@ describe Configuration::Host do
       expect(subject).to include(other_fileset.to_bacula_config_array)
     end
   end
+
+  describe '#bacula_fd_director_config' do
+    let!(:host) { FactoryGirl.build(:host) }
+
+    subject { host.bacula_fd_director_config }
+
+    it 'opens and closes a Director part' do
+      expect(subject).to match(/^Director {$/)
+      expect(subject).to match(/^}$/)
+    end
+
+    it 'includes the client\'s Name' do
+      expect(subject).to match("  Name = \"#{Baas.settings[:director_name]}\"")
+    end
+
+    it 'includes the client\'s Password' do
+      expect(subject).to match("  Password = \"#{host.password}\"")
+    end
+  end
+
+  describe '#bacula_fd_filedeamon_config' do
+    let!(:host) { FactoryGirl.build(:host) }
+
+    subject { host.bacula_fd_filedeamon_config }
+
+    it 'opens and closes a FileDeamon part' do
+      expect(subject).to match(/^FileDeamon {$/)
+      expect(subject).to match(/^}$/)
+    end
+
+    it 'includes the client\'s Port' do
+      expect(subject).to match("FDport = #{host.port}")
+    end
+
+    it 'includes the client\'s Name' do
+      expect(subject).to match("Name = #{host.name}")
+    end
+  end
 end

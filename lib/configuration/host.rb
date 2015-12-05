@@ -52,5 +52,30 @@ module Configuration
         "}"
       ]
     end
+
+    # Fetches the Director resource for the file-deamon configuration
+    # file
+    def bacula_fd_director_config
+      [
+        'Director {',
+        "  Name = \"#{Baas.settings[:director_name]}\"",
+        "  Password = \"#{password}\"",
+        '}'
+      ].join("\n")
+    end
+
+    # Fetches the FileDeamon resource for the file-deamon configuration
+    def bacula_fd_filedeamon_config
+      [
+        'FileDeamon {',
+        "  Name = #{name}",
+        "  FDport = #{port}",
+        '  WorkingDirectory = /var/lib/bacula',
+        '  Pid Directory = /var/run/bacula',
+        '  Maximum Concurrent Jobs = 10',
+        '  FDAddress = 0.0.0.0',
+        '}'
+      ].join("\n")
+    end
   end
 end
