@@ -24,6 +24,7 @@ config/beanstalk.yml
 config/secrets.yml
 config/bconsole.conf
 config/ssh.yml
+config/bacula.yml
 
 .ruby-version
 .rspec
