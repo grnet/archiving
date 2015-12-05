@@ -1,6 +1,6 @@
 <tr>
-  <td><%= link_to "##{client.id}", admin_client_path(client) %></td>
-  <td><%= link_to client.name, admin_client_path(client) %></td>
+  <td><%= link_to_if client.host.present?, "##{client.id}", admin_client_path(client) %></td>
+  <td><%= link_to_if client.host.present?, client.name, admin_client_path(client) %></td>
   <td><%= client.uname %></td>
   <td><%= @stats.active_jobs[client.id] || 0 %></td>
   <td><%= @stats.last_jobs[client.id] %></td>

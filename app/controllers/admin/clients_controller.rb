@@ -15,6 +15,11 @@ class Admin::ClientsController < Admin::BaseController
   #
   # GET /admin/clients/1
   def show
+    if !@client.host.present?
+      flash[:alert] = 'Client not configured through Archiving'
+      return redirect_to admin_clients_path
+    end
+
     get_charts
   end
 

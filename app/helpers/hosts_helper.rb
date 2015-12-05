@@ -1,6 +1,8 @@
 module HostsHelper
   # Returns an html span with the host's status
   def host_status_label(host)
+    return unless host
+
     case
     when host.pending?
       klass = "default"
