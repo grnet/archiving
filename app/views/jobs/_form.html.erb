@@ -30,4 +30,9 @@
 
 <script type='text/javascript'>
   var hostId=<%= @host.id %>;
+  var jobIdParam={};
+
+  <% if @job.id %>
+    jobIdParam= { job_id: <%= @job.id %> };
+  <% end %>
 </script>

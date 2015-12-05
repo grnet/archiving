@@ -10,7 +10,8 @@ $(document).ready(function() {
 function showSchedule() {
   var scheduleId = $("#job_template_schedule_id").val();
   $.ajax({
-    url: "/hosts/" + hostId + "/schedules/" + scheduleId
+    url: "/hosts/" + hostId + "/schedules/" + scheduleId,
+    data: jobIdParam
   });
 }
 

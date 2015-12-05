@@ -16,6 +16,8 @@
     <div id="fileset">
     </div>
     <div id="schedule">
+      <% schedule = @schedule || @job.schedule %>
+      <%= render partial: 'schedule', locals: { schedule: schedule } if schedule %>
     </div>
   </div>
 </div>

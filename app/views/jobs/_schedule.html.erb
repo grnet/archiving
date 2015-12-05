@@ -1,8 +1,20 @@
+<% if job_id = (@job.try(:id) || @job_id) %>
+  <% url_options = { job_id: job_id } %>
+<% else %>
+  <% url_options = {} %>
+<% end %>
+
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4>Schedule "<%= schedule.name %>"</h4>
+    <h4>
+      Schedule "<%= schedule.name %>"
+      <%= link_to edit_host_schedule_path(@host, schedule.id, url_options) do %>
+        <label class="glyphicon glyphicon-edit text-primary right"></label>
+      <% end %>
+    </h4>
   </div>
+  <br />
   <pre>
-  <%= schedule.to_bacula_config_array.join("\n") %>
+<%= schedule.to_bacula_config_array.join("\n") %>
   </pre>
 </div>

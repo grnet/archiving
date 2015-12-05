@@ -1,7 +1,7 @@
 <h1>New Schedule</h1>
 
 <div class="container graybox">
-  <%= render 'form' %>
+  <%= render partial: 'form', locals: { url: host_schedules_path(@host), method: :post } %>
 </div>
 
 <%= link_to 'Back to job',

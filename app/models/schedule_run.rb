@@ -45,6 +45,10 @@ class ScheduleRun < ActiveRecord::Base
   validate :time_valid
   validate :day_valid
 
+  def self.options_for_select
+    levels.keys.zip levels.keys
+  end
+
   # Composes the schedule line for the bacula configuration
   #
   # @return [String]

@@ -7,6 +7,7 @@ class JobsController < ApplicationController
   # GET /jobs
   def new
     @job = @host.job_templates.new
+    @schedule = @host.schedules.find(params[:schedule_id]) if params[:schedule_id]
   end
 
   # POST /jobs
