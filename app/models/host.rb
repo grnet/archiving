@@ -160,10 +160,14 @@ class Host < ActiveRecord::Base
 
   # Restores a host's backup to a preselected location
   #
+  # @param fileset_id[Integer] the desired fileset
   # @param location[String] the desired restore location
-  def restore(location)
+  # @param restore_point[Datetime] the desired restore_point datetime
+  def restore(file_set_id, location, restore_point=nil)
     return false if not restorable?
-    bacula_handler.restore(location)
+    job_ids = client.get_job_ids(file_set_id, restore_point)
+    file_set_name = FileSet.find(file_set_id).file_set
+    bacula_handler.restore(job_ids, file_set_name, location)
   end
 
   # Runs the given backup job ASAP

@@ -43,7 +43,7 @@
   </div>
   <div>
     <% if @client.is_backed_up? %>
-      <%= link_to 'Restore Files', restore_host_path(@client.host),
+      <%= link_to 'Restore Files', restore_client_path(@client),
         class: "btn btn-warning", role: "button" %>
     <% end %>
   </div>

@@ -67,6 +67,7 @@ class Job < ActiveRecord::Base
   has_many :logs, foreign_key: :JobId
 
   scope :running, -> { where(job_status: 'R') }
+  scope :terminated, -> { where(job_status: 'T') }
   scope :backup_type, -> { where(type: 'B') }
   scope :restore_type, -> { where(type: 'R') }
 

@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   before_action :require_logged_in
-  before_action :set_client, only: [:show, :jobs, :logs, :stats, :users]
+  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :users, :restore, :run_restore]
   before_action :fetch_logs, only: [:logs]
 
   # GET /clients
@@ -38,9 +38,31 @@ class ClientsController < ApplicationController
     @users = @client.host.users
   end
 
+  # GET /clients/1/restore
+  def restore
+    return if @client.is_backed_up?
+
+    flash[:error] = 'Can not issue a restore for this client'
+    redirect_to client_path(@client)
+  end
+
+  # POST /clients/1/run_restore
+  def run_restore
+    location = params[:restore_location].blank? ? '/tmp/bacula-restore' : params[:restore_location]
+    fileset = params[:fileset]
+    if location.nil? || fileset.nil? || !@client.host.restore(fileset, location)
+      flash[:error] = 'Something went wrong, try again later'
+    else
+      flash[:success] =
+        "Restore job issued successfully, files will be soon available in #{location}"
+    end
+
+    redirect_to client_path(@client)
+  end
+
   private
 
-  def set_client
+  def fetch_client
     @client = Client.for_user(current_user.id).find(params[:id])
     @client_ids = [@client.id]
   end

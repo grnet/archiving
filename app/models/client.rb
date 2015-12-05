@@ -99,4 +99,29 @@ class Client < ActiveRecord::Base
     return unless host
     host.baculize_config.join("\n")
   end
+
+  # Fetches the job ids that will construct the desired restore
+  #
+  # @param fileset_id[Integer] the fileset
+  # @param restore_point[Datetime] the restore point
+  #
+  # @return [Array] of ids
+  def get_job_ids(file_set_id, restore_point)
+    job_ids = {}
+    backup_jobs = jobs.backup_type.terminated.where(file_set_id: file_set_id)
+    backup_jobs = backup_jobs.where('EndTime < ?', restore_point) if restore_point
+
+    job_ids['F'] = backup_jobs.where(level: 'F').pluck(:JobId).last
+    return [] if job_ids['F'].nil?
+    job_ids['D'] = backup_jobs.where(level: 'D').where("JobId > ?", job_ids['F']).pluck(:JobId).last
+    job_ids['I'] = backup_jobs.where(level: 'I').
+      where("JobId > ?", job_ids['D'] || job_ids['F'] ).pluck(:JobId)
+
+    job_ids.values.flatten.compact
+  end
+
+  # Fetches the bacula filesets that are associated with the client
+  def file_sets
+    FileSet.joins(:jobs).where(Job: { JobId: job_ids }).uniq
+  end
 end

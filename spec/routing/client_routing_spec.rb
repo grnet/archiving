@@ -32,5 +32,15 @@ describe ClientsController do
     expect(get('/clients/1/jobs')).
       to route_to(controller: 'clients', action: 'jobs', id: '1')
   end
+
+  it 'routes POST /clients/1/restore' do
+    expect(post('/clients/1/run_restore')).
+      to route_to(controller: 'clients', action: 'run_restore', id: '1')
+  end
+
+  it 'routes GET /clients/1/restore' do
+    expect(get('/clients/1/restore')).
+      to route_to(controller: 'clients', action: 'restore', id: '1')
+  end
 end
 

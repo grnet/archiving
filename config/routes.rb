@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       get :stats
       post :stats
       get :users
+      get :restore
+      post :run_restore
     end
 
     collection do
@@ -21,8 +23,6 @@ Rails.application.routes.draw do
   resources :hosts, only: [:new, :create, :show, :edit, :update, :destroy] do
     member do
       post :submit_config
-      get :restore
-      post :run_restore
       post :disable
       delete :revoke
     end

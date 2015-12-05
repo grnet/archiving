@@ -66,9 +66,11 @@ class BaculaHandler
 
   # Schedules an immediate restore to the bacula director for the given host.
   #
+  # @param job_ids[Array] contains the jobs that compose the restore for this fileset
+  # @param file_set_name[String] the fileset that is going to be restored
   # @param location[String] the desired restore location
-  def restore(location="/tmp/bacula-restore")
-    command = "echo \"restore client=\\\"#{host.name}\\\" where=\\\"#{location}\\\" select current all done yes\" | #{bconsole}"
+  def restore(job_ids, file_set_name, location="/tmp/bacula-restore")
+    command = "echo \"restore client=\\\"#{host.name}\\\" jobid=#{job_ids.join(',')} where=\\\"#{location}\\\" fileset=\\\"#{file_set_name}\\\" select all done yes\" | #{bconsole}"
     log(command)
     exec_with_timeout(command, 2)
   end

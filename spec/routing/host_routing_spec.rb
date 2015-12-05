@@ -39,14 +39,4 @@ describe HostsController do
     expect(delete('/hosts/1/revoke')).
       to route_to(controller: 'hosts', action: 'revoke', id: '1')
   end
-
-  it 'routes POST /hosts/1/restore' do
-    expect(post('/hosts/1/run_restore')).
-      to route_to(controller: 'hosts', action: 'run_restore', id: '1')
-  end
-
-  it 'routes GET /hosts/1/restore' do
-    expect(get('/hosts/1/restore')).
-      to route_to(controller: 'hosts', action: 'restore', id: '1')
-  end
 end
