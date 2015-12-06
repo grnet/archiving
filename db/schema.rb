@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151125222951) do
+ActiveRecord::Schema.define(version: 20151206204916) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -409,13 +409,14 @@ ActiveRecord::Schema.define(version: 20151125222951) do
   add_index "schedules", ["host_id"], name: "index_schedules_on_host_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "username",                             null: false
+    t.string   "username",                                null: false
     t.string   "email"
-    t.integer  "user_type",  limit: 1,                 null: false
-    t.boolean  "enabled",              default: false
+    t.integer  "user_type",     limit: 1,                 null: false
+    t.boolean  "enabled",                 default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "identifier"
+    t.string   "password_hash"
   end
 
   add_index "users", ["identifier"], name: "index_users_on_identifier", using: :btree
