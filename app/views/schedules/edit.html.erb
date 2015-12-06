@@ -1,8 +1,16 @@
 <h1>Edit Schedule: <%= @schedule.name %></h1>
 
-<div class="container graybox">
-  <%= render partial: 'form',
-    locals: { url: host_schedule_path(@host, @schedule.id, job_id: @job_id), method: :patch } %>
+<div class="col-xs-5">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>Edit Schedule</h4>
+    </div>
+
+    <br />
+
+    <%= render partial: 'form',
+      locals: { url: host_schedule_path(@host, @schedule.id, job_id: @job_id), method: :patch } %>
+  </div>
 </div>
 
 <%= link_to 'Back to job',

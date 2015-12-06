@@ -21,6 +21,12 @@ class SchedulesController < ApplicationController
   def update
     if @schedule.update(fetch_params)
       flash[:success] = 'Schedule updated successfully'
+      participating_hosts = @schedule.participating_hosts
+      if participating_hosts.size.nonzero?
+        participating_hosts.each(&:recalculate)
+        flash[:alert] = "You will need to redeploy the afffected clients: " +
+          participating_hosts.map(&:name).join(', ')
+      end
       if @job_id
         redirect_to edit_host_job_path(@host, @job_id, schedule_id: @schedule.id)
       else
@@ -67,6 +73,6 @@ class SchedulesController < ApplicationController
 
   def fetch_params
     params.require(:schedule).
-      permit(:name, { schedule_runs_attributes: [[:id, :level, :month, :day, :time]] })
+      permit(:name, { schedule_runs_attributes: [[:id, :level, :month, :day, :time, :_destroy]] })
   end
 end

@@ -5,12 +5,13 @@ class Schedule < ActiveRecord::Base
   has_many :schedule_runs
 
   belongs_to :host
+  has_many :job_templates
 
   validates :name, presence: true
   validates :name, uniqueness: { scope: :host }
   validates_with NameValidator
 
-  accepts_nested_attributes_for :schedule_runs
+  accepts_nested_attributes_for :schedule_runs, allow_destroy: true
 
   # Constructs an array where each element is a line for the Schedule's bacula config
   #
@@ -29,5 +30,12 @@ class Schedule < ActiveRecord::Base
   # @return [String]
   def name_for_config
     [host.name, name].join(' ')
+  end
+
+  # Returns the hosts that have enabled jobs that use this schedule
+  #
+  # @return [ActiveRecord::Colletion] the participating hosts
+  def participating_hosts
+    Host.joins(:job_templates).where(job_templates: { enabled: true, schedule_id: id }).uniq
   end
 end
