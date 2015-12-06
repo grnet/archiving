@@ -6,6 +6,8 @@ class Admin::UsersController < Admin::BaseController
     @unverified_host_names = Hash.new { |h, k| h[k] = [] }
 
     @users = User.all.includes(:hosts)
+    @users = @users.admin if params[:type] == 'admin'
+    @users = @users.vima if params[:type] == 'vima'
     @users.each do |user|
       user.hosts.each do |host|
         if host.deployed? || host.updated? || host.dispatched? || host.for_removal?
