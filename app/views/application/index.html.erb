@@ -1,5 +1,35 @@
-<%= link_to 'admin', login_path(admin: 'admin'), method: :post, role: :button,
-  class: 'btn btn-primary' %>
+<div class="col-xs-4 col-xs-offset-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        <label class="glyphicon glyphicon-log-in"></label>
+        Login
+      </h4>
+    </div>
 
-<%= link_to 'vima', vima_path(vima: 'vima'), method: :post, role: :button,
-  class: 'btn btn-primary' %>
+    <br />
+    <div class="row">
+      <div class="col-xs-4 col-xs-offset-4 text-center">
+        <%= link_to 'ViMa User', vima_path(vima: 'vima'), method: :post, role: :button,
+          class: 'btn btn-default btn-lg', disabled: !Archiving.settings[:vima_oauth_enabled] %>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-xs-4 col-xs-offset-4 text-center">
+        <%= link_to 'Institutional User', '', role: :button,
+          class: 'btn btn-default btn-lg',
+          disabled: !Archiving.settings[:institutional_authentication_enabled] %>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-xs-4 col-xs-offset-4 text-center">
+        <%= link_to 'Okeanos User', '', role: :button,
+          class: 'btn btn-default btn-lg',
+          disabled: !Archiving.settings[:okeanos_authentication_enabled] %>
+      </div>
+    </div>
+    <br />
+  </div>
+</div>
