@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206204916) do
+ActiveRecord::Schema.define(version: 20151207195602) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -420,5 +420,6 @@ ActiveRecord::Schema.define(version: 20151206204916) do
   end
 
   add_index "users", ["identifier"], name: "index_users_on_identifier", using: :btree
+  add_index "users", ["password_hash"], name: "index_users_on_password_hash", using: :btree
 
 end
