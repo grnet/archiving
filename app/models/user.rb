@@ -1,10 +1,29 @@
 class User < ActiveRecord::Base
+
+  attr_accessor :password, :retype_password
+
   has_many :ownerships
   has_many :hosts, through: :ownerships, inverse_of: :users
 
   enum user_type: { institutional: 0, vima: 1, okeanos: 2, admin: 3 }
 
-  validates :username, :user_type, presence: true
+  validates :user_type, presence: true
+  validates :username, presence: true, uniqueness: { scope: :user_type }
+  validates :email, presence: true, uniqueness: { scope: :user_type }
+
+  before_create :confirm_passwords, if: :admin?
+
+  # Returns an admin user with the given password
+  #
+  # @param username[String] username from user input
+  # @param a_password[String] password from user input
+  #
+  # @return [User] the admin user or nil
+  def self.fetch_admin_with_password(username, a_password)
+    hashed_pass = Digest::SHA256.hexdigest(a_password + Rails.application.secrets.salt)
+    admin = User.admin.find_by_username_and_password_hash(username, hashed_pass)
+    admin
+  end
 
   # Composes the user's display name from the user's username and email
   #
@@ -31,5 +50,31 @@ class User < ActiveRecord::Base
   def unban
     self.enabled = true
     save
+  end
+
+  # Stores a hashed password as a password_hash
+  #
+  # @param a_password[String] the user submitted password
+  #
+  # @return [Boolean] the save exit status
+  def add_password(a_password)
+    self.password_hash = Digest::SHA256.hexdigest(a_password + Rails.application.secrets.salt)
+    self.save
+  end
+
+  private
+
+  def confirm_passwords
+    if password.blank?
+      self.errors.add(:password, 'Must give a password')
+      return false
+    end
+    if password != retype_password
+      self.errors.add(:password, 'Passwords mismatch')
+      self.errors.add(:retype_password, 'Passwords mismatch')
+      return false
+    end
+
+    true
   end
 end
