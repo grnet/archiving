@@ -1,10 +1,17 @@
 Warden::Strategies.add(:admin) do
   def valid?
-    params['admin'] == 'admin'
+    params['username'] && params['password']
   end
 
   def authenticate!
-    u = User.admin.last
-    success!(u)
+    admin = User.fetch_admin_with_password(params['username'], params['password'])
+
+    return fail!("Wrong credentials") unless admin
+    return fail!("Service not available") unless admin.enabled?
+
+    admin.login_at = Time.now
+    admin.save
+
+    success!(admin)
   end
 end
