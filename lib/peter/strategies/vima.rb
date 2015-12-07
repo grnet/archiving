@@ -55,9 +55,13 @@ Warden::Strategies.add(:vima) do
 
     user = User.find_or_initialize_by(username: user_data[:user][:username],
                                       email: user_data[:user][:email])
+    user.login_at = Time.now
+
     if user.new_record?
       user.enabled = true
       user.vima!
+    else
+      user.save!
     end
 
     if user_data[:response][:errors] != false

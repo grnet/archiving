@@ -417,6 +417,7 @@ ActiveRecord::Schema.define(version: 20151207195602) do
     t.datetime "updated_at"
     t.string   "identifier"
     t.string   "password_hash"
+    t.datetime "login_at"
   end
 
   add_index "users", ["identifier"], name: "index_users_on_identifier", using: :btree
