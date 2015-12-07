@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root 'application#index'
-  post 'login' => 'application#login'
+  post 'grnet' => 'application#grnet'
   match 'vima', to: 'application#vima', :via => [:get, :post]
   get 'logout' => 'application#logout'
 
@@ -40,6 +40,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     match '/', to: 'base#index', via: [:get, :post]
+
+    get '/login' => 'base#login', as: :login
 
     resources :settings, only: [:index, :new, :create, :edit, :update] do
       member do

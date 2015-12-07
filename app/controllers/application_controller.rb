@@ -11,15 +11,25 @@ class ApplicationController < ActionController::Base
 
   def unauthenticated
     flash[:error] = warden.message
-    redirect_to root_path
+    if attempted_path == '/grnet'
+      redirect_to admin_login_path
+    else
+      redirect_to root_path
+    end
   end
 
-  # POST /login
-  def login
-    if params[:admin] == 'admin'
-      warden.authenticate(:admin)
-      current_user
+  # POST /grnet
+  def grnet
+    if current_user
+      warden.logout
+      reset_current_user
     end
+    begin
+      warden.authenticate!(:admin)
+    rescue
+      return unauthenticated
+    end
+    current_user
     redirect_to admin_path
   end
 
@@ -74,5 +84,9 @@ class ApplicationController < ActionController::Base
 
     flash[:alert] = 'You need to log in first'
     redirect_to root_path
+  end
+
+  def attempted_path
+    (request.env['warden.options'] || {})[:attempted_path]
   end
 end

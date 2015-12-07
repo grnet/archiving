@@ -1,5 +1,5 @@
 class Admin::BaseController < ApplicationController
-  before_action :require_admin
+  before_action :require_admin, except: [:login]
 
   # GET /admin
   # POST /admin
@@ -7,6 +7,11 @@ class Admin::BaseController < ApplicationController
     @client_ids = Client.pluck(:ClientId)
     get_charts
     render 'admin/index'
+  end
+
+  # GET /admin/login
+  def login
+    render 'admin/login'
   end
 
   protected
@@ -21,6 +26,6 @@ class Admin::BaseController < ApplicationController
     return if current_user.try(:admin?)
 
     flash[:alert] = 'You need to log in first'
-    redirect_to root_path
+    redirect_to admin_login_path
   end
 end
