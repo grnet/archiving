@@ -1,0 +1,15 @@
+<%= bootstrap_form_for(@user, url: admin_users_path, method: :post, layout: :horizontal,
+                       label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
+  <%= f.text_field :username, required: true %>
+  <%= f.password_field :password, required: true %>
+  <%= f.password_field :retype_password, required: true %>
+  <%= f.email_field :email, required: true %>
+
+  <div class="form-group">
+    <div class="col-xs-offset-8 col-xs-3">
+      <%= f.submit class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+<%= link_to 'Cancel', admin_users_path, class: 'btn btn-danger', role: 'button' %>

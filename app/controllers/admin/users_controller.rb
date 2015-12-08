@@ -20,6 +20,25 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
+  # GET /admin/users/new
+  def new
+    @user = User.new
+  end
+
+  # POST /admin/users
+  def create
+    @user = User.new(fetch_params)
+
+    @user.user_type = :admin
+    if @user.add_password(@user.password)
+      flash[:success] = 'User created'
+      redirect_to admin_users_path
+    else
+      flash[:error] = 'User was not created'
+      render 'new'
+    end
+  end
+
   # PATCH /admin/users/1/ban
   def ban
     @user = User.find(params[:id])
@@ -42,5 +61,11 @@ class Admin::UsersController < Admin::BaseController
     end
 
     redirect_to admin_users_path
+  end
+
+  private
+
+  def fetch_params
+    params.require(:user).permit(:username, :email, :password, :retype_password)
   end
 end

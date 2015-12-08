@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users, only: [:index] do
+    resources :users, only: [:index, :new, :create] do
       member do
         patch :ban
         patch :unban
