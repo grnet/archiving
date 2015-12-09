@@ -49,30 +49,50 @@ Warden::Strategies.add(:vima) do
       { :redirect_uri => redirect_uri },
       { :mode => :query, :param_name => "access_token", :header_format => "" })
 
-    user_data = access_token.get('https://vima.grnet.gr/instances/list?tag=vima:service:archiving',
-                                 { mode: :query, param_name: 'access_token' }).
-      parsed.deep_symbolize_keys
+    user_data = access_token.get(
+      'https://vima.grnet.gr/user/details',
+      { mode: :query, param_name: 'access_token' }
+    ).parsed.deep_symbolize_keys
 
-    user = User.find_or_initialize_by(username: user_data[:user][:username],
-                                      email: user_data[:user][:email])
+    vms = access_token.get(
+      'https://vima.grnet.gr/instances/list?tag=vima:service:archiving',
+      { mode: :query, param_name: 'access_token' }
+    ).parsed.deep_symbolize_keys
+
+    if [user_data[:username], user_data[:email], user_data[:id]].any?(&:blank?)
+      return fail!("ViMa login failed: no user data")
+    end
+
+    ###### TBR
+    # temporary, for user migration
+    user = User.find_or_initialize_by(username: user_data[:username],
+                                      email: user_data[:email])
+    user.identifier = "vima:#{user_data[:id]}"
+    ######
+
+    # actual implementation
+    #user = User.find_or_initialize_by(identifier: user_data[:identifier])
+
     user.login_at = Time.now
 
     if user.new_record?
       user.enabled = true
+      # TBR
+      user.identifier = "vima:#{user_data[:id]}"
       user.vima!
     else
       user.save!
     end
 
-    if user_data[:response][:errors] != false
-      Rails.logger.warn("ViMa: errors on instances/list response for user #{user_data[:user][:username]}")
+    if vms[:response][:errors] != false
+      Rails.logger.warn("ViMa: errors on instances/list response for user #{vms[:user][:username]}")
     end
 
     if !user.enabled?
       return fail!('Service not available')
     end
 
-    assign_vms(user, user_data[:response][:instances])
+    assign_vms(user, vms[:response][:instances])
 
     success!(user)
   end
