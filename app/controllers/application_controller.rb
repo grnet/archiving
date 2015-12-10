@@ -9,8 +9,9 @@ class ApplicationController < ActionController::Base
     redirect_to clients_path if current_user
   end
 
+  # Warden handler for authentication failure
   def unauthenticated
-    flash[:error] = warden.message
+    flash[:error] = warden.message || 'There was an error with your login'
     if attempted_path == '/grnet'
       redirect_to admin_login_path
     else
@@ -31,6 +32,17 @@ class ApplicationController < ActionController::Base
     end
     current_user
     redirect_to admin_path
+  end
+
+  # GET /institutional
+  def institutional
+    begin
+      warden.authenticate!(:institutional)
+    rescue
+      return unauthenticated
+    end
+    current_user
+    redirect_to clients_path
   end
 
   # POST /vima

@@ -1,5 +1,6 @@
 require 'peter/strategies/admin'
 require 'peter/strategies/vima'
+require 'peter/strategies/institutional'
 
 module Peter
   extend self
@@ -9,7 +10,6 @@ module Peter
   end
 
   Rails.configuration.middleware.insert_after ActionDispatch::Flash, Warden::Manager do |manager|
-    manager.default_strategies :admin, :vima
     manager.failure_app = ApplicationController
   end
 

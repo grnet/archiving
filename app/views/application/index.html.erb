@@ -17,7 +17,7 @@
     <hr />
     <div class="row">
       <div class="col-xs-4 col-xs-offset-4 text-center">
-        <%= link_to 'Institutional User', '', role: :button,
+        <%= link_to 'Institutional User', institutional_path, role: :button,
           class: 'btn btn-default btn-lg',
           disabled: !Archiving.settings[:institutional_authentication_enabled] %>
       </div>

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'application#index'
   post 'grnet' => 'application#grnet'
+  get 'institutional' => 'application#institutional'
   match 'vima', to: 'application#vima', :via => [:get, :post]
   get 'logout' => 'application#logout'
 
