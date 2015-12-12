@@ -62,6 +62,27 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  # Fetches the user's unverified hosts
+  #
+  # @return [Array] of Strings containing the hosts' names
+  def unverified_hosts
+    hosts.unverified.pluck(:name)
+  end
+
+  # Fetches the user's hosts that are being backed up by bacula
+  #
+  # @return [Array] of Strings configuration the host's names
+  def baculized_hosts
+    hosts.in_bacula.pluck(:name)
+  end
+
+  # Fetches the user's hosts that are NOT being backed up by bacula
+  #
+  # @return [Array] of Strings configuration the host's names
+  def non_baculized_hosts
+    hosts.not_baculized.pluck(:name)
+  end
+
   private
 
   def confirm_passwords

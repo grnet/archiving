@@ -39,6 +39,15 @@ class Host < ActiveRecord::Base
   scope :not_baculized, -> {
     joins("left join Client on Client.Name = hosts.name").where(Client: { Name: nil })
   }
+
+  scope :in_bacula, -> {
+    where(
+      status: STATUSES.select { |k,_|
+        [:deployed, :updated, :redispatched, :for_removal].include? k
+      }.values
+    )
+  }
+
   scope :unverified, -> { where(verified: false) }
 
   before_validation :set_retention, :unset_baculized, :sanitize_name
