@@ -40,6 +40,14 @@ class User < ActiveRecord::Base
     vima? || okeanos?
   end
 
+  # Determines if the user is editable or not.
+  # Editable users are only admin users, all others come from 3rd party authorization
+  #
+  # @return [Boolean]
+  def editable?
+    admin?
+  end
+
   # Marks a user as not enabled
   def ban
     self.enabled = false

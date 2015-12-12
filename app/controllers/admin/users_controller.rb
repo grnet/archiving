@@ -1,4 +1,7 @@
 class Admin::UsersController < Admin::BaseController
+  before_action :fetch_user, only: [:show, :edit, :update, :ban, :unban]
+  before_action :editable_users_only, only: [:edit, :update]
+
   # GET /admin/users
   def index
     @baculized_host_names = Hash.new { |h, k| h[k] = [] }
@@ -8,6 +11,7 @@ class Admin::UsersController < Admin::BaseController
     @users = User.all.includes(:hosts)
     @users = @users.admin if params[:type] == 'admin'
     @users = @users.vima if params[:type] == 'vima'
+    @users = @users.institutional if params[:type] == 'institutional'
     @users.each do |user|
       user.hosts.each do |host|
         if host.deployed? || host.updated? || host.dispatched? || host.for_removal?
@@ -22,7 +26,7 @@ class Admin::UsersController < Admin::BaseController
 
   # GET /admin/users/new
   def new
-    @user = User.new
+    @user = User.new(user_type: :admin)
   end
 
   # POST /admin/users
@@ -39,9 +43,30 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
+  # GET /admin/users/1
+  def show
+  end
+
+  # GET /admin/users/1/edit
+  def edit
+  end
+
+  # PATCH /admin/users/1/update
+  def update
+    if @user.admin? && @user.update_attributes(fetch_params)
+      flash[:success] = 'User updated'
+      redirect_to admin_user_path(@user)
+    elsif @user.admin?
+      flash[:error] = 'User not updated'
+      redirect_to edit_admin_user_path(@user)
+    else
+      flash[:error] = "User is #{@user.user_type} and thus accepts no updates"
+      redirect_to admin_user_path(@user)
+    end
+  end
+
   # PATCH /admin/users/1/ban
   def ban
-    @user = User.find(params[:id])
     if @user.ban
       flash[:success] = 'User banned'
     else
@@ -53,7 +78,6 @@ class Admin::UsersController < Admin::BaseController
 
   # PATCH /admin/users/1/unban
   def unban
-    @user = User.find(params[:id])
     if @user.unban
       flash[:success] = 'User enabled'
     else
@@ -67,5 +91,16 @@ class Admin::UsersController < Admin::BaseController
 
   def fetch_params
     params.require(:user).permit(:username, :email, :password, :retype_password)
+  end
+
+  def fetch_user
+    @user = User.find(params[:id])
+  end
+
+  def editable_users_only
+    return if @user.editable?
+
+    flash[:error] = "User #{@user.username} is not editable"
+    redirect_to admin_users_path
   end
 end

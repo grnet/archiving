@@ -1,0 +1,71 @@
+<%= render partial: 'header' %>
+
+<div class="col-xs-5">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2>User details</h2>
+    </div>
+
+    <br/>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-condensed">
+        <tr>
+          <td><b>Username</b></td>
+          <td><%= @user.username %></td>
+        </tr>
+        <tr>
+          <td><b>Email</b></td>
+          <td><%= @user.email %></td>
+        </tr>
+        <tr>
+          <td><b>User Type</b></td>
+          <td><%= @user.user_type %></td>
+        </tr>
+        <tr>
+          <td><b>Created At</b></td>
+          <td><%= I18n.l(@user.created_at, format: :short) rescue '-' %></td>
+        </tr>
+        <tr>
+          <td><b>Login At</b></td>
+          <td><%= I18n.l(@user.login_at, format: :short) rescue '-' %></td>
+        </tr>
+        <tr>
+          <td><b>Clients</b></td>
+          <td><%= inline_list @user.baculized_hosts %></td>
+        </tr>
+        <tr>
+          <td><b>Pending Hosts</b></td>
+          <td><%= inline_list @user.non_baculized_hosts %></td>
+        </tr>
+        <% if @user.institutional? %>
+          <tr>
+            <td><b>Unverified Hosts</b></td>
+            <td><%= inline_list @user.unverified_hosts %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+  <% if @user.editable? %>
+    <%= link_to edit_admin_user_path(@user), class: 'btn btn-primary' do %>
+      <label class="glyphicon glyphicon-ok-edit text-success"></label>
+      Edit User
+    <% end %>
+  <% end %>
+  <% if @user.enabled? %>
+    <%= link_to ban_admin_user_path(@user), method: :patch, class: 'btn btn-default',
+                data: { confirm: "User #{@user.username} will be banned" } do %>
+      <label class="glyphicon glyphicon-ban-circle text-danger"></label>
+      Ban User
+    <% end %>
+  <% else %>
+    <%= link_to unban_admin_user_path(@user), method: :patch, class: 'btn btn-default',
+                data: { confirm: "User #{@user.username} will be unbanned" } do %>
+      <label class="glyphicon glyphicon-ok-circle text-success"></label>
+      Unban User
+    <% end %>
+  <% end %>
+
+  <%= link_to 'Back to users', admin_users_path, class: 'right' %>
+</div>

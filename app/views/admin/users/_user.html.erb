@@ -1,6 +1,6 @@
 <tr>
-  <td>#<%= user.id %></td>
-  <td><%= user.username %></td>
+  <td><%= link_to "##{user.id}", admin_user_path(user) %></td>
+  <td><%= link_to user.username, admin_user_path(user) %></td>
   <td><%= user.email %></td>
   <td><%= user.user_type %></td>
   <td><%= I18n.l(user.created_at, format: :short) %></td>
@@ -8,16 +8,26 @@
   <td><%= inline_list @unverified_host_names[user.id] %></td>
   <td><%= inline_list @non_baculized_host_names[user.id] %></td>
   <td>
+    <%= link_to admin_user_path(user) do %>
+      <label class="glyphicon glyphicon-eye-open text-primary" alt="show"></label>
+    <% end %>
+    <% if user.editable? %>
+      <%= link_to edit_admin_user_path(user) do %>
+        <label class="glyphicon glyphicon-edit text-primary" alt="show"></label>
+      <% end %>
+    <% end %>
+  </td>
+  <td>
     <% if user.enabled? %>
       <%= link_to ban_admin_user_path(user), method: :patch, class: 'btn btn-default',
-                  data: { confirm: 'User will be banned' } do %>
-        <label class="glyphicon glyphicon-remove text-danger"></label>
+                  data: { confirm: "User #{user.username} will be banned" } do %>
+        <label class="glyphicon glyphicon-ban-circle text-danger"></label>
         Ban
       <% end %>
     <% else %>
       <%= link_to unban_admin_user_path(user), method: :patch, class: 'btn btn-default',
-                  data: { confirm: 'User will be unbanned' } do %>
-        <label class="glyphicon glyphicon-ok text-success"></label>
+                  data: { confirm: "User #{user.username} will be unbanned" } do %>
+        <label class="glyphicon glyphicon-ok-circle text-success"></label>
         Unban
       <% end %>
     <% end %>

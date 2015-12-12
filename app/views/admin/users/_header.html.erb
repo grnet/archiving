@@ -1,0 +1,5 @@
+<%= breadcrumb_with Admin: admin_path,
+                    Users: admin_users_path,
+                    @user.user_type.capitalize => admin_users_path(type: @user.user_type),
+                    (@user.username || 'New') => @user.persisted? ? admin_user_path(@user):''
+                  %>
