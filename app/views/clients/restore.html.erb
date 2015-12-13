@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-xs-4">
     <% if @client.is_backed_up? %>
-      <% restore_point = @client.last_job_date_formatted %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3>Restore files for "<%= @client.name %>"</h3>
@@ -11,10 +10,8 @@
 
         <%= bootstrap_form_tag(url: run_restore_client_path(@client), layout: :horizontal,
                                label_col: 'col-xs-4', control_col: 'col-xs-7' ) do |f| %>
-          <div class="form-group">
-            <%= f.label(:restore_point, class: 'control-label col-xs-4') %>
-            <p class="form-control-static col-xs-8"><%= restore_point %></p>
-          </div>
+          <%= f.text_field :restore_date %>
+          <%= f.time_select :restore_time, ignore_date: true, minute_step: 30, prompt: true %>
 
           <%= f.select(:fileset,
                        options_from_collection_for_select(@client.file_sets, :id, :file_set)) %>
@@ -24,7 +21,7 @@
           <div class="row">
             <div class="col-xs-3 col-xs-offset-9">
               <%= f.submit 'Restore Files', class: 'btn btn-warning text-right',
-                  data: { confirm: "This will restore all your files at the most recent backup (#{restore_point})" }
+                  data: { confirm: "This will restore all your files" }
               %>
             </div>
           </div>
@@ -40,3 +37,13 @@
     <%= link_to 'Cancel', client_path(@client), class: 'btn btn-danger', role: 'button' %>
   </div>
 </div>
+<script type="text/javascript">
+  <% min_date, max_date = @client.backup_enabled_datetime_range %>
+  var minDate = '<%= min_date %>';
+  var maxDate = '<%= max_date %>';
+  $('#restore_date').datepicker({
+    dateFormat: 'yy-mm-dd',
+    minDate: minDate,
+    maxDate: maxDate
+  });
+</script>

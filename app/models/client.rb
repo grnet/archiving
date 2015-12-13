@@ -58,9 +58,21 @@ class Client < ActiveRecord::Base
 
   # Helper method for displayin the last job's datetime in a nice format.
   def last_job_date_formatted
-    if job_time = jobs.backup_type.last.try(:end_time)
+    if job_time = last_job_datetime
       I18n.l(job_time, format: :long)
     end
+  end
+
+  # Helper method for fetching the last job's datetime
+  def last_job_datetime
+    jobs.backup_type.last.try(:end_time)
+  end
+
+  # Fetches the first and last job's end times.
+  #
+  # @returns [Array] of datetimes in proper format
+  def backup_enabled_datetime_range
+    jobs.backup_type.pluck(:end_time).minmax.map { |x| x.strftime('%Y-%m-%d') }
   end
 
   # Shows if a client has any backup jobs to Bacule config

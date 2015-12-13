@@ -130,7 +130,7 @@ class Host < ActiveRecord::Base
     return false if not restorable?
     job_ids = client.get_job_ids(file_set_id, restore_point)
     file_set_name = FileSet.find(file_set_id).file_set
-    bacula_handler.restore(job_ids, file_set_name, location)
+    bacula_handler.restore(job_ids, file_set_name, restore_point, location)
   end
 
   # Runs the given backup job ASAP

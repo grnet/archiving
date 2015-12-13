@@ -50,7 +50,8 @@ class ClientsController < ApplicationController
   def run_restore
     location = params[:restore_location].blank? ? '/tmp/bacula-restore' : params[:restore_location]
     fileset = params[:fileset]
-    if location.nil? || fileset.nil? || !@client.host.restore(fileset, location)
+    restore_point = fetch_restore_point
+    if location.nil? || fileset.nil? || !@client.host.restore(fileset, location, restore_point)
       flash[:error] = 'Something went wrong, try again later'
     else
       flash[:success] =
@@ -75,5 +76,13 @@ class ClientsController < ApplicationController
     days_ago = params.fetch(:days_back, 7).to_i rescue 7
     @job_status = ChartGenerator.job_statuses(@client_ids, days_ago)
     @job_stats = ChartGenerator.job_stats(@client_ids, days_ago - 1)
+  end
+
+  def fetch_restore_point
+    if params['restore_time(4i)'].blank? || params['restore_time(5i)'].blank? ||
+        params[:restore_date].blank?
+      return nil
+    end
+    "#{params[:restore_date]} #{params['restore_time(4i)']}:#{params['restore_time(5i)']}:00"
   end
 end
