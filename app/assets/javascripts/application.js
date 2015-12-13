@@ -12,6 +12,7 @@
 //
 //= require jquery.min
 //= require jquery_ujs
+//= require jquery-ui.min
 //= require bootstrap.min
 //= require_tree .
 //= require highcharts
