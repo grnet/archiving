@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :require_logged_in
-  before_action :fetch_host, only: [:new, :edit, :show, :create, :update,
+  before_action :fetch_host, only: [:new, :edit, :show, :create, :update, :destroy,
                                     :toggle_enable, :backup_now]
   before_action :fetch_job, only: [:show, :edit, :update, :destroy, :toggle_enable, :backup_now]
 
@@ -42,6 +42,14 @@ class JobsController < ApplicationController
 
   # DELETE /jobs/1
   def destroy
+    if @job.destroy
+      flash[:success] = 'Job deleted'
+      @host.recalculate
+      redirect_to host_path(@host)
+    else
+      flash[:error] = 'Job not deleted'
+      redirect_to host_job_path(@host, @job)
+    end
   end
 
   # PATCH /hosts/1/jobs/1/enable
