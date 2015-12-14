@@ -49,6 +49,15 @@ class ScheduleRun < ActiveRecord::Base
     levels.keys.zip levels.keys
   end
 
+  # Builds a sane default schedule_run
+  #
+  # @return [ScheduleRun]
+  def default_run
+    self.level = :full
+    self.day = "first sun"
+    self.time = '04:00'
+  end
+
   # Composes the schedule line for the bacula configuration
   #
   # @return [String]

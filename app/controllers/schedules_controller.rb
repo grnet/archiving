@@ -6,7 +6,7 @@ class SchedulesController < ApplicationController
 
   def new
     @schedule = @host.schedules.new
-    @schedule.schedule_runs.build
+    @schedule.schedule_runs.build.default_run
   end
 
   def show
