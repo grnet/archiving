@@ -95,6 +95,12 @@ class Host < ActiveRecord::Base
     end
   end
 
+  # Determines if a host has enabled jobs in order to be dispatched to Bacula
+  #
+  # @return [Boolean]
+  def bacula_ready?
+    job_templates.enabled.any?
+  end
 
   # Shows the host's auto_prune setting
   def auto_prune_human

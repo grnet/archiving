@@ -39,7 +39,7 @@ class HostsController < ApplicationController
   def update
     updates = fetch_params.slice(:port, :password)
     if updates.present? && @host.update_attributes(updates)
-      @host.recalculate
+      @host.recalculate if @host.bacula_ready?
       flash[:success] = 'Host updated successfully. You must update your file deamon accordingly.'
       redirect_to host_path @host
     else
