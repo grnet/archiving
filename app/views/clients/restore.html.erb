@@ -10,6 +10,14 @@
 
         <%= bootstrap_form_tag(url: run_restore_client_path(@client), layout: :horizontal,
                                label_col: 'col-xs-4', control_col: 'col-xs-7' ) do |f| %>
+          <div class="form-group">
+            <label class="col-xs-4 control-label"></label>
+            <div class="col-xs-7">
+              <p class="form-control-static">
+                Restore to most recent backup by leaving date and time blank
+              </p>
+            </div>
+          </div>
           <%= f.text_field :restore_date %>
           <%= f.time_select :restore_time, ignore_date: true, minute_step: 30, prompt: true %>
 
