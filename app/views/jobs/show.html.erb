@@ -1,32 +1,25 @@
-<h1>"<%= @job.name %>" Job Template</h1>
+<div class="right">
+  <%= link_to 'Edit', edit_host_job_path(@host, @job),
+              class: "btn btn-primary", role: "button" %>
+  <%= link_to 'Delete', host_job_path(@host, @job),
+              method: :delete, data: { confirm: 'This will delete the job' },
+              class: "btn btn-danger", role: "button" %>
+</div>
 
 <div class="row">
   <div class="col-xs-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3> Job Attributes</h3>
+        <h1>"<%= @job.name %>" Job Template</h1>
       </div>
 
       <div class="row">
         <%= render partial: 'job_details' %>
       </div>
-
-      <div class="row">
-        <div class="col-xs-2">
-          <%= link_to 'Delete', host_job_path(@host, @job),
-            method: :delete, data: { confirm: 'This will delete the job' },
-            class: "btn btn-danger", role: "button" %>
-        </div>
-        <div class="col-xs-2 col-xs-offset-2">
-          <%= link_to 'Edit', edit_host_job_path(@host, @job),
-            class: "btn btn-primary", role: "button" %>
-        </div>
-        <div class="col-xs-2 col-xs-offset-4 right">
-          <%= link_to 'Back to host', host_path(@host),
-            class: "btn btn-success", role: "button" %>
-        </div>
-      </div>
-      <br />
+    </div>
+    <div class="col-xs-2 col-xs-offset-4 right">
+      <%= link_to 'Back to host', host_path(@host),
+                  class: "btn btn-success", role: "button" %>
     </div>
   </div>
 </div>
