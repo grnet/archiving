@@ -147,7 +147,7 @@ describe Host do
   describe '#recalculate' do
     let(:host) { FactoryGirl.create(:host, :with_enabled_jobs) }
 
-    [:configured, :updated].each do |status|
+    [:configured, :updated, :blocked].each do |status|
       context "a #{status} host" do
         before { host.update_column(:status, Host::STATUSES[status]) }
 

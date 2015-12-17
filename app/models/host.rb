@@ -15,7 +15,8 @@ class Host < ActiveRecord::Base
     updated: 4,
     redispatched: 5,
     for_removal: 6,
-    inactive: 7
+    inactive: 7,
+    blocked: 8
   }
 
   has_many :ownerships
@@ -93,6 +94,14 @@ class Host < ActiveRecord::Base
     event :disable do
       transition all => :pending
     end
+
+    event :block do
+      transition all - [:blocked] => :blocked
+    end
+
+    event :unblock do
+      transition :blocked => :pending
+    end
   end
 
   # Determines if a host has enabled jobs in order to be dispatched to Bacula
@@ -150,6 +159,12 @@ class Host < ActiveRecord::Base
     bacula_handler.deploy_config
   end
 
+  # Disables all jobs if needed and then locks the host
+  def disable_jobs_and_lock
+    return false if can_set_inactive? && !disable_jobs_and_update
+    block
+  end
+
   # Determinex weather a host:
   #
   # * has all it takes to be deployed but
@@ -186,6 +201,8 @@ class Host < ActiveRecord::Base
       { message: 'pending client configuration withdraw', severity: :error }
     elsif inactive?
       { message: 'client disabled', severity: :alert }
+    elsif blocked?
+      { message: 'client disabled by admin.', severity: :error }
     end
   end
 

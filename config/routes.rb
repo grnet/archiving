@@ -58,6 +58,8 @@ Rails.application.routes.draw do
         post :stats
         get :configuration
         post :disable
+        post :block
+        post :unblock
         delete :revoke
       end
     end

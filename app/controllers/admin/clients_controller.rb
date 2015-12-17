@@ -1,6 +1,6 @@
 class Admin::ClientsController < Admin::BaseController
-  before_action :fetch_client, only: [:show, :jobs, :logs, :stats,
-                                      :configuration, :disable, :revoke]
+  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :configuration,
+                                      :disable, :revoke, :block, :unblock]
   before_action :fetch_logs, only: [:logs]
 
   # Shows all available clients
@@ -49,6 +49,28 @@ class Admin::ClientsController < Admin::BaseController
       flash[:success] = 'Client disabled'
     else
       flash[:error] = 'Something went wrong, try again later'
+    end
+
+    redirect_to admin_client_path(@client)
+  end
+
+  # POST /admin/clients/1/block
+  def block
+    if @client.host.disable_jobs_and_lock
+      flash[:success] = 'Client is disabled and locked'
+    else
+      flash[:error] = 'Something went wrong, try again'
+    end
+
+    redirect_to admin_client_path(@client)
+  end
+
+  # POST /admin/clients/1/unblock
+  def unblock
+    if @client.host.unblock
+      flash[:success] = 'Client can know be configured by users'
+    else
+      flash[:error] = 'Client is still locked'
     end
 
     redirect_to admin_client_path(@client)

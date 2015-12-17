@@ -20,6 +20,8 @@ module HostsHelper
       klass = "danger"
     when host.inactive?
       klass = "warning"
+    when host.blocked?
+      klass = "warning"
     end
 
     content_tag(:span, class: "label label-#{klass}") { host.human_status_name.upcase }
