@@ -1,8 +1,11 @@
-<%= bootstrap_form_for(@fileset, url: host_filesets_path(@host, @fileset), layout: :horizontal,
+<%= bootstrap_form_for(@fileset, url: url, method: method, layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
   <div>
     <%= f.text_field :name %>
-    <%= text_with_errors_and_plus(@fileset, :fileset, :include_files, 'Files', '/') %>
+
+    <% @fileset.include_directions['file'].each do |file| %>
+      <%= text_with_errors_and_plus(@fileset, :fileset, :include_files, 'Files', '/', file) %>
+    <% end %>
     <%= text_with_errors_and_plus(@fileset, :fileset, :exclude_directions, 'Exclude', '/bacula') %>
     <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
   </div>

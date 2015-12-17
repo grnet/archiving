@@ -16,6 +16,16 @@ describe FilesetsController do
       to route_to(controller: 'filesets', action: 'show', host_id: '1', id: '2')
   end
 
+  it 'routes GET /hosts/:host_id/filesets/:id/edit' do
+    expect(get('/hosts/1/filesets/2/edit')).
+      to route_to(controller: 'filesets', action: 'edit', host_id: '1', id: '2')
+  end
+
+  it 'routes PATCH /hosts/:host_id/filesets/:id' do
+    expect(patch('/hosts/1/filesets/2')).
+      to route_to(controller: 'filesets', action: 'update', host_id: '1', id: '2')
+  end
+
   it 'routes DELETE /hosts/:host_id/filesets/:id' do
     expect(delete('/hosts/1/filesets/2')).
       to route_to(controller: 'filesets', action: 'destroy', host_id: '1', id: '2')

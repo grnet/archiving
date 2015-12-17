@@ -1,7 +1,8 @@
 <h1>New Fileset</h1>
 
 <div class="container graybox">
-  <%= render 'form' %>
+  <%= render partial: 'form',
+             locals: { url: host_filesets_path(@host), method: :post } %>
 </div>
 
 <%= link_to 'Back to job',

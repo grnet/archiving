@@ -39,6 +39,13 @@ class Fileset < ActiveRecord::Base
     [host.name, name].join(' ')
   end
 
+  # Returns the hosts that have enabled jobs that use this fileset
+  #
+  # @return [ActiveRecord::Relation] the participating hosts
+  def participating_hosts
+    Host.joins(:job_templates).where(job_templates: { enabled: true, fileset_id: id }).uniq
+  end
+
   private
 
   def has_included_files

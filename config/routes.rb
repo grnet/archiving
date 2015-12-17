@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :filesets, only: [:show, :new, :create, :destroy]
+    resources :filesets, only: [:show, :new, :create, :edit, :update, :destroy]
     resources :schedules, only: [:show, :new, :edit, :create, :update, :destroy]
   end
 
