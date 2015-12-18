@@ -58,7 +58,7 @@ module Configuration
     def bacula_fd_director_config
       [
         'Director {',
-        "  Name = \"#{Baas.settings[:director_name]}\"",
+        "  Name = \"#{Archiving.settings[:director_name]}\"",
         "  Password = \"#{password}\"",
         '}'
       ].join("\n")

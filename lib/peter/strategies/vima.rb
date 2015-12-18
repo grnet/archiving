@@ -33,7 +33,7 @@ Warden::Strategies.add(:vima) do
   end
 
   def authenticate!
-    if !Baas::settings[:vima_oauth_enabled]
+    if !Archiving::settings[:vima_oauth_enabled]
       return fail!("ViMa is temporarily disabled")
     end
 

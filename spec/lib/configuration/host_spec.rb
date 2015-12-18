@@ -92,7 +92,7 @@ describe Configuration::Host do
     end
 
     it 'includes the client\'s Name' do
-      expect(subject).to match("  Name = \"#{Baas.settings[:director_name]}\"")
+      expect(subject).to match("  Name = \"#{Archiving.settings[:director_name]}\"")
     end
 
     it 'includes the client\'s Password' do

@@ -17,7 +17,7 @@ else
   require 'net/scp'
 end
 
-module Baas
+module Archiving
   def self.settings opts = nil
     @settings ||= {}
 
