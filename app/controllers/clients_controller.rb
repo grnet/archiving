@@ -83,6 +83,13 @@ class ClientsController < ApplicationController
         params[:restore_date].blank?
       return nil
     end
-    "#{params[:restore_date]} #{params['restore_time(4i)']}:#{params['restore_time(5i)']}:00"
+    restore_point =
+      "#{params[:restore_date]} #{params['restore_time(4i)']}:#{params['restore_time(5i)']}:00"
+    begin
+      DateTime.strptime(restore_point, '%Y-%m-%d %H:%M:%S')
+    rescue
+      return nil
+    end
+    restore_point
   end
 end
