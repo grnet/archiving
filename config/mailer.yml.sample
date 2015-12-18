@@ -1,0 +1,8 @@
+development:
+  address: smtp.grnet.gr
+  port: 587
+  domain: example.com
+  user_name: sender@archiving.grnet.gr 
+  password: a_pass
+  authentication: plain
+  enable_starttls_auto: true

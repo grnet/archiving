@@ -25,6 +25,7 @@ config/secrets.yml
 config/bconsole.conf
 config/ssh.yml
 config/bacula.yml
+config/mailer.yml
 
 .ruby-version
 .rspec
