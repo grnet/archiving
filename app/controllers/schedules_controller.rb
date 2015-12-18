@@ -4,20 +4,24 @@ class SchedulesController < ApplicationController
   before_action :fetch_job_id, only: [:new, :create, :show, :edit, :update]
   before_action :fetch_schedule, only: [:show, :edit, :update]
 
+  # GET /hosts/:host_id/schedules/new
   def new
     @schedule = @host.schedules.new
     @schedule.schedule_runs.build.default_run
   end
 
+  # GET /hosts/:host_id/schedules/:id
   def show
     respond_to do |format|
       format.js {}
     end
   end
 
+  # GET /hosts/:host_id/schedules/:id/edit
   def edit
   end
 
+  # PATCH /hosts/:host_id/schedules/:id
   def update
     if @schedule.update(fetch_params)
       flash[:success] = 'Schedule updated successfully'
@@ -37,6 +41,7 @@ class SchedulesController < ApplicationController
     end
   end
 
+  # POST /hosts/:host_id/schedules
   def create
     @schedule = @host.schedules.new(fetch_params)
 
@@ -54,6 +59,7 @@ class SchedulesController < ApplicationController
     end
   end
 
+  # DELETE /hosts/:host_id/schedules/:id
   def destroy
   end
 

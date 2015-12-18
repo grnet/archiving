@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :warden
 
+  # GET /
   def index
     redirect_to clients_path if current_user
   end

@@ -4,11 +4,13 @@ class FilesetsController < ApplicationController
   before_action :fetch_job_id, only: [:new, :create, :edit, :update]
   before_action :fetch_fileset, only: [:show, :edit, :update]
 
+  # GET /hosts/:host_id/filesets/new
   def new
     @fileset = @host.filesets.new
     @fileset.include_directions = { 'file' => [nil] }
   end
 
+  # GET /hosts/:host_id/filesets/:id
   def show
     @fileset = @host.filesets.find(params[:id])
 
@@ -42,6 +44,7 @@ class FilesetsController < ApplicationController
     end
   end
 
+  # POST /hosts/:host_id/filesets
   def create
     @fileset = @host.filesets.new(fetch_params)
 
@@ -59,6 +62,7 @@ class FilesetsController < ApplicationController
     end
   end
 
+  # DELETE /hosts/:host_id/filesets/:id
   def destroy
   end
 
