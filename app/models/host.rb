@@ -225,7 +225,12 @@ class Host < ActiveRecord::Base
     self.verified = true
     self.verifier_id = admin_verifier
     self.verified_at = Time.now
-    save
+    recipients = users.pluck(:email)
+    if save
+      UserMailer.notify_for_verification(recipients, name).deliver if recipients.any?
+      return true
+    end
+    false
   end
 
   # Determines if a host can be disabled or not.
