@@ -79,4 +79,6 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :test
   config.action_mailer.smtp_settings =
     YAML::load(File.open("#{Rails.root}/config/mailer.yml"))[Rails.env].symbolize_keys
+
+  routes.default_url_options = { host: 'archiving.grnet.gr' }
 end

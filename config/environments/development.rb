@@ -38,4 +38,6 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings =
     YAML::load(File.open("#{Rails.root}/config/mailer.yml"))[Rails.env].symbolize_keys
+
+  routes.default_url_options = { host: '127.0.0.1', port: '3000' }
 end

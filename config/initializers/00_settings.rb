@@ -6,3 +6,4 @@ Archiving.settings institutional_authentication_enabled: true
 Archiving.settings okeanos_authentication_enabled: false
 
 Archiving.settings default_sender: 'admin@archiving.grnet.gr'
+Archiving.settings admin_email: 'admin@archiving.grnet.gr'

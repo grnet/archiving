@@ -11,4 +11,14 @@ class UserMailer < ActionMailer::Base
     s = "[Archiving] Host #{host} verification"
     mail(to: user_emails, subject: s)
   end
+
+  # Notifies admin about a new host that needs verification
+  #
+  # @param user[User] the user that created the host
+  # @param host[String] the host's FQDN
+  def notify_admin(user, host)
+    @user = user
+    @host = host
+    mail(to: Archiving.settings[:admin_email], subject: 'New host pending verification')
+  end
 end
