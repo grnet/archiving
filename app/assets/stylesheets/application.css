@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require bootstrap.min
+ *= require jstree-default
  *= require_tree .
  *= require_self
  */
@@ -65,3 +66,7 @@ li.logo > a > p {
   margin-bottom: 0;
   color: #333333px;
 }
+
+.jstree-closed > a > i.jstree-checkbox,
+.jstree-open > a > i.jstree-checkbox
+{ display: none; }

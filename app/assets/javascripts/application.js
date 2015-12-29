@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui.min
 //= require bootstrap.min
+//= require jstree
 //= require_tree .
 //= require highcharts
 //= require jobs
