@@ -1,6 +1,7 @@
 class ClientsController < ApplicationController
   before_action :require_logged_in
-  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :users, :restore, :run_restore]
+  before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :users, :restore, :run_restore,
+                                      :restore_selected]
   before_action :fetch_logs, only: [:logs]
 
   # GET /clients
@@ -48,17 +49,58 @@ class ClientsController < ApplicationController
 
   # POST /clients/1/run_restore
   def run_restore
-    location = params[:restore_location].blank? ? '/tmp/bacula-restore' : params[:restore_location]
+    @location = params[:restore_location].blank? ? '/tmp/bacula_restore' : params[:restore_location]
     fileset = params[:fileset]
     restore_point = fetch_restore_point
-    if location.nil? || fileset.nil? || !@client.host.restore(fileset, location, restore_point)
-      flash[:error] = 'Something went wrong, try again later'
+
+    if params[:commit] == 'Restore All Files'
+      if @location.nil? || fileset.nil? || !@client.host.restore(fileset, @location, restore_point)
+        flash[:error] = 'Something went wrong, try again later'
+      else
+        flash[:success] =
+          "Restore job issued successfully, files will be soon available in #{@location}"
+      end
+      render js: "window.location = '#{client_path(@client)}'"
     else
-      flash[:success] =
-        "Restore job issued successfully, files will be soon available in #{location}"
+      session[:job_ids] = @client.get_job_ids(fileset, restore_point)
+      Bvfs.new(@client, session[:job_ids]).update_cache
+      render 'select_files'
+    end
+  end
+
+  # POST /clients/1/restore_selected
+  def restore_selected
+    Bvfs.new(@client, session[:job_ids]).restore_selected_files(params[:files], params[:location])
+    session.delete(:job_ids)
+    flash[:success] =
+      "Restore job issued successfully, files will be soon available in #{params[:location]}"
+    redirect_to client_path(@client)
+  end
+
+  # GET /clients/1/tree?id=1
+  def tree
+    @client = Client.for_user(current_user.id).find(params[:client_id])
+    bvfs = Bvfs.new(@client, session[:job_ids])
+    pathid = params[:id].to_i
+
+    if pathid.nonzero?
+      bvfs.fetch_dirs(pathid)
+    else
+      bvfs.fetch_dirs
     end
 
-    redirect_to client_path(@client)
+    tree = bvfs.extract_dir_id_and_name.map do |id, name|
+      { id: id, text: name, state: { checkbox_disabled: true }, children: true }
+    end
+
+    if pathid.nonzero?
+      bvfs.fetch_files(pathid)
+      bvfs.extract_file_id_and_name.each do |id, name|
+        tree << { id: id, text: name, type: 'file' }
+      end
+    end
+
+    render json: tree
   end
 
   private

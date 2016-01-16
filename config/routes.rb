@@ -14,10 +14,17 @@ Rails.application.routes.draw do
       get :users
       get :restore
       post :run_restore
+      post :restore_selected
     end
 
     collection do
       post :index
+    end
+  end
+
+  resources :clients, only: [], param: :client_id do
+    member do
+      get :tree
     end
   end
 

@@ -1,0 +1,15 @@
+<div id='file-selector' class="col-xs-4">
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h3> Files </h3>
+    </div>
+    <div class="loader">
+      <h3>LOADING</h3>
+    </div>
+    <div id="file-tree"></div>
+  </div>
+</div>
+
+<%= form_tag(restore_selected_client_path, { id: 'file-submitter', style: 'display:none' }) do %>
+  <%= submit_tag 'Restore Selected Files', class: 'btn btn-default', disabled: true %>
+<% end %>

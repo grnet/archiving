@@ -1,0 +1,27 @@
+$('#basic-form input').attr('disabled', true);
+$('#basic-form select').attr('disabled', true);
+$('.loader').hide();
+$('#file-tree').jstree({
+  'core': {
+    'data' : {
+      "url" : "<%= escape_javascript(tree_client_path(client_id: @client.id)) %>",
+      "data" : function(node) {
+        return { "id" : node.id };
+      },
+      "dataType" : "json"
+    }
+  },
+  'checkbox' : {
+    'three_state': false
+  },
+  "types" : {
+      "file" : {
+        "icon" : "glyphicon glyphicon-file"
+      }
+    },
+    "plugins" : ["types", "checkbox"]
+});
+
+$('#file-submitter').show();
+$('#file-submitter').
+  append('<input type="hidden" name="location" value="<%= escape_javascript(@location) %>"/>');

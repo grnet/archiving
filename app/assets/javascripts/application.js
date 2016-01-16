@@ -19,6 +19,7 @@
 //= require highcharts
 //= require jobs
 //= require filesets
+//= require clients
 
 $(document).ready(function() {
         if ($('.schedule_run_form_plus').size() > 0) {

@@ -8,8 +8,9 @@
 
         <br />
 
-        <%= bootstrap_form_tag(url: run_restore_client_path(@client), layout: :horizontal,
-                               label_col: 'col-xs-4', control_col: 'col-xs-7' ) do |f| %>
+        <%= bootstrap_form_tag(url: run_restore_client_path(@client), remote: true,
+                               layout: :horizontal, label_col: 'col-xs-4', control_col: 'col-xs-7',
+                               html: { id: 'basic-form' } ) do |f| %>
           <div class="form-group">
             <label class="col-xs-4 control-label"></label>
             <div class="col-xs-7">
@@ -24,11 +25,17 @@
           <%= f.select(:fileset,
                        options_from_collection_for_select(@client.file_sets, :id, :file_set)) %>
 
-          <%= f.text_field :restore_location, placeholder: '/tmp' %>
+          <%= f.text_field :restore_location, placeholder: '/tmp/bacula_restore' %>
 
           <div class="row">
-            <div class="col-xs-3 col-xs-offset-9">
-              <%= f.submit 'Restore Files', class: 'btn btn-warning text-right',
+            <div class="col-xs-5 col-xs-offset-6 text-right">
+              <%= f.submit 'Select Specific Files', id: 'select-files', class: 'btn btn-primary'  %>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-xs-3 col-xs-offset-8">
+              <%= f.submit 'Restore All Files', class: 'btn btn-warning text-right',
                   data: { confirm: "This will restore all your files" }
               %>
             </div>
@@ -42,8 +49,9 @@
       </div>
     <% end %>
 
-    <%= link_to 'Cancel', client_path(@client), class: 'btn btn-danger', role: 'button' %>
+    <%= link_to 'Back to client', client_path(@client), class: 'btn btn-danger', role: 'button' %>
   </div>
+  <%= render partial: 'file_selector' %>
 </div>
 <script type="text/javascript">
   <% min_date, max_date = @client.backup_enabled_datetime_range %>
