@@ -4,6 +4,7 @@
   <td><%= user.email %></td>
   <td><%= user.user_type %></td>
   <td><%= I18n.l(user.created_at, format: :short) %></td>
+  <td><%= I18n.l(user.login_at, format: :short) rescue '-' %></td>
   <td><%= inline_list @baculized_host_names[user.id] %></td>
   <td><%= inline_list @unverified_host_names[user.id] %></td>
   <td><%= inline_list @non_baculized_host_names[user.id] %></td>
