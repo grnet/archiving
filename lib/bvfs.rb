@@ -79,6 +79,13 @@ class Bvfs
     Process.detach(pid)
   end
 
+  # Issues the bvfs command for cleaning up a temporary db table
+  #
+  # @param dbname[String] the database table's name
+  def purge_db(dbname)
+    exec_command(pipe_to_bconsole(".bvfs_cleanup path=#{dbname}"))
+  end
+
   private
 
   # Generates the bvfs command needed in order to create a temporary database
@@ -104,14 +111,6 @@ class Bvfs
   # @return [String] bconsole's restore command
   def restore_command(dbname, location)
     "restore file=?#{dbname} client=\\\"#{client.name}\\\" where=\\\"#{location}\\\" yes"
-  end
-
-  # Generates the bvfs command for cleaning up the temporary db table
-  #
-  # @param dbname[String] the database table's name
-  # @return [String] the bvfs command
-  def purge_db(dbname)
-    ".bvfs_cleanup path=#{dbname}"
   end
 
   def clear_cache
