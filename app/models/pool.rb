@@ -39,7 +39,78 @@ class Pool < ActiveRecord::Base
   has_many :jobs, foreign_key: :PoolId
   has_many :media, foreign_key: :PoolId
 
+  validates_confirmation_of :name
+
+  BOOLEAN_OPTIONS = [['no', 0], ['yes', 1]]
+  POOL_OPTIONS = [:name, :vol_retention, :use_once, :auto_prune, :recycle,
+                  :max_vols, :max_vol_jobs, :max_vol_files, :max_vol_bytes, :label_format]
+
+  # @return [Array] of all the available pools by name
   def self.available_options
     pluck(:Name)
+  end
+
+  # Persists the unpersisted record to bacula via its bacula handler
+  #
+  # @return [Boolean] according to the persist status
+  def submit_to_bacula
+    return false if !valid? || !ready_for_bacula?
+    sanitize_names
+    bacula_handler.deploy_config
+  end
+
+  # Constructs an array where each element is a line for the Job's bacula config
+  #
+  # @return [Array]
+  def to_bacula_config_array
+    ['Pool {'] +
+      options_array.map { |x| "  #{x}" } +
+      ['}']
+  end
+
+  # Human readable volume retention
+  #
+  # @return [String] the volume's retention in days
+  def vol_retention_human
+    "#{vol_retention_days} days"
+  end
+
+  # volume retention in days
+  def vol_retention_days
+    vol_retention / 1.day.to_i
+  end
+
+  private
+
+  # proxy object for bacula pool handling
+  def bacula_handler
+    BaculaPoolHandler.new(self)
+  end
+
+  # pool names and label formats should only contain alphanumeric values
+  def sanitize_names
+    self.name = name.gsub(/[^a-zA-Z0-9]/, '_')
+    self.label_format = label_format.gsub(/[^a-zA-Z0-9]/, '_')
+  end
+
+  def options_array
+    boolean_options = Hash[BOOLEAN_OPTIONS].invert
+    [
+      "Name = \"#{name}\"",
+      "Volume Retention = #{vol_retention_human}",
+      "Use Volume Once = #{boolean_options[use_once.to_i]}",
+      "AutoPrune = #{boolean_options[auto_prune.to_i]}",
+      "Recycle = #{boolean_options[recycle.to_i]}",
+      "Maximum Volumes = #{max_vols}",
+      "Maximum Volume Jobs = #{max_vol_jobs}",
+      "Maximum Volume Files = #{max_vol_files}",
+      "Maximum Volume Bytes = #{max_vol_bytes}G",
+      "Label Format = \"#{label_format}\"",
+      "Pool Type = Backup"
+    ]
+  end
+
+  def ready_for_bacula?
+    POOL_OPTIONS.all? { |attr| self.send(attr).present? }
   end
 end

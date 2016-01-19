@@ -87,5 +87,7 @@ Rails.application.routes.draw do
         patch :unban
       end
     end
+
+    resources :pools, only: [:index, :new, :create, :show, :edit, :update]
   end
 end

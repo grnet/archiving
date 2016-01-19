@@ -106,4 +106,14 @@ module ApplicationHelper
       }.inject { |result, element| result.concat(element) }
     end
   end
+
+  # Generates a span with a yes or no and the corresponding formatting
+  # according to the value's falseness
+  #
+  # @param value[Integer]
+  def yes_no(value)
+    klass = value == 1 ? 'label label-success' : 'label label-danger'
+    text = value == 1 ? 'yes' : 'no'
+    content_tag(:span, class: klass) { text }
+  end
 end

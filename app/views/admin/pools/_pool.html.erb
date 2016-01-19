@@ -1,0 +1,14 @@
+<tr>
+  <td><%= link_to "##{pool.id}", admin_pool_path(pool) %></td>
+  <td><%= link_to pool.name, admin_pool_path(pool) %></td>
+  <td><%= pool.max_vols %></td>
+  <td><%= yes_no(pool.use_once) %></td>
+  <td><%= pool.vol_retention_human %></td>
+  <td><%= pool.max_vol_jobs %></td>
+  <td><%= pool.max_vol_files %></td>
+  <td><%= number_to_human_size pool.max_vol_bytes %></td>
+  <td><%= yes_no(pool.auto_prune) %></td>
+  <td><%= pool.label_format %></td>
+  <td><%= yes_no(pool.recycle) %></td>
+  <td><%= pool.pool_type %></td>
+</tr>

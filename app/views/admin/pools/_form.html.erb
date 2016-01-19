@@ -1,0 +1,25 @@
+<%= bootstrap_form_for(@pool, url: admin_pools_path, method: :post, layout: :horizontal,
+                       label_col: 'col-xs-5', control_col: 'col-xs-6') do |f| %>
+  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name_confirmation, required: true %>
+  <%= f.number_field :vol_retention, label: 'Volume Retention in days', 
+    value: @pool.vol_retention_days || 180, required: true %>
+  <%= f.select :use_once, options_for_select(Pool::BOOLEAN_OPTIONS), required: true %>
+  <%= f.select :auto_prune, options_for_select(Pool::BOOLEAN_OPTIONS.reverse),
+    required: true %>
+  <%= f.select :recycle, options_for_select(Pool::BOOLEAN_OPTIONS.reverse),
+    required: true %>
+  <%= f.number_field :max_vols, required: true, value: 0 %>
+  <%= f.number_field :max_vol_jobs, min: 0, required: true %>
+  <%= f.number_field :max_vol_files, min: 0, required: true %>
+  <%= f.number_field :max_vol_bytes, label: 'Max Volume GB', min: 0, required: true %>
+  <%= f.text_field :label_format, required: true %>
+
+  <div class="form-group">
+    <div class="col-xs-offset-8 col-xs-3">
+      <%= f.submit class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+<%= link_to 'Cancel', admin_pools_path, class: 'btn btn-danger', role: 'button' %>
