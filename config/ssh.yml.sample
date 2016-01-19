@@ -3,3 +3,4 @@ development:
   username: root
   host: ser-baculas.lan
   path: /etc/bacula/clientdefs/
+  admin_path: /etc/bacula/admindefs/
