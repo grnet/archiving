@@ -15,6 +15,7 @@
 class ConfigurationSetting < ActiveRecord::Base
   serialize :job, JSON
   serialize :client, JSON
+  serialize :pool, JSON
 
   JOB = {
     storage: :File,
@@ -32,6 +33,13 @@ class ConfigurationSetting < ActiveRecord::Base
     job_retention_period_type: 'days',
     autoprune: 'yes'
   }
+
+  POOL = {
+    full: :Default,
+    differential: :Default,
+    incremental: :Default
+  }
+
 
   RETENTION_PERIODS = %w{seconds minutes hours days weeks months quarters years}
   AUTOPRUNE_OPTIONS = ['yes', 'no']
@@ -58,6 +66,17 @@ class ConfigurationSetting < ActiveRecord::Base
     (last || new).client.symbolize_keys.reverse_merge(CLIENT.dup)
   end
 
+  # Fetches the current configuration for pools.
+  #
+  # The current configuration is the last submitted record, patched to the default
+  # settings.
+  # If there is no record, the default settings are returned
+  #
+  # @return [Hash] with settings
+  def self.current_pool_settings
+    (last || new).pool.symbolize_keys.reverse_merge(POOL.dup)
+  end
+
   # Fetches the record's configuration for jobs.
   #
   # The configuration is the record's configuration patched to the default
@@ -76,5 +95,15 @@ class ConfigurationSetting < ActiveRecord::Base
   # @return [Hash] with settings
   def current_client_settings
     client.symbolize_keys.reverse_merge(CLIENT.dup)
+  end
+
+  # Fetches the record's configuration for pools.
+  #
+  # The configuration is the record's configuration patched to the default
+  # settings.
+  #
+  # @return [Hash] with settings
+  def current_pool_settings
+    pool.symbolize_keys.reverse_merge(POOL.dup)
   end
 end

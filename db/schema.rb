@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207195602) do
+ActiveRecord::Schema.define(version: 20160120201052) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -330,6 +330,7 @@ ActiveRecord::Schema.define(version: 20151207195602) do
     t.string   "client",     default: "{}"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pool",       default: "{}"
   end
 
   create_table "filesets", force: true do |t|
