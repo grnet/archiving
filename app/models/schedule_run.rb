@@ -62,7 +62,7 @@ class ScheduleRun < ActiveRecord::Base
   #
   # @return [String]
   def schedule_line
-    [ level_to_config, month, day, "at #{time}"].join(" ")
+    [ level_to_config, pool_to_config, month, day, "at #{time}"].join(" ")
   end
 
   private
@@ -142,5 +142,9 @@ class ScheduleRun < ActiveRecord::Base
 
   def level_to_config
     "Level=#{level.capitalize}"
+  end
+
+  def pool_to_config
+    "Pool=#{ConfigurationSetting.current_pool_settings[level.to_sym]}"
   end
 end
