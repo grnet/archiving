@@ -55,7 +55,8 @@ class Admin::SettingsController < Admin::BaseController
       permit(
         job: [:storage, :pool, :messages, :priority, :'Write Bootstrap'],
         client: [:catalog, :file_retention, :file_retention_period_type, :job_retention,
-                 :job_retention_period_type, :autoprune]
+                 :job_retention_period_type, :autoprune],
+        pool: [:full, :differential, :incremental]
       )
   end
 end

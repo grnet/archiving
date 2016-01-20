@@ -1,53 +1,79 @@
-<div class="graybox">
-  <%= bootstrap_form_for(@setting, url: path, layout: :horizontal,
-                         label_col: 'col-xs-5', control_col: 'col-xs-6') do |f| %>
-    <div class="row">
-      <div class="col-xs-2 col-xs-offset-9 text-right">
-        <h4>Job</h4>
+<%= bootstrap_form_for(@setting, url: path, layout: :horizontal,
+                       label_col: 'col-xs-5', control_col: 'col-xs-5') do |f| %>
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Client</h4>
+        </div>
+        <br />
+        <%= f.fields_for :client do |c| %>
+          <%= c.text_field :catalog, :value => @setting.current_client_settings[:catalog] %>
+          <%= c.number_field :file_retention,
+            :value => @setting.current_client_settings[:file_retention] %>
+          <%= c.select :file_retention_period_type,
+            options_for_select(ConfigurationSetting::RETENTION_PERIODS,
+                               @setting.current_client_settings[:file_retention_period_type]) %>
+          <%= c.number_field :job_retention,
+            :value => @setting.current_client_settings[:job_retention] %>
+          <%= c.select :job_retention_period_type,
+            options_for_select(ConfigurationSetting::RETENTION_PERIODS,
+                               @setting.current_client_settings[:job_retention_period_type]) %>
+          <%= c.select :autoprune, ConfigurationSetting::AUTOPRUNE_OPTIONS,
+            :value => @setting.current_client_settings[:autoprune] %>
+        <% end %>
       </div>
     </div>
 
-    <%= f.fields_for :job do |jb| %>
-      <%= jb.select :storage,
-        options_for_select(Storage.available_options, @setting.current_job_settings[:storage]) %>
-      <%= jb.select :pool,
-        options_for_select(Pool.available_options, @setting.current_job_settings[:pool]) %>
-      <%= jb.text_field :messages, :value => @setting.current_job_settings[:messages] %>
-      <%= jb.text_field :'Write Bootstrap',
-        :value => @setting.current_job_settings[:'Write Bootstrap'] %>
-      <%= jb.number_field :priority, :value => @setting.current_job_settings[:priority] %>
-    <% end %>
+    <div class="col-xs-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Job</h4>
+        </div>
 
-    <div class="row">
-      <div class="col-xs-2 col-xs-offset-9 text-right">
-        <h4>Client</h4>
+        <br />
+
+        <%= f.fields_for :job do |jb| %>
+          <%= jb.select :storage,
+            options_for_select(Storage.available_options, @setting.current_job_settings[:storage]) %>
+          <%= jb.select :pool,
+            options_for_select(Pool.available_options, @setting.current_job_settings[:pool]) %>
+          <%= jb.text_field :messages, :value => @setting.current_job_settings[:messages] %>
+          <%= jb.text_field :'Write Bootstrap',
+            :value => @setting.current_job_settings[:'Write Bootstrap'] %>
+          <%= jb.number_field :priority, :value => @setting.current_job_settings[:priority] %>
+        <% end %>
       </div>
     </div>
 
-    <%= f.fields_for :client do |c| %>
-      <%= c.text_field :catalog, :value => @setting.current_client_settings[:catalog] %>
-      <%= c.number_field :file_retention,
-        :value => @setting.current_client_settings[:file_retention] %>
-      <%= c.select :file_retention_period_type,
-        options_for_select(ConfigurationSetting::RETENTION_PERIODS,
-                           @setting.current_client_settings[:file_retention_period_type]) %>
-      <%= c.number_field :job_retention,
-        :value => @setting.current_client_settings[:job_retention] %>
-      <%= c.select :job_retention_period_type,
-        options_for_select(ConfigurationSetting::RETENTION_PERIODS,
-                           @setting.current_client_settings[:job_retention_period_type]) %>
-      <%= c.select :autoprune, ConfigurationSetting::AUTOPRUNE_OPTIONS,
-        :value => @setting.current_client_settings[:autoprune] %>
-    <% end %>
-
-    </br>
-
-    <div class="form-group">
-      <div class="col-xs-offset-3 col-xs-8">
-        <%= f.submit class: 'btn btn-success' %>
+    <div class="col-xs-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Pool</h4>
+        </div>
+        <br />
+        <%= f.fields_for :pool do |p| %>
+          <%= p.select :full,
+            options_for_select(Pool.available_options, @setting.current_pool_settings[:full]) %>
+          <%= p.select :differential,
+            options_for_select(Pool.available_options,
+                               @setting.current_pool_settings[:differential]) %>
+          <%= p.select :incremental,
+            options_for_select(Pool.available_options,
+                               @setting.current_pool_settings[:incremental]) %>
+        <% end %>
       </div>
     </div>
+  </div>
 
-    </br>
-  <% end %>
-</div>
+  <div class="form-group">
+    <div class="col-xs-1">
+      <%= link_to 'Cancel', admin_settings_path %>
+    </div>
+    <div class="col-xs-2 col-xs-offset-1 text-right">
+      <%= f.submit class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  </br>
+<% end %>

@@ -13,6 +13,9 @@
   <div class="col-xs-4">
     <h3>Job Settings</h3>
   </div>
+  <div class="col-xs-4">
+    <h3>Pool Settings</h3>
+  </div>
 </div>
 
 <div class="row">
@@ -21,6 +24,9 @@
   </div>
   <div class="col-xs-4">
     <%= table_for(ConfigurationSetting.current_client_settings) %>
+  </div>
+  <div class="col-xs-4">
+    <%= table_for(ConfigurationSetting.current_pool_settings) %>
   </div>
 </div>
 
