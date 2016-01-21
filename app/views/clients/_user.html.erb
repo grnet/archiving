@@ -1,4 +1,16 @@
 <tr>
   <td><%= user.username %></td>
   <td><%= user.email %></td>
+  <td>
+    <% if @client.manually_inserted? %>
+      <%= link_to remove_user_client_path(@client, user_id: user.id), method: :delete,
+                  class: 'btn btn-default',
+                  data: { confirm: "User #{user.username} will be removed" } do %>
+        <label class="glyphicon glyphicon-ban-circle text-danger"></label>
+        Remove
+      <% end %>
+    <% else %>
+        -
+    <% end %>
+  </td>
 </tr>

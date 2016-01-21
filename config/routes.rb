@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get :restore
       post :run_restore
       post :restore_selected
+      delete :remove_user
     end
 
     collection do

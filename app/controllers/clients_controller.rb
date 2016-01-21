@@ -1,7 +1,7 @@
 class ClientsController < ApplicationController
   before_action :require_logged_in
   before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :users, :restore, :run_restore,
-                                      :restore_selected]
+                                      :restore_selected, :remove_user]
   before_action :fetch_logs, only: [:logs]
 
   # GET /clients
@@ -37,6 +37,23 @@ class ClientsController < ApplicationController
   # GET /clients/1/users
   def users
     @users = @client.host.users
+  end
+
+  # DELETE /clients/1/user
+  def remove_user
+    user = @client.host.users.find(params[:user_id])
+    if @client.host.users.delete(user)
+      flash[:success] =
+        if @client.manually_inserted?
+          'User successfully removed'
+        else
+          'User must be removed from the VM\'s list form your VM provider too (ViMa or Okeanos).'
+        end
+    else
+      flash[:alert] = 'User not removed, something went wrong'
+    end
+
+    redirect_to users_client_path(@client)
   end
 
   # GET /clients/1/restore
