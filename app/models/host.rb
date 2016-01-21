@@ -19,6 +19,8 @@ class Host < ActiveRecord::Base
     blocked: 8
   }
 
+  enum origin: { institutional: 0, vima: 1, okeanos: 2 }
+
   has_many :ownerships
   has_many :users, through: :ownerships, inverse_of: :hosts
 

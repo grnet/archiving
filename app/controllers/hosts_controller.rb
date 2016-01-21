@@ -14,7 +14,9 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(fetch_params)
 
-    @host.verified = current_user.needs_host_list?
+    set_host_type
+
+    @host.verified = !@host.institutional?
 
     if user_can_add_this_host? && @host.save
       flash[:success] = 'Host created successfully'
@@ -110,5 +112,15 @@ class HostsController < ApplicationController
 
   def user_can_add_this_host?
     !current_user.needs_host_list? || @hosts_of_user.include?(@host.fqdn)
+  end
+
+  def set_host_type
+    @host.origin = if current_user.vima?
+                     :vima
+                   elsif current_user.okeanos?
+                     :okeanos
+                   else
+                     :institutional
+                   end
   end
 end
