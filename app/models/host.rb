@@ -243,6 +243,15 @@ class Host < ActiveRecord::Base
     dispatched? || deployed? || updated? || redispatched?
   end
 
+  # Determines if a host is inserted manually from the user or
+  #  provided as an option from a list by the system via a third party
+  #  like ViMa or Okeanos
+  #
+  #  @return [Boolean]
+  def manually_inserted?
+    institutional?
+  end
+
   private
 
   # automatic setters
