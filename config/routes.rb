@@ -31,6 +31,9 @@ Rails.application.routes.draw do
 
   resources :invitations, only: [:create]
 
+  get '/invitations/:host_id/:verification_code/accept' => 'invitations#accept',
+    as: :accept_invitation
+
   resources :hosts, only: [:new, :create, :show, :edit, :update, :destroy] do
     member do
       post :submit_config
