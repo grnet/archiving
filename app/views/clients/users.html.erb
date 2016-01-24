@@ -4,6 +4,19 @@
   <div class="col-xs-6">
     <h3>Collaborators for <%= @client.host.name %></h3>
   </div>
+  <% if @client.manually_inserted? && @available_users.any? %>
+    <div class="col-xs-4 col-xs-offset-2 text-right">
+      <%= bootstrap_form_for(@invitation, layout: :inline) do |f| %>
+        <%= f.select :user_id, options_for_select(@available_users),
+          include_blank: 'Pick a user', skip_label: true %>
+        <%= f.hidden_field :host_id %>
+        <%= button_tag type: :submit, class: 'btn btn-default' do %>
+          <label class="glyphicon glyphicon-plus text-primary"></label>
+          Invite New User
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <div class="row">

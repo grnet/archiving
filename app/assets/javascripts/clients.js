@@ -18,6 +18,9 @@ $(document).ready(function() {
                                 remove_input(data.node.id);
                         });
         }
+        if ($('#invitation_user_id').size() > 0) {
+                $('#invitation_user_id').chosen();
+        }
 });
 
 function add_input(id) {

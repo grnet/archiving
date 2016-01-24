@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :invitations, only: [:create]
+
   resources :hosts, only: [:new, :create, :show, :edit, :update, :destroy] do
     member do
       post :submit_config
