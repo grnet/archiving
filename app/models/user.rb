@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :ownerships
   has_many :hosts, through: :ownerships, inverse_of: :users
+  has_many :invitations
 
   enum user_type: { institutional: 0, vima: 1, okeanos: 2, admin: 3 }
 

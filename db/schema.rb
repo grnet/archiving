@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121222332) do
+ActiveRecord::Schema.define(version: 20160124191156) do
 
   create_table "BaseFiles", primary_key: "BaseId", force: true do |t|
     t.integer "BaseJobId",           null: false
@@ -366,6 +366,16 @@ ActiveRecord::Schema.define(version: 20160121222332) do
   end
 
   add_index "hosts", ["name"], name: "index_hosts_on_name", unique: true, length: {"name"=>128}, using: :btree
+
+  create_table "invitations", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "host_id"
+    t.string   "verification_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invitations", ["user_id", "verification_code"], name: "index_invitations_on_user_id_and_verification_code", using: :btree
 
   create_table "job_templates", force: true do |t|
     t.string   "name",                                             null: false
