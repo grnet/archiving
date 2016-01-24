@@ -12,6 +12,17 @@ class UserMailer < ActionMailer::Base
     mail(to: user_emails, subject: s)
   end
 
+  # Notifies the user that another user has requested that he should be able to
+  # manage the given client's backups
+  #
+  # @param email[String] the user's email
+  # @param invitation[Invitation] the target host
+  def notify_for_invitation(email, invitation)
+    @invitation = invitation
+    subject = "[Archiving] Invitation to manage #{@invitation.host.name}'s backups"
+    mail(to: email, subject: subject)
+  end
+
   # Notifies admin about a new host that needs verification
   #
   # @param user[User] the user that created the host

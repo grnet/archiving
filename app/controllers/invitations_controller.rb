@@ -5,6 +5,7 @@ class InvitationsController < ApplicationController
   def create
     invitation = Invitation.new(fetch_params)
     if invitation.save
+      invitation.notify_user
       flash[:success] = "User #{invitation.user.username} has been invited to the client"
     else
       flash[:alert] = 'Invitation not created'

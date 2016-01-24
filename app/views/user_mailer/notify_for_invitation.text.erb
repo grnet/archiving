@@ -1,0 +1,8 @@
+You are invited to manage <%= @invitation.host.fqdn %> 's Bacula policy
+
+To accept the invitation please follow the following link
+
+<%= accept_invitation_url(@invitation.accept_hash) %>
+
+---------
+Archiving

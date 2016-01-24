@@ -7,6 +7,23 @@ class Invitation < ActiveRecord::Base
 
   before_validation :calculate_verification_code
 
+  # Sends an email to the user to inform that there is an invitation to
+  # handle the client's backups.
+  def notify_user
+    UserMailer.notify_for_invitation(user.email, self).deliver
+  end
+
+  # Fetches the parameters that can be passed to accept_invitation_url in
+  #  order to generate the correct url
+  #
+  # @return [Hash]
+  def accept_hash
+    {
+      host_id: host_id,
+      verification_code: verification_code
+    }
+  end
+
   private
 
   def calculate_verification_code
