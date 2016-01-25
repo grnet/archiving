@@ -54,11 +54,6 @@ Warden::Strategies.add(:vima) do
       { mode: :query, param_name: 'access_token' }
     ).parsed.deep_symbolize_keys
 
-    vms = access_token.get(
-      'https://vima.grnet.gr/instances/list?tag=vima:service:archiving',
-      { mode: :query, param_name: 'access_token' }
-    ).parsed.deep_symbolize_keys
-
     if [user_data[:username], user_data[:email], user_data[:id]].any?(&:blank?)
       return fail!("ViMa login failed: no user data")
     end
@@ -73,6 +68,10 @@ Warden::Strategies.add(:vima) do
     # actual implementation
     #user = User.find_or_initialize_by(identifier: user_data[:identifier])
 
+    if !user.enabled? && user.persisted?
+      return fail!('Service not available')
+    end
+
     user.login_at = Time.now
 
     if user.new_record?
@@ -84,17 +83,31 @@ Warden::Strategies.add(:vima) do
       user.save!
     end
 
+    if user.refetch_hosts?
+      vms = fetch_vms(access_token)[:response][:instances]
+      user.hosts_updated_at = Time.now
+      user.save
+    end
+
+    vms ||= user.hosts.pluck(:fqdn)
+
+    assign_vms(user, vms)
+
+    success!(user)
+  end
+
+  def fetch_vms(access_token)
+    Rails.logger.warn("ViMa: fetching vms")
+    vms = access_token.get(
+      'https://vima.grnet.gr/instances/list?tag=vima:service:archiving',
+      { mode: :query, param_name: 'access_token' }
+    ).parsed.deep_symbolize_keys
+
     if vms[:response][:errors] != false
       Rails.logger.warn("ViMa: errors on instances/list response for user #{vms[:user][:username]}")
     end
 
-    if !user.enabled?
-      return fail!('Service not available')
-    end
-
-    assign_vms(user, vms[:response][:instances])
-
-    success!(user)
+    vms
   end
 
   def assign_vms(user, vms)
