@@ -92,6 +92,16 @@ class User < ActiveRecord::Base
     hosts.not_baculized.pluck(:name)
   end
 
+  # Determines if a vima user needs to update his hosts' list
+  #
+  # @return [Boolean]
+  def refetch_hosts?
+    return false unless vima?
+    return true if hosts_updated_at.nil?
+
+    hosts_updated_at < Archiving.settings[:skip_host_fetch_time_period].ago
+  end
+
   private
 
   def confirm_passwords
