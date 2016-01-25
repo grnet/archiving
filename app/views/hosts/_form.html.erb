@@ -14,8 +14,17 @@
 
 
   <div class="form-group">
-    <div class="col-xs-offset-3 col-xs-8">
+    <div class="col-xs-offset-3 col-xs-2">
       <%= f.submit class: 'btn btn-success' %>
     </div>
+    <% if current_user.vima? %>
+      <div class="col-xs-offset-3 col-xs-2">
+        <%= link_to fetch_vima_hosts_path, role: :button, class: 'btn btn-default' do %>
+          <label class="glyphicon glyphicon-refresh text-primary"></label>
+          Fetch Hosts
+        <% end %>
+      </div>
+    <% end %>
   </div>
+
 <% end %>

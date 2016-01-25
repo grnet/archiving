@@ -94,7 +94,52 @@ class HostsController < ApplicationController
     redirect_to root_path
   end
 
+  # GET /hosts/fetch_vima_hosts
+  def fetch_vima_hosts
+    if params[:code].blank?
+      return redirect_to client.auth_code.authorize_url(:redirect_uri => redirect_uri,
+                                                        scope: 'read')
+    end
+
+    access_token = client.auth_code.get_token(
+      params['code'],
+      { :redirect_uri => redirect_uri },
+      { :mode => :query, :param_name => "access_token", :header_format => "" }
+    )
+
+    vms = access_token.get(
+      'https://vima.grnet.gr/instances/list?tag=vima:service:archiving',
+      { mode: :query, param_name: 'access_token' }
+    ).parsed.deep_symbolize_keys[:response][:instances]
+
+    session[:vms] = vms.first(50)
+    Host.where(fqdn: vms).each do |host|
+      host.users << current_user unless host.users.include?(current_user)
+    end
+
+    redirect_to new_host_path
+  end
+
   private
+
+  def client
+    OAuth2::Client.new(
+      Rails.application.secrets.oauth2_vima_client_id,
+      Rails.application.secrets.oauth2_vima_secret,
+      site: 'https://vima.grnet.gr',
+      token_url: "/o/token",
+      authorize_url: "/o/authorize",
+      :ssl => {:ca_path => "/etc/ssl/certs"}
+    )
+  end
+
+  def redirect_uri
+    uri = URI.parse(request.url)
+    uri.scheme = 'https' unless Rails.env.development?
+    uri.path = '/hosts/fetch_vima_hosts'
+    uri.query = nil
+    uri.to_s
+  end
 
   def fetch_hosts_of_user
     return if not current_user.needs_host_list?

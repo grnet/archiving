@@ -41,6 +41,10 @@ Rails.application.routes.draw do
       delete :revoke
     end
 
+    collection do
+      get :fetch_vima_hosts, to: 'hosts#fetch_vima_hosts', as: :fetch_vima
+    end
+
     resources :jobs, only: [:new, :create, :show, :edit, :update, :destroy] do
       member do
         patch :toggle_enable
