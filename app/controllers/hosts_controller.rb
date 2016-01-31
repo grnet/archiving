@@ -113,6 +113,11 @@ class HostsController < ApplicationController
     ).parsed.deep_symbolize_keys[:response][:instances]
 
     session[:vms] = vms.first(50)
+
+    current_user.temp_hosts = vms
+    current_user.hosts_updated_at = Time.now
+    current_user.save
+
     Host.where(fqdn: vms).each do |host|
       host.users << current_user unless host.users.include?(current_user)
     end

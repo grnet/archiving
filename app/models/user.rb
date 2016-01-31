@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :retype_password
 
+  serialize :temp_hosts, JSON
+
   has_many :ownerships
   has_many :hosts, through: :ownerships, inverse_of: :users
   has_many :invitations

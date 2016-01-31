@@ -86,10 +86,11 @@ Warden::Strategies.add(:vima) do
     if user.refetch_hosts?
       vms = fetch_vms(access_token)[:response][:instances]
       user.hosts_updated_at = Time.now
+      user.temp_hosts = vms
       user.save
     end
 
-    vms ||= user.hosts.pluck(:fqdn)
+    vms ||= (user.temp_hosts + user.hosts.pluck(:fqdn)).uniq
 
     assign_vms(user, vms)
 
