@@ -8,6 +8,7 @@ class HostsController < ApplicationController
   def new
     @host = Host.new
     @host.port = 9102
+    @host.email_recipients = [current_user.email]
   end
 
   # POST /hosts
@@ -40,7 +41,7 @@ class HostsController < ApplicationController
 
   # PATCH /hosts/1
   def update
-    updates = fetch_params.slice(:port, :password)
+    updates = fetch_params.slice(:port, :password, :email_recipients)
     if updates.present? && @host.update_attributes(updates)
       @host.recalculate if @host.bacula_ready?
       flash[:success] = 'Host updated successfully. You must update your file deamon accordingly.'
@@ -157,7 +158,7 @@ class HostsController < ApplicationController
   end
 
   def fetch_params
-    params.require(:host).permit(:fqdn, :port, :password)
+    params.require(:host).permit(:fqdn, :port, :password, email_recipients: [])
   end
 
   def user_can_add_this_host?

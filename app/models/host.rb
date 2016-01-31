@@ -20,6 +20,7 @@ class Host < ActiveRecord::Base
   }
 
   enum origin: { institutional: 0, vima: 1, okeanos: 2 }
+  serialize :email_recipients, JSON
 
   has_many :ownerships
   has_many :users, through: :ownerships, inverse_of: :hosts
@@ -40,6 +41,8 @@ class Host < ActiveRecord::Base
 
   validate :fqdn_format
 
+  validate :valid_recipients
+
   scope :not_baculized, -> {
     joins("left join Client on Client.Name = hosts.name").where(Client: { Name: nil })
   }
@@ -54,7 +57,7 @@ class Host < ActiveRecord::Base
 
   scope :unverified, -> { where(verified: false) }
 
-  before_validation :set_retention, :unset_baculized, :sanitize_name
+  before_validation :set_retention, :unset_baculized, :sanitize_name, :sanitize_email_recipients
 
   state_machine :status, initial: :pending do
     STATUSES.each do |status_name, value|
@@ -274,12 +277,22 @@ class Host < ActiveRecord::Base
     true
   end
 
+  def sanitize_email_recipients
+    self.email_recipients.reject!(&:blank?)
+  end
+
   # validation
 
   def fqdn_format
     regex = /(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)/
     unless fqdn =~ regex
       self.errors.add(:fqdn)
+    end
+  end
+
+  def valid_recipients
+    if !email_recipients.all? { |email| email =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+      self.errors.add(:email_recipients)
     end
   end
 

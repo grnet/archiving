@@ -8,10 +8,12 @@
     <% else %>
       <%= f.text_field :fqdn, disabled: @host.persisted? %>
     <% end %>
-    <%= f.password_field :password %>
+    <%= f.password_field :password, required: true %>
     <%= f.number_field :port, min: 1 %>
+    <% emails = (@host.users.pluck(:email) + @host.email_recipients).uniq.select(&:present?) %>
+    <%= f.select :email_recipients, options_for_select(emails, @host.email_recipients), {},
+                 multiple: true %>
   </div>
-
 
   <div class="form-group">
     <div class="col-xs-offset-3 col-xs-2">
