@@ -20,7 +20,6 @@
 
 # Ignore config files
 config/database.yml
-config/beanstalk.yml
 config/secrets.yml
 config/bconsole.conf
 config/ssh.yml

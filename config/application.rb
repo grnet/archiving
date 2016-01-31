@@ -42,14 +42,4 @@ module Archiving
 
 #    config.x = {}
   end
-
-#  def self.settings
-#    Application.config.x
-#  end
-
-  def self.bean
-    @bean ||= Bean::Client.new(
-      YAML.load_file(Rails.root.join('config', 'beanstalk.yml'))[Rails.env].symbolize_keys[:host]
-    )
-  end
 end
