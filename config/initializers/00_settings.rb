@@ -11,3 +11,4 @@ Archiving.settings admin_email: 'admin@archiving.grnet.gr'
 Archiving.settings temp_db_retention: 3.days
 
 Archiving.settings skip_host_fetch_time_period: 1.month
+Archiving.settings mail_settings: YAML::load(File.open("#{Rails.root}/config/mailer.yml"))[Rails.env].symbolize_keys

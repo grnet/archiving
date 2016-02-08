@@ -6,3 +6,4 @@ development:
   password: a_pass
   authentication: plain
   enable_starttls_auto: true
+  default_sender: sender@archiving.grnet.gr

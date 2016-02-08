@@ -46,9 +46,28 @@ module Configuration
         "  FDPort = #{port}",
         "  Catalog = #{client_settings[:catalog]}",
         "  Password = \"#{password}\"",
-          "  File Retention = #{file_retention} #{file_retention_period_type}",
+        "  File Retention = #{file_retention} #{file_retention_period_type}",
         "  Job Retention = #{job_retention} #{job_retention_period_type}",
         "  AutoPrune = #{auto_prune_human}",
+        "}"
+      ] + message_config
+    end
+
+    # Constructs the messages bacula resource
+    #
+    # @return [Array]
+    def message_config
+      return [] if email_recipients.empty?
+      [
+        "Messages {",
+        "  Name = message_#{name}",
+        "  mailcommand = \"#{mail_command}\"",
+        "  operatorcommand = \"#{operator_command}\"",
+        "  mail = root = all, !skipped",
+        "  operator = root = mount",
+        "  console = all, !skipped, !saved",
+        "  append = \"/var/log/bacula/bacula.log\" = all, !skipped",
+        "  catalog = all",
         "}"
       ]
     end
@@ -76,6 +95,27 @@ module Configuration
         '  FDAddress = 0.0.0.0',
         '}'
       ].join("\n")
+    end
+
+    private
+
+    def mail_command
+      "#{mail_general} -u \\\"\[Bacula\]: %t %e of %c %l\\\" -m \\\"Bacula Report %r\\\""
+    end
+
+    def operator_command
+      "#{mail_general} -u \\\"\[Bacula\]: Intervention needed for %j\\\" -m \\\"Intervention needed %r\\\""
+    end
+
+    def mail_general
+      "/usr/bin/sendEmail -f #{settings[:default_sender]}" <<
+        " -t #{email_recipients.join(' ')}" <<
+        " -s #{settings[:address]}:#{settings[:port]}" <<
+        " -o tls=yes -xu #{settings[:user_name]} -xp #{settings[:password]}"
+    end
+
+    def settings
+      Archiving.settings[:mail_settings]
     end
   end
 end

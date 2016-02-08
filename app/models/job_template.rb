@@ -106,6 +106,7 @@ class JobTemplate < ActiveRecord::Base
   # @see ConfigurationSetting.current_job_settings
   # @return [Hash] containing the settings
   def job_settings
-    @job_settings ||= ConfigurationSetting.current_job_settings
+    messages = host.email_recipients.any? ? "message_#{host.name}" : :Standard
+    @job_settings ||= ConfigurationSetting.current_job_settings.merge(messages: messages)
   end
 end
