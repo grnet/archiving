@@ -16,7 +16,7 @@ module SettingsHelper
   #   </div>
   #
   # @param attributes[Hash]
-  # @returns [String] Html table
+  # @return [String] Html table
   def table_for(attributes)
     content_tag(:div, class: 'table-responsive') do
       content_tag(:table, class: 'table table-striped table-bordered table-condensed') do

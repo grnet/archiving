@@ -214,7 +214,7 @@ class Host < ActiveRecord::Base
 
   # Determines if a host can issue a restore job.
   #
-  # @returns [Boolean] true if the host's client can issue a restore job
+  # @return [Boolean] true if the host's client can issue a restore job
   def restorable?
     client.present? && client.is_backed_up?
   end

@@ -72,7 +72,7 @@ class Client < ActiveRecord::Base
 
   # Fetches the first and last job's end times.
   #
-  # @returns [Array] of datetimes in proper format
+  # @return [Array] of datetimes in proper format
   def backup_enabled_datetime_range
     jobs.backup_type.pluck(:end_time).minmax.map { |x| x.strftime('%Y-%m-%d') }
   end
@@ -116,7 +116,7 @@ class Client < ActiveRecord::Base
 
   # Fetches the job ids that will construct the desired restore
   #
-  # @param fileset_id[Integer] the fileset
+  # @param file_set_id[Integer] the fileset
   # @param restore_point[Datetime] the restore point
   #
   # @return [Array] of ids
