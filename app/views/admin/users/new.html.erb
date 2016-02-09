@@ -6,7 +6,7 @@
       <div class="panel-heading">
         <h3>New Admin</h3>
 
-        <%= render partial: 'form' %>
+        <%= render partial: 'form', locals: { url: admin_users_path, method: :post } %>
       </div>
     </div>
   </div>

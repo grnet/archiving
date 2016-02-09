@@ -1,4 +1,4 @@
-<%= bootstrap_form_for(@user, url: admin_users_path, method: :post, layout: :horizontal,
+<%= bootstrap_form_for(@user, url: url, method: method, layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
   <%= f.text_field :username, required: true %>
   <%= f.password_field :password, required: true %>
