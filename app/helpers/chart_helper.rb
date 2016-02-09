@@ -1,5 +1,5 @@
 module ChartHelper
-  def baas_chart(id, chart_options)
+  def archiving_chart(id, chart_options)
     html = <<-HTML
       <script type='text/javascript'>
         $(function () {
