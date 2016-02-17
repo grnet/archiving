@@ -96,7 +96,7 @@ describe Configuration::Host do
     end
 
     it 'includes the client\'s Password' do
-      expect(subject).to match("  Password = \"#{host.password}\"")
+      expect(subject).to match("  Password = \"[*]+\"")
     end
   end
 

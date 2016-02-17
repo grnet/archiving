@@ -78,7 +78,7 @@ module Configuration
       [
         'Director {',
         "  Name = \"#{Archiving.settings[:director_name]}\"",
-        "  Password = \"#{password}\"",
+        "  Password = \"*********\"",
         '}'
       ].join("\n")
     end
