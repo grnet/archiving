@@ -40,6 +40,22 @@ $(document).ready(function() {
         if ($('.schedule_run_form').size() > 1) {
                 $('.schedule_run_form_remove').show();
         };
+        if ($('table#admin_clients').size() > 0) {
+                $('table#admin_clients').DataTable({
+                        paging: false,
+                        columnDefs: [
+                        {
+                                targets: 'neither-search-nor-order',
+                                orderable: false,
+                                searchable: false
+                        },
+                        {
+                                targets: 'no-search',
+                                orderable: true,
+                                searchable: false
+                        }],
+                });
+        };
 });
 
 function addScheduleRun() {
