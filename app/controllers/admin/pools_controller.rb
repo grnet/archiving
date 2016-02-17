@@ -1,5 +1,4 @@
 class Admin::PoolsController < Admin::BaseController
-  before_action :fetch_pool, only: [:show, :edit, :update]
 
   # GET /admin/pools
   def index
@@ -10,12 +9,6 @@ class Admin::PoolsController < Admin::BaseController
   def new
     @pool = Pool.new
   end
-
-  # GET /admin/pools/:id/edit
-  def edit; end
-
-  # GET /admin/pools/:id
-  def show; end
 
   # POST /admin/pools
   def create
@@ -30,22 +23,7 @@ class Admin::PoolsController < Admin::BaseController
     end
   end
 
-  # PATCH /admin/pools/:id
-  def update
-    if @pool.update_attributes(fetch_params)
-      flash[:success] = 'Pool updated succesfully'
-      redirect_to admin_pools_path
-    else
-      flash[:alert] = 'Pool not updated'
-      render :edit
-    end
-  end
-
   private
-
-  def fetch_pool
-    @pool = Pool.find(params[:id])
-  end
 
   def fetch_params
     params.require(:pool).permit(

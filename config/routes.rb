@@ -98,6 +98,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :pools, only: [:index, :new, :create, :show, :edit, :update]
+    resources :pools, only: [:index, :new, :create]
   end
 end

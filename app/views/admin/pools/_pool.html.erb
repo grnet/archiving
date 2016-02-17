@@ -1,6 +1,6 @@
 <tr>
-  <td><%= link_to "##{pool.id}", admin_pool_path(pool) %></td>
-  <td><%= link_to pool.name, admin_pool_path(pool) %></td>
+  <td><%= "##{pool.id}" %></td>
+  <td><%= pool.name %></td>
   <td><%= pool.max_vols %></td>
   <td><%= yes_no(pool.use_once) %></td>
   <td><%= pool.vol_retention_human %></td>
