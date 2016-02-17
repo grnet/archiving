@@ -6,6 +6,7 @@ class Admin::BaseController < ApplicationController
   def index
     @client_ids = Client.pluck(:ClientId)
     get_charts
+    @global_stats = GlobalStats.new.stats
     render 'admin/index'
   end
 
