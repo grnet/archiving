@@ -16,6 +16,8 @@
 //= require bootstrap.min
 //= require jstree
 //= require chosen.jquery.min
+//= require jquery.dataTables.min
+//= require dataTables.bootstrap.min
 //= require_tree .
 //= require highcharts
 //= require jobs

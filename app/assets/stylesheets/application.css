@@ -13,6 +13,7 @@
  *= require bootstrap.min
  *= require jstree-default
  *= require bootstrap-chosen
+ *= require dataTables.bootstrap.min
  *= require_tree .
  *= require_self
  */
@@ -71,3 +72,7 @@ li.logo > a > p {
 .jstree-closed > a > i.jstree-checkbox,
 .jstree-open > a > i.jstree-checkbox
 { display: none; }
+
+.datatable-wrapper {
+  margin-bottom: 20px;
+}
