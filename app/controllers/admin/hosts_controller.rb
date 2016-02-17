@@ -1,13 +1,9 @@
 class Admin::HostsController < Admin::BaseController
-  before_action :fetch_host, only: [:show, :verify]
+  before_action :fetch_host, only: [:verify]
 
   # GET /admin/hosts/unverified
   def unverified
     @hosts = Host.unverified
-  end
-
-  # GET /admin/hosts/1
-  def show
   end
 
   # POST /admin/hosts/1/verify

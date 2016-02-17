@@ -81,7 +81,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :hosts, only: [:show] do
+    resources :hosts, only: [] do
       collection do
         get :unverified
       end
