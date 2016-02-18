@@ -1,5 +1,6 @@
 Warden::Strategies.add(:institutional) do
   def valid?
+    Rails.logger.warn("WARDEN: INFO institutional")
     fetch_header('HTTP_PERSISTENT_ID').present? &&
       fetch_header('HTTP_MAIL').present? &&
       fetch_header('HTTP_ENTITLEMENT').present? &&
@@ -11,6 +12,7 @@ Warden::Strategies.add(:institutional) do
   end
 
   def authenticate!
+    Rails.logger.warn("WARDEN: INFO institutional has valid headers")
     if !Archiving.settings[:institutional_authentication_enabled]
       return fail!("Shibboleth is temporarily disabled")
     end
