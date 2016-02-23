@@ -1,7 +1,6 @@
 Warden::Strategies.add(:institutional) do
   def valid?
-    Rails.logger.warn("WARDEN: INFO institutional")
-    fetch_header('HTTP_PERSISTENT_ID').present? &&
+    fetch_header('HTTP_REMOTE_USER').present? &&
       fetch_header('HTTP_MAIL').present? &&
       fetch_header('HTTP_ENTITLEMENT').present? &&
       fetch_header('HTTP_ENTITLEMENT').include?('urn:mace:grnet.gr:archiving:admin')
@@ -17,7 +16,7 @@ Warden::Strategies.add(:institutional) do
       return fail!("Shibboleth is temporarily disabled")
     end
 
-    identifier = "institutional:#{fetch_header("HTTP_PERSISTENT_ID")}"
+    identifier = "institutional:#{fetch_header("HTTP_REMOTE_USER")}"
     user = User.find_or_initialize_by(identifier: identifier)
 
     return fail!("Wrong credentials") unless user
