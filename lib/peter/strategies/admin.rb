@@ -7,7 +7,7 @@ Warden::Strategies.add(:admin) do
     admin = User.fetch_admin_with_password(params['username'], params['password'])
 
     return fail!("Wrong credentials") unless admin
-    return fail!("Service not available") unless admin.enabled?
+    return fail!("Your account is disabled") unless admin.enabled?
 
     admin.login_at = Time.now
     admin.save

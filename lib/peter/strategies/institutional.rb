@@ -32,7 +32,7 @@ Warden::Strategies.add(:institutional) do
       user.save
     end
 
-    return fail!("Service not available") unless user.enabled?
+    return fail!("Your account is disabled") unless user.enabled?
 
     success!(user)
   end

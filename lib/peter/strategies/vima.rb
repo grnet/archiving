@@ -69,7 +69,7 @@ Warden::Strategies.add(:vima) do
     #user = User.find_or_initialize_by(identifier: user_data[:identifier])
 
     if !user.enabled? && user.persisted?
-      return fail!('Service not available')
+      return fail!('Your account is disabled')
     end
 
     user.login_at = Time.now
