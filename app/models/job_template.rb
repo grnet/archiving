@@ -6,6 +6,8 @@
 # * fileset
 # * schedule
 class JobTemplate < ActiveRecord::Base
+  establish_connection ARCHIVING_CONF
+
   enum job_type: { backup: 0, restore: 1, verify: 2, admin: 3 }
 
   belongs_to :host

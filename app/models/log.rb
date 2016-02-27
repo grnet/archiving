@@ -2,7 +2,9 @@
 #
 # The Log table contains a log of all Job output.
 class Log < ActiveRecord::Base
-  self.table_name = :Log
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Log"
   self.primary_key = :LogId
 
   alias_attribute :log_id, :LogId

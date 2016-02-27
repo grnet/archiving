@@ -2,6 +2,8 @@
 # It has references to a host and multiple schedule run in order to provide
 # the desired Bacula configuration
 class Schedule < ActiveRecord::Base
+  establish_connection ARCHIVING_CONF
+
   has_many :schedule_runs
 
   belongs_to :host

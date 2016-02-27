@@ -1,6 +1,8 @@
 # Fileset model is the application representation of Bacula's Fileset.
 # It has references to a host and job templates.
 class Fileset < ActiveRecord::Base
+  establish_connection ARCHIVING_CONF
+
   serialize :exclude_directions
   serialize :include_directions, JSON
 

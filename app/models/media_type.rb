@@ -1,5 +1,7 @@
 class MediaType < ActiveRecord::Base
-  self.table_name = :MediaType
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.MediaType"
   self.primary_key = :MediaTypeId
 
   alias_attribute :media_type_id, :MediaTypeId

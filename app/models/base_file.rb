@@ -2,7 +2,9 @@
 #  to a Base file - i.e. they were previously saved and hence were not saved in the current
 #  JobId but in BaseJobId under FileId.
 class BaseFile < ActiveRecord::Base
-  self.table_name = :BaseFiles
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.BaseFiles"
   self.primary_key = :BaseId
 
   alias_attribute :id, :BaseId

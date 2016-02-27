@@ -5,7 +5,9 @@
 # There is one Volume record created for each of the NumVols specified in the
 # Pool resource record.
 class Media < ActiveRecord::Base
-  self.table_name = :Media
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Media"
   self.primary_key = :MediaId
 
   alias_attribute :media_id, :MediaId

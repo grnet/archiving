@@ -1,6 +1,8 @@
 # ActiveRecord class for Bacula's File resource
 class BaculaFile < ActiveRecord::Base
-  self.table_name = :File
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.File"
   self.primary_key = :FileId
 
   alias_attribute :file_index, :FileIndex

@@ -6,7 +6,9 @@
 # many machines or drives have the same directory.
 # These path names should be stored in Unix path name format.
 class Path < ActiveRecord::Base
-  self.table_name = :Path
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Path"
   self.primary_key = :PathId
 
   alias_attribute :path_id, :PathId

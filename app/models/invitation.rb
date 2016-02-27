@@ -1,5 +1,7 @@
 # `Invitation` describes the pending invitation of a user to join a host.
 class Invitation < ActiveRecord::Base
+  establish_connection ARCHIVING_CONF
+
   belongs_to :user
   belongs_to :host
 

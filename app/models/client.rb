@@ -2,7 +2,9 @@
 # All hosts that are getting backed up with Bacula have a Client entry, with
 # attributes concerning the Client.
 class Client < ActiveRecord::Base
-  self.table_name = :Client
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Client"
   self.primary_key = :ClientId
 
   alias_attribute :name, :Name

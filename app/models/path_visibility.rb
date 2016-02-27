@@ -1,5 +1,7 @@
 class PathVisibility < ActiveRecord::Base
-  self.table_name = :PathVisibility
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.PathVisibility"
   self.primary_key = [:JobId, :PathId]
 
   alias_attribute :path_id, :PathId

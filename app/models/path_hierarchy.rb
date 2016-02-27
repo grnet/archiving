@@ -1,5 +1,7 @@
 class PathHierarchy < ActiveRecord::Base
-  self.table_name = :PathHierarchy
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.PathHierarchy"
   self.primary_key = :PathId
 
   alias_attribute :path_id, :PathId

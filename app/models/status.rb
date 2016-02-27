@@ -5,7 +5,9 @@
 # * jobs' status codes and
 # * status codes' messages
 class Status < ActiveRecord::Base
-  self.table_name = :Status
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Status"
   self.primary_key = :JobStatus
 
   alias_attribute :job_status, :JobStatus

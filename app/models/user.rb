@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  establish_connection ARCHIVING_CONF
 
   attr_accessor :password, :retype_password
 

@@ -2,7 +2,9 @@
 #
 # The Counter table contains one entry for each permanent counter defined by the user.
 class Counter < ActiveRecord::Base
-  self.table_name = :Counters
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Counters"
   self.primary_key = :Counter
 
   alias_attribute :counter, :Counter

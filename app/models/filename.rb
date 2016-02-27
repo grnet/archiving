@@ -4,7 +4,9 @@
 #  If different directories or machines contain the same filename,
 # only one copy will be saved in this table.
 class Filename < ActiveRecord::Base
-  self.table_name = :Filename
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Filename"
   self.primary_key = :FilenameId
 
   alias_attribute :filename_id, :FilenameId

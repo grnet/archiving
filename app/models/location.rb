@@ -2,7 +2,9 @@
 #
 # The Location table defines where a Volume is physically.
 class Location < ActiveRecord::Base
-  self.table_name = :Location
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Location"
   self.primary_key = :LocationId
 
   alias_attribute :location_id, :LocationId

@@ -26,7 +26,9 @@
 #
 # The Job Type (or simply Type) can have one of the following values:
 class Job < ActiveRecord::Base
-  self.table_name = :Job
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Job"
   self.primary_key = :JobId
 
   alias_attribute :job_id, :JobId

@@ -39,7 +39,14 @@ module Archiving
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.autoload_paths << Rails.root.join('lib')
-
 #    config.x = {}
   end
 end
+
+db_conf = YAML::load(File.open(File.join("#{Rails.root}/config/database.yml")))
+bacula_db_conf = YAML::load(File.open(File.join("#{Rails.root}/config/database_bacula.yml")))
+
+ARCHIVING_CONF = db_conf[Rails.env]
+BACULA_CONF = bacula_db_conf[Rails.env]
+
+Archiving::Application.config.active_record.table_name_prefix = "#{ARCHIVING_CONF['database']}."

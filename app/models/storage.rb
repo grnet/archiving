@@ -2,7 +2,9 @@
 #
 # The Storage table contains one entry for each Storage used.
 class Storage < ActiveRecord::Base
-  self.table_name = :Storage
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Storage"
   self.primary_key = :StorageId
 
   alias_attribute :storage_id, :StorageId

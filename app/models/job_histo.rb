@@ -3,7 +3,9 @@
 # The bf JobHisto table is the same as the Job table,
 #  but it keeps long term statistics (i.e. it is not pruned with the Job).
 class JobHisto < ActiveRecord::Base
-  self.table_name = :JobHisto
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.JobHisto"
 
   alias_attribute :job_id, :JobId
   alias_attribute :job, :Job

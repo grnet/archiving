@@ -7,7 +7,9 @@
 # specified in the Director's Storage definition record.
 # The CurrentVol is the sequence number of the Media record for the current volume.
 class Pool < ActiveRecord::Base
-  self.table_name = :Pool
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Pool"
   self.primary_key = :PoolId
 
   alias_attribute :pool_id, :PoolId

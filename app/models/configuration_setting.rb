@@ -13,6 +13,8 @@
 # which will hold the altered configuration as a patch to the defaults.
 # Admins can reset this change at any time.
 class ConfigurationSetting < ActiveRecord::Base
+  establish_connection ARCHIVING_CONF
+
   serialize :job, JSON
   serialize :client, JSON
   serialize :pool, JSON

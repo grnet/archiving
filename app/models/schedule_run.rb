@@ -28,6 +28,8 @@
 #  Level=Differential second-fifth sat at 15:23
 #  Level=Incremental  mon-sat at 08:00
 class ScheduleRun < ActiveRecord::Base
+  establish_connection ARCHIVING_CONF
+
   enum level: { full: 0, differential: 1, incremental: 2 }
 
   MONTH_KW = %w{jan feb mar apr may jun jul aug sep oct nov dec january february march

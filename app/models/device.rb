@@ -1,5 +1,7 @@
 class Device < ActiveRecord::Base
-  self.table_name = :Device
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.Device"
   self.primary_key = :DeviceId
 
   alias_attribute :device_id, :DeviceId

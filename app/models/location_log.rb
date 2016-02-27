@@ -1,6 +1,8 @@
 # Bacula LocationLog table
 class LocationLog < ActiveRecord::Base
-  self.table_name = :LocationLog
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.LocationLog"
   self.primary_key = :LocLogId
 
   alias_attribute :loc_log_id, :LocLogId

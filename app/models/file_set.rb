@@ -7,7 +7,9 @@
 # If the user deletes a file or adds a file, we need to ensure that a Full backup is done
 # prior to the next incremental.
 class FileSet < ActiveRecord::Base
-  self.table_name = :FileSet
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.FileSet"
   self.primary_key = :FileSetId
 
   alias_attribute :file_set_id, :FileSetId

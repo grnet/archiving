@@ -16,7 +16,9 @@
 # up by orders of magnitude by permitting forward spacing files and blocks rather than reading
 # the whole 100GB backup.
 class JobMedia < ActiveRecord::Base
-  self.table_name = :JobMedia
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.JobMedia"
   self.primary_key = :JobMediaId
 
   alias_attribute :job_media_id, :JobMediaId

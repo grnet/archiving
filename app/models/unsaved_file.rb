@@ -1,6 +1,8 @@
 # Bacula UnsavedFile table
 class UnsavedFile < ActiveRecord::Base
-  self.table_name = :UnsavedFiles
+  establish_connection BACULA_CONF
+
+  self.table_name = "#{connection_config[:database]}.UnsavedFiles"
   self.primary_key = :UnsavedId
 
   alias_attribute :unsaved_id, :UnsavedId
