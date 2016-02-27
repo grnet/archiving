@@ -20,6 +20,7 @@
 
 # Ignore config files
 config/database.yml
+config/database_bacula.yml
 config/secrets.yml
 config/bconsole.conf
 config/ssh.yml

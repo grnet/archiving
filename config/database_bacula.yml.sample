@@ -1,0 +1,16 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  username: a_username
+  password: a_pass
+  host: a_host
+
+test:
+  <<: *default
+  host: localhost
+  username: a_username
+  database: a_pass
+
+development:
+  <<: *default
+  database: bacula
