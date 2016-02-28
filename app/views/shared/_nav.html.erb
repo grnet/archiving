@@ -34,46 +34,7 @@
           </li>
         </ul>
       <% end %>
-      <% if current_user.try(:admin?) %>
-        <ul class="nav navbar-nav navbar-right">
-          <%= content_tag(:li, active_class(admin_path)) do %>
-            <%= link_to 'Admin', admin_path %>
-          <% end %>
-          <%= content_tag(:li, active_class(admin_clients_path, true)) do %>
-            <%= link_to 'Clients', admin_clients_path %>
-          <% end %>
-          <%= content_tag(:li, active_class(unverified_admin_hosts_path, true)) do %>
-            <%= link_to 'Hosts', unverified_admin_hosts_path %>
-          <% end %>
-          <%= content_tag(:li, { class: "dropdown #{active_class(admin_users_path)[:class]}" }) do %>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              Users <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <%= link_to 'All Users', admin_users_path %>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <%= link_to 'ViMa Users', admin_users_path(type: :vima) %>
-              </li>
-              <li>
-                <%= link_to 'Institutional Users', admin_users_path(type: :institutional) %>
-              </li>
-              <li>
-                <%= link_to 'Admins', admin_users_path(type: :admin) %>
-              </li>
-              <li>
-            </ul>
-          <% end %>
-          <%= content_tag(:li, active_class(admin_pools_path)) do %>
-            <%= link_to 'Pools', admin_pools_path %>
-          <% end %>
-          <%= content_tag(:li, active_class(admin_settings_path)) do %>
-            <%= link_to 'Settings', admin_settings_path %>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= render partial: 'shared/admin' if current_user.try(:admin?) %>
     </div><!--/.nav-collapse -->
   </div>
 </nav>
