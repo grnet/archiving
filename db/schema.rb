@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160131180912) do
+ActiveRecord::Schema.define(version: 20160228113926) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -19,6 +19,14 @@ ActiveRecord::Schema.define(version: 20160131180912) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "pool",       default: "{}"
+  end
+
+  create_table "faqs", force: true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.integer  "priority",   default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "filesets", force: true do |t|
