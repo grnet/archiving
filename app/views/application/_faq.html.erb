@@ -1,0 +1,6 @@
+<%= cache(['faq', 'v1', faq], expires_in: 1.day) do %>
+  <tr>
+    <td><%= faq.title %></td>
+    <td><%= faq.body %></td>
+  </tr>
+<% end %>

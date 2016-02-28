@@ -10,6 +10,11 @@ class ApplicationController < ActionController::Base
     redirect_to clients_path if current_user
   end
 
+  # GET /faq
+  def faq
+    @faqs = Faq.order(priority: :desc).all
+  end
+
   # Warden handler for authentication failure
   def unauthenticated
     flash[:error] = warden.message || 'There was an error with your login'

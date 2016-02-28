@@ -23,6 +23,9 @@
           <% end %>
           <li><%= link_to current_user.username, '#' %></li>
         <% end %>
+        <%= content_tag(:li, active_class(faq_path)) do %>
+          <%= link_to 'FAQ', faq_path %>
+        <% end %>
       </ul>
       <% if current_user %>
         <ul class="nav navbar-nav navbar-right">
