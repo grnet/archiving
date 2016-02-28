@@ -1,0 +1,16 @@
+<%= bootstrap_form_for([:admin, @faq], layout: :horizontal, label_col: 'col-xs-3',
+                       control_col: 'col-xs-8') do |f| %>
+  <%= f.text_field :title, required: true %>
+  <%= f.number_field :priority %>
+  <%= f.text_area :body, cols: 20, rows: 10, required: true %>
+
+
+  <div class="form-group">
+    <div class="col-xs-offset-3 col-xs-2">
+      <%= link_to 'Cancel', admin_faqs_path, class: 'btn btn-default' %>
+    </div>
+    <div class="col-xs-offset-2 col-xs-2">
+      <%= f.submit class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>

@@ -99,5 +99,7 @@ Rails.application.routes.draw do
     end
 
     resources :pools, only: [:index, :new, :create]
+
+    resources :faqs
   end
 end
