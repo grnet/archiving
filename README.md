@@ -16,14 +16,14 @@
 ## Archiving Installation
 
 `Archiving` was developed to be deployed using standard debian jessie (stable) packages and
-practices. It does not It does not require bundler for production, but is should be pretty
+practices. It does not require bundler for production, but is should be pretty
 straightforward to set it up using bundler on other platforms.
 
 ## Setup Bacula
 
 You need a running Baclua director for `Archiving` to be functional.
 
-at the end of `bacula-dir.conf` file there must be:
+At the end of `bacula-dir.conf` file there must be:
 
 ```
 @|"sh -c 'for f in /etc/bacula/admindefs/pools/*.conf ; do echo @${f} ; done'"
@@ -33,12 +33,21 @@ at the end of `bacula-dir.conf` file there must be:
 @|"sh -c 'for f in /etc/bacula/clientdefs/schedules/*.conf ; do echo @${f} ; done'"
 ```
 
-and the respective directory structure.
+clientdefs and admindefs directories do not need to be there, we can create symbolic links to a
+destination of our choice.
+
+Setting custom locations enables Archiving to not require root or bacula user access to the Bacula
+server.
+
+The respective directory structure.
 
 ```
-$ cd /etc/bacula
-$ mkdir -p clientdefs/clients clientdefs/filesets clientdefs/jobs clientdefs/schedules admindefs/pools
-$ touch clientdefs/clients/tmp.conf clientdefs/filesets/tmp.conf clientdefs/jobs/tmp.conf clientdefs/schedules/tmp.conf admindefs/pools/tmp.conf
+$ mkdir -p CLIENTDEFS/clients CLIENTDEFS/filesets CLIENTDEFS/jobs CLIENTDEFS/schedules
+$ mkdir -p ADMINDEFS/pools
+$ touch CLIENTDEFS/clients/tmp.conf CLIENTDEFS/filesets/tmp.conf CLIENTDEFS/jobs/tmp.conf CLIENTDEFS/schedules/tmp.conf ADMINDEFS/pools/tmp.conf
+$ cd /etc/bacula/
+$ ln -s CLIENTDEFS clientdefs
+$ ln -s ADMINDEFS admindefs
 ```
 
 eg:
@@ -68,7 +77,8 @@ Where `tmp.conf` is an empty file (which `Archiving` needs)
 Admins now should add a Pool through archiving's admin interface.
 
 You will need to add an ssh key to `authorized_hosts` in order to give access to `Archiving` to
-upload configuration to the Bacula server.
+upload configuration to the Bacula server. The key's access can be limited to adding and removing
+files.
 
 ## Prepare for deploy
 
