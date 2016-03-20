@@ -2,7 +2,7 @@ class HostsController < ApplicationController
   before_action :require_logged_in
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
                                     :revoke, :disable]
-  before_action :fetch_hosts_of_user, only: [:new, :edit, :create]
+  before_action :fetch_hosts_of_user, only: [:new, :create]
 
   # GET /hosts/new
   def new
@@ -37,7 +37,11 @@ class HostsController < ApplicationController
   end
 
   # GET /hosts/1/edit
-  def edit; end
+  def edit
+    if current_user.needs_host_list?
+      @hosts_of_user = current_user.hosts.pluck(:fqdn)
+    end
+  end
 
   # PATCH /hosts/1
   def update
