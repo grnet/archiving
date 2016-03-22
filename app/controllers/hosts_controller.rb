@@ -57,7 +57,7 @@ class HostsController < ApplicationController
 
   # DELETE /hosts/1
   def destroy
-    if @host.destroy
+    if (@host.client.nil? || @host.remove_from_bacula(true)) && @host.destroy
       flash[:success] = 'Host destroyed successfully'
     else
       flash[:error] = 'Host not destroyed'
