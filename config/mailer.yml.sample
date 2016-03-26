@@ -7,3 +7,4 @@ development:
   authentication: plain
   enable_starttls_auto: true
   default_sender: sender@archiving.grnet.gr
+  operator_email: admin_receiver@archiving.grnet.gr

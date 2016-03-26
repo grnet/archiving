@@ -100,16 +100,19 @@ module Configuration
     private
 
     def mail_command
-      "#{mail_general} -u \\\"\[Bacula\]: %t %e of %c %l\\\" -m \\\"Bacula Report %r\\\""
+      "#{mail_general}" <<
+        " -t #{email_recipients.join(' ')}" <<
+        " -u \\\"\[Bacula\]: %t %e of %c %l\\\" -m \\\"Bacula Report\\\""
     end
 
     def operator_command
-      "#{mail_general} -u \\\"\[Bacula\]: Intervention needed for %j\\\" -m \\\"Intervention needed %r\\\""
+      "#{mail_general}"
+        " -t #{settings[:operator_email]}" <<
+        " -u \\\"\[Bacula\]: Intervention needed for %j\\\" -m \\\"Intervention needed %r\\\""
     end
 
     def mail_general
       "/usr/bin/sendEmail -f #{settings[:default_sender]}" <<
-        " -t #{email_recipients.join(' ')}" <<
         " -s #{settings[:address]}:#{settings[:port]}" <<
         " -o tls=yes -xu #{settings[:user_name]} -xp #{settings[:password]}"
     end
