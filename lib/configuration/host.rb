@@ -60,7 +60,7 @@ module Configuration
       return [] if email_recipients.empty?
       [
         "Messages {",
-        "  Name = message_#{name}",
+        "  Name = #{message_name}",
         "  mailcommand = \"#{mail_command}\"",
         "  operatorcommand = \"#{operator_command}\"",
         "  mail = root = all, !skipped",
@@ -95,6 +95,21 @@ module Configuration
         '  FDAddress = 0.0.0.0',
         '}'
       ].join("\n")
+    end
+
+    # Fetches the Message resource for the file-deamon configuration file
+    def bacula_fd_messages_config
+      [
+        'Messages {',
+        "  Name = #{message_name}",
+        "  director = #{Archiving.settings[:director_name]} = all, !skipped, !restored",
+        '}'
+      ].join("\n")
+    end
+
+    # The name that the client will use for its messages
+    def message_name
+      "message_#{name}_#{Digest::MD5.hexdigest(created_at.to_s + name).first(10)}"
     end
 
     private
