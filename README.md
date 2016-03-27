@@ -74,7 +74,13 @@ admindefs/
 ```
 Where `tmp.conf` is an empty file (which `Archiving` needs)
 
-Admins now should add a Pool through archiving's admin interface.
+Admins now should add a Pool through archiving's admin interface. After altering pools
+admininstrators should issue a
+
+`RAILS_ENV=production rake pool:apply_ustream`
+
+command, which sends all new configuration to the director.
+Note that this command can be used to mass update the director's configuration at any time.
 
 You will need to add an ssh key to `authorized_hosts` in order to give access to `Archiving` to
 upload configuration to the Bacula server. The key's access can be limited to adding and removing
