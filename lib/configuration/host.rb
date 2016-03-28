@@ -127,9 +127,12 @@ module Configuration
     end
 
     def mail_general
-      "/usr/bin/sendEmail -f #{settings[:default_sender]}" <<
-        " -s #{settings[:address]}:#{settings[:port]}" <<
-        " -o tls=yes -xu #{settings[:user_name]} -xp #{settings[:password]}"
+      command = "/usr/bin/sendEmail -f #{settings[:default_sender]}"
+      command << " -s #{settings[:address]}:#{settings[:port]}"
+      if settings[:user_name] && settings[:password]
+        command << " -o tls=yes -xu #{settings[:user_name]} -xp #{settings[:password]}"
+      end
+      command
     end
 
     def settings
