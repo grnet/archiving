@@ -21,4 +21,18 @@ class Log < ActiveRecord::Base
       I18n.l(time, format: :long)
     end
   end
+
+  # Extracts the log's compression info if there is any data available
+  #
+  # @return [String] the compression or nil
+  def compression
+    $1.strip if log_text =~ /.*Software Compression:(.*)\n.*/
+  end
+
+  # Extracts the log's encryption info if there is any data available
+  #
+  # @return [String] the encryption or nil
+  def encryption
+    $1.strip if log_text =~ /.*Encryption:(.*)\n.*/
+  end
 end

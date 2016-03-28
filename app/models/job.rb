@@ -107,6 +107,22 @@ class Job < ActiveRecord::Base
     }[level]
   end
 
+  # Extracts the job's compression info by looking at the job's
+  # logs
+  #
+  # @return [String] the compression
+  def compression
+    logs.map { |log| log.compression }.uniq.compact.first
+  end
+
+  # Extracts the job's encryption info by looking at the job's
+  # logs
+  #
+  # @return [String] the encryption
+  def encryption
+    logs.map { |log| log.encryption }.uniq.compact.first
+  end
+
   def status_human
     HUMAN_STATUS[job_status]
   end
