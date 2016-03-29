@@ -63,8 +63,8 @@ module Configuration
         "  Name = #{message_name}",
         "  mailcommand = \"#{mail_command}\"",
         "  operatorcommand = \"#{operator_command}\"",
-        "  mail = root = all, !skipped",
-        "  operator = root = mount",
+        "  mail = #{email_recipients.join(',')} = all, !skipped",
+        "  operator = #{settings[:operator_email]} = mount",
         "  console = all, !skipped, !saved",
         "  append = \"/var/log/bacula/bacula.log\" = all, !skipped",
         "  catalog = all",
@@ -116,14 +116,14 @@ module Configuration
 
     def mail_command
       "#{mail_general}" <<
-        " -t #{email_recipients.join(' ')}" <<
-        " -u \\\"\[Bacula\]: %t %e of %c %l\\\" -m \\\"Bacula Report\\\""
+        ' -t %r' <<
+        ' -u \"[Archiving]: %c %t %e\" -m \"Backup Report\\\n\\\nClient: %c\\\nJob: %n (%l)\"'
     end
 
     def operator_command
-      "#{mail_general}"
-        " -t #{settings[:operator_email]}" <<
-        " -u \\\"\[Bacula\]: Intervention needed for %j\\\" -m \\\"Intervention needed %r\\\""
+      "#{mail_general}" <<
+        ' -t %r' <<
+        ' -u \"[Archiving]: Intervention needed for %j\" -m \"Intervention needed %r\"'
     end
 
     def mail_general
