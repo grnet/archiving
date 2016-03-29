@@ -123,6 +123,15 @@ class Job < ActiveRecord::Base
     logs.map { |log| log.encryption }.uniq.compact.first
   end
 
+  # The duration of the job.
+  #
+  # @return [String]
+  def duration
+    return "-" if [start_time, end_time].any?(&:nil?)
+    distance = (end_time - start_time).to_i
+    distance.divmod(60).zip(['min', 'sec']).select{|x| x.first.nonzero? }.join(" ")
+  end
+
   def status_human
     HUMAN_STATUS[job_status]
   end
