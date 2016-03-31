@@ -37,6 +37,7 @@ gem 'net-scp', '1.2.1'
 gem 'state_machine', '1.2.0'
 
 gem 'kaminari', '0.16.1'
+gem 'redcarpet', '3.1.2'
 
 group :test do
   gem 'factory_girl_rails', '4.4.1' # pkg:ruby-factory-girl-rails

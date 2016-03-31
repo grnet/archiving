@@ -15,6 +15,7 @@ else
   require 'oauth2'
   require 'warden'
   require 'net/scp'
+  require 'redcarpet'
 end
 
 module Archiving
@@ -24,6 +25,10 @@ module Archiving
     return @settings if opts.nil?
     @settings.merge! opts
     @settings
+  end
+
+  def self.markdown
+    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML)
   end
 
   class Application < Rails::Application
