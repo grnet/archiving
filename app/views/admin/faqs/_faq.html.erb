@@ -2,7 +2,7 @@
   <td><%= link_to "##{faq.id}", admin_faq_path(faq) %></td>
   <td><%= faq.priority %></td>
   <td><%= link_to faq.title, admin_faq_path(faq) %></td>
-  <td><%= faq.body %></td>
+  <td><%= faq.pretty_body.html_safe %></td>
   <td><%= I18n.l(faq.created_at, format: :short) %></td>
   <td><%= I18n.l(faq.updated_at, format: :short) rescue '-' %></td>
   <td>

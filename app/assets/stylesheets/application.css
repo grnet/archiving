@@ -76,3 +76,11 @@ li.logo > a > p {
 .datatable-wrapper {
   margin-bottom: 20px;
 }
+
+.faq-link > svg {
+  visibility: hidden;
+}
+
+h2:hover > a.faq-link > svg {
+  visibility: visible;
+}
