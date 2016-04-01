@@ -59,7 +59,7 @@ class BaculaHandler
   def backup_now(job_name)
     job = host.job_templates.enabled.find_by(name: job_name)
     return false unless job
-    command = "echo \"run job=\\\"#{job.name_for_config}\\\" yes\" | #{bconsole}"
+    command = "echo \"run level=full job=\\\"#{job.name_for_config}\\\" yes\" | #{bconsole}"
     log(command)
     exec_with_timeout(command, 2)
   end
