@@ -1,5 +1,7 @@
 development:
   director: ser-baculas-dir
+  pool: Default
 
 production:
   director: bacula-dir-edet4-dir'
+  pool: Default
