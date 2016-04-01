@@ -21,7 +21,7 @@ class ConfigurationSetting < ActiveRecord::Base
 
   JOB = {
     storage: :File,
-    pool: :Default,
+    pool: Archiving.settings[:default_pool],
     messages: :Standard,
     priority: 10,
     :'Write Bootstrap' => '"/var/lib/bacula/%c.bsr"'
@@ -37,9 +37,9 @@ class ConfigurationSetting < ActiveRecord::Base
   }
 
   POOL = {
-    full: :Default,
-    differential: :Default,
-    incremental: :Default
+    full: Archiving.settings[:default_pool],
+    differential: Archiving.settings[:default_pool],
+    incremental: Archiving.settings[:default_pool]
   }
 
 
