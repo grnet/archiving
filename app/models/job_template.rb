@@ -30,6 +30,7 @@ class JobTemplate < ActiveRecord::Base
   def to_bacula_config_array
     ['Job {'] +
       options_array.map { |x| "  #{x}" } +
+      runscript.map { |x| "  #{x}" } +
       job_settings.map { |k,v| "  #{k.capitalize} = #{v}" } +
       ['}']
   end
@@ -101,6 +102,16 @@ class JobTemplate < ActiveRecord::Base
     end
 
     result
+  end
+
+  def runscript
+    [
+      'RunScript {',
+      "  command = \"bash #{Archiving.settings[:quota_checker]} \\\"%c\\\" #{ConfigurationSetting.client_quota}\"",
+      '  RunsOnClient = no',
+      '  RunsWhen = Before',
+      '}'
+    ]
   end
 
   # Fetches and memoizes the general configuration settings for Jobs
