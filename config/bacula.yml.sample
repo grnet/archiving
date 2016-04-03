@@ -1,7 +1,9 @@
 development:
   director: ser-baculas-dir
   pool: Default
+  quota_checker: /etc/bacula/quota_checker
 
 production:
   director: bacula-dir-edet4-dir'
   pool: Default
+  quota_checker: /etc/bacula/quota_checker

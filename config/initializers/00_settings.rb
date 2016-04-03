@@ -1,7 +1,7 @@
-Archiving.settings director_name: YAML.load_file(Rails.root.join('config', 'bacula.yml'))[Rails.env].
-  symbolize_keys[:director]
-Archiving.settings default_pool: YAML.load_file(Rails.root.join('config', 'bacula.yml'))[Rails.env].
-  symbolize_keys[:pool]
+bacula_yml = YAML.load_file(Rails.root.join('config', 'bacula.yml'))[Rails.env].symbolize_keys
+Archiving.settings director_name: bacula_yml[:director]
+Archiving.settings default_pool: bacula_yml[:pool]
+Archiving.settings quota_checker: bacula_yml[:quota_checker]
 
 Archiving.settings vima_oauth_enabled: true
 Archiving.settings institutional_authentication_enabled: true

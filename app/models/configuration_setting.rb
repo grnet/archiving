@@ -80,6 +80,13 @@ class ConfigurationSetting < ActiveRecord::Base
     (last || new).pool.symbolize_keys.reverse_merge(POOL.dup)
   end
 
+  # Fetches the provided client size quota
+  #
+  # @return [Integer] bytes space quota per client
+  def self.client_quota
+    current_client_settings[:quota]
+  end
+
   # Fetches the record's configuration for jobs.
   #
   # The configuration is the record's configuration patched to the default
