@@ -21,6 +21,8 @@
                                @setting.current_client_settings[:job_retention_period_type]) %>
           <%= c.select :autoprune, ConfigurationSetting::AUTOPRUNE_OPTIONS,
             :value => @setting.current_client_settings[:autoprune] %>
+          <%= c.number_field :quota,
+            :value => @setting.current_client_settings[:quota] %>
         <% end %>
       </div>
     </div>

@@ -14,3 +14,5 @@ Archiving.settings temp_db_retention: 3.days
 
 Archiving.settings skip_host_fetch_time_period: 1.month
 Archiving.settings mail_settings: YAML::load(File.open("#{Rails.root}/config/mailer.yml"))[Rails.env].symbolize_keys
+
+Archiving.settings client_quota: 100.megabytes

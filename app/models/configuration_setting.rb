@@ -33,7 +33,8 @@ class ConfigurationSetting < ActiveRecord::Base
     file_retention_period_type: 'days',
     job_retention: 180,
     job_retention_period_type: 'days',
-    autoprune: 'yes'
+    autoprune: 'yes',
+    quota: Archiving.settings[:client_quota]
   }
 
   POOL = {
