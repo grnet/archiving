@@ -8,6 +8,12 @@
   <td><%= client.file_retention_days %></td>
   <td><%= client.job_retention_days %></td>
   <td><%= number_to_human_size(@stats.jobs_sizes[client.id]) %></td>
+  <td>
+    <%= pretty_percentage(
+      @stats.jobs_sizes[client.id].to_f / Archiving.settings[:client_quota],
+      Archiving.settings[:client_quota]
+      )
+    %>
   <td><%= number_by_magnitude(@stats.jobs_files[client.id]) %></td>
   <td><%= client.auto_prune_human %></td>
 </tr>

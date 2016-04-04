@@ -116,4 +116,18 @@ module ApplicationHelper
     text = value == 1 ? 'yes' : 'no'
     content_tag(:span, class: klass) { text }
   end
+
+  # Generates a percentage and adds some color coding for better visibility
+  #
+  # @param ratio [Numeric] the ratio
+  # @param quota [Integer] the client's space quota
+  #
+  # @return [String] an html label tag
+  def pretty_percentage(ratio, quota)
+    color = ([[ratio, 0.2].max, 0.99].min * 256).to_i.to_s(16) << '0000'
+
+    content_tag(:label, class: 'label', style: "background-color:##{color}") do
+      number_to_percentage(100 * ratio, precision: 1)
+    end
+  end
 end
