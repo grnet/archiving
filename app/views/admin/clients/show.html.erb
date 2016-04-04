@@ -1,6 +1,12 @@
 <%= render partial: 'header' %>
 
 <div class="row right">
+  <%= link_to '#', data: { toggle: 'modal', target: ".js-quota:first"},
+              class: "btn btn-default", role: "button" do %>
+    <label class="glyphicon glyphicon-edit text-primary"></label>
+    Set Quota
+  <% end %>
+
   <% if @client.host.can_set_inactive? %>
     <%= link_to 'Disable client', disable_admin_client_path(@client), method: :post,
       data: { confirm: 'This will disable the client. Are you sure?' },
@@ -44,3 +50,22 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade js-quota" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading">Set Quota for "<%= @client.name %>"</div>
+        <div class="panel-body">
+          <%= bootstrap_form_for(@client.host,
+                                 url: set_quota_admin_host_path(@client.host),
+                                 method: :put, layout: :inline) do |f| %>
+            <%= f.number_field :quota, min: 1 %>
+            <%= f.submit class: 'btn btn-success' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
