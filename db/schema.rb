@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160228113926) do
+ActiveRecord::Schema.define(version: 20160404163444) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20160228113926) do
     t.string   "file_retention_period_type"
     t.integer  "origin",                     limit: 1
     t.string   "email_recipients",                       default: "[]"
+    t.integer  "quota",                      limit: 8,   default: 104857600
   end
 
   add_index "hosts", ["name"], name: "index_hosts_on_name", unique: true, length: {"name"=>128}, using: :btree
