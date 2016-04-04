@@ -32,6 +32,18 @@
         <td><%= number_to_human_size @client.backup_jobs_size %></td>
       </tr>
       <tr>
+        <td>Client Quota</td>
+        <td><%= number_to_human_size @client.quota %></td>
+      </tr>
+      <tr>
+        <td>Space Used %</td>
+        <td>
+          <% if @client.quota.to_f > 0 %>
+            <%= pretty_percentage(@client.backup_jobs_size.to_f / @client.quota, @client.quota) %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
         <td>Files count</td>
         <td><%= number_by_magnitude(@client.files_count) %></td>
       </tr>

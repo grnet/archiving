@@ -20,7 +20,7 @@ class Client < ActiveRecord::Base
 
   DAY_SECS = 60 * 60 * 24
 
-  delegate :manually_inserted?, :origin, to: :host
+  delegate :manually_inserted?, :origin, :quota, to: :host, allow_nil: true
 
   # Fetches the client's job_templates that are already persisted to
   #  Bacula's configuration
