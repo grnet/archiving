@@ -107,7 +107,7 @@ class JobTemplate < ActiveRecord::Base
   def runscript
     [
       'RunScript {',
-      "  command = \"bash #{Archiving.settings[:quota_checker]} \\\"%c\\\" #{ConfigurationSetting.client_quota}\"",
+      "  command = \"bash #{Archiving.settings[:quota_checker]} \\\"%c\\\" #{host.quota}\"",
       '  RunsOnClient = no',
       '  RunsWhen = Before',
       '}'

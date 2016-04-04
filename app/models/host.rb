@@ -37,7 +37,7 @@ class Host < ActiveRecord::Base
 
   validates :file_retention, :job_retention,
     :port, :password, presence: true
-  validates :port, numericality: true
+  validates :port, :quota, numericality: { greater_than: 0 }
 
   validates :fqdn, presence: true, uniqueness: true
 
