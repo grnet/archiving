@@ -29,6 +29,14 @@ class User < ActiveRecord::Base
     admin
   end
 
+  # Initializes a user token which will be used for API access
+  def create_token
+    self.token = Digest::SHA256.hexdigest(
+      Time.now.to_s + Rails.application.secrets.salt + email
+    )
+    save
+  end
+
   # Composes the user's display name from the user's username and email
   #
   # @return [String]

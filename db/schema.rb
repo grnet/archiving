@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404163444) do
+ActiveRecord::Schema.define(version: 20160418163337) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -130,9 +130,11 @@ ActiveRecord::Schema.define(version: 20160404163444) do
     t.datetime "login_at"
     t.datetime "hosts_updated_at"
     t.string   "temp_hosts",                 default: "[]"
+    t.string   "token"
   end
 
   add_index "users", ["identifier"], name: "index_users_on_identifier", using: :btree
   add_index "users", ["password_hash"], name: "index_users_on_password_hash", using: :btree
+  add_index "users", ["token"], name: "index_arch.users_on_token", using: :btree
 
 end
