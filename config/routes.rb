@@ -104,4 +104,15 @@ Rails.application.routes.draw do
 
     resources :faqs
   end
+
+  namespace :api, defaults: { format: :json } do
+    scope module: :v1, constraints: ApiVersion.new(version: 1, default: true) do
+      resources :clients, only: [:index, :show] do
+        member do
+          post :backup
+          post :restore
+        end
+      end
+    end
+  end
 end
