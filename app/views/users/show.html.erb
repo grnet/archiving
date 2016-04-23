@@ -1,0 +1,64 @@
+<div class="col-xs-5">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2>User details</h2>
+    </div>
+
+    <br/>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-condensed">
+        <tr>
+          <td><b>Username</b></td>
+          <td><%= current_user.username %></td>
+        </tr>
+        <tr>
+          <td><b>Email</b></td>
+          <td><%= current_user.email %></td>
+        </tr>
+        <tr>
+          <td><b>User Type</b></td>
+          <td><%= current_user.user_type %></td>
+        </tr>
+        <tr>
+          <td><b>Created At</b></td>
+          <td><%= I18n.l(current_user.created_at, format: :short) rescue '-' %></td>
+        </tr>
+        <tr>
+          <td><b>Login At</b></td>
+          <td><%= I18n.l(current_user.login_at, format: :short) rescue '-' %></td>
+        </tr>
+        <tr>
+          <td><b>Clients</b></td>
+          <td><%= inline_list current_user.baculized_hosts %></td>
+        </tr>
+        <tr>
+          <td><b>Pending Hosts</b></td>
+          <td><%= inline_list current_user.non_baculized_hosts %></td>
+        </tr>
+        <% if current_user.institutional? %>
+          <tr>
+            <td><b>Unverified Hosts</b></td>
+            <td><%= inline_list current_user.unverified_hosts %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td><b>Authentication Token</b></td>
+          <td><%= current_user.token %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <%= link_to generate_token_user_path(current_user), method: :patch, class: 'btn btn-primary' do %>
+    <label class="glyphicon glyphicon-cog"></label>
+    Generate Token
+  <% end %>
+
+  <% if current_user.admin? %>
+    <%= link_to edit_admin_user_path(current_user), class: 'btn btn-primary' do %>
+      <label class="glyphicon glyphicon-ok-edit text-success"></label>
+      Edit User
+    <% end %>
+  <% end %>
+</div>

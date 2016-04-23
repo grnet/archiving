@@ -57,6 +57,12 @@ Rails.application.routes.draw do
     resources :schedules, only: [:show, :new, :edit, :create, :update, :destroy]
   end
 
+  resources :users, only: :show do
+    member do
+      patch :generate_token
+    end
+  end
+
   namespace :admin do
     match '/', to: 'base#index', via: [:get, :post]
 
