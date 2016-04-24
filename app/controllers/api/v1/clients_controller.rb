@@ -28,4 +28,19 @@ class Api::V1::ClientsController < Api::BaseController
 
     render json: { message: message }, status: :ok
   end
+
+  # POST /api/clients/1/restore
+  def restore
+    host = current_api_user.hosts.in_bacula.find(params[:id])
+    fileset = host.client.file_sets.find(params[:fileset_id])
+    location = params[:location].blank? ? '/tmp/bacula_restore' : params[:location]
+
+    if host.restore(fileset.id, location)
+      message = 'Restore is scheduled'
+    else
+      message = 'Restore not scheduled'
+    end
+
+    render json: { message: message }, status: :ok
+  end
 end
