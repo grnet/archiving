@@ -7,4 +7,11 @@ class Api::V1::ClientsController < Api::BaseController
 
     api_render(hosts)
   end
+
+  # GET /api/clients/1
+  def show
+    host = current_api_user.hosts.in_bacula.find(params[:id])
+
+    api_render(host)
+  end
 end
