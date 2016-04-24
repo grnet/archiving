@@ -113,6 +113,16 @@ class Host < ActiveRecord::Base
     end
   end
 
+  # API serializer
+  # Override `as_json` method to personalize for API use.
+  def as_json(opts={})
+    if for_api = opts.delete(:for_api)
+      api_json
+    else
+      super(opts)
+    end
+  end
+
   # Determines if a host has enabled jobs in order to be dispatched to Bacula
   #
   # @return [Boolean]
@@ -297,6 +307,27 @@ class Host < ActiveRecord::Base
     if !email_recipients.all? { |email| email =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
       self.errors.add(:email_recipients)
     end
+  end
+
+  # Handles the returned attribues for api
+  #
+  # @return [Hash] of the desired attributes for api use
+  def api_json
+    {
+      id: id,
+      name: name,
+      uname: client.uname,
+      port: port,
+      file_retention: "#{file_retention} #{file_retention_period_type}",
+      job_retention: "#{job_retention} #{job_retention_period_type}",
+      quota: quota,
+      last_backup: client.last_job_datetime,
+      files: client.files_count,
+      space_used: client.backup_jobs_size,
+      collaborators: email_recipients,
+      backup_jobs: job_templates.enabled.backup.map(&:api_json),
+      restorable_filesets: client.file_sets.map(&:api_json)
+    }
   end
 
   # Proxy object for handling bacula directives

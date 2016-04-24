@@ -18,4 +18,14 @@ class FileSet < ActiveRecord::Base
   alias_attribute :create_time, :CreateTime
 
   has_many :jobs, foreign_key: :FileSetId
+
+  # Handles the returned attribues for api
+  #
+  # @return [Hash] of the desired attributes for api use
+  def api_json
+    {
+      id: id,
+      name: file_set
+    }
+  end
 end

@@ -67,6 +67,17 @@ class JobTemplate < ActiveRecord::Base
     host.backup_now(name)
   end
 
+  # Handles the returned attribues for api
+  #
+  # @return [Hash] of the desired attributes for api use
+  def api_json
+    {
+      id: id,
+      name: name,
+      fileset: fileset.name_for_config
+    }
+  end
+
   private
 
   def name_format
