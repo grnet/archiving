@@ -117,3 +117,177 @@ $ apt get install capistrano
 $ cap production deploy
 
 ```
+
+## API
+
+Archiving provides access to its users with some API endpoints.
+
+In order for a user to use the API, he must first create a token from his user page. Each user can
+access all the clients where he is set as collaborator.
+
+The basic usage of the API endpoints is:
+
+```
+curl -H 'Accept: API_VERSION' -H 'api_token: USER_TOKEN' ENDPOINT
+```
+
+Where `API_VERSION` is the version that the API uses at that time and `USER_TOKEN` the user's
+personal token.
+
+eg: 
+
+```
+curl -H 'Accept: application/archiving.v1' -H 'api_token: ABCDEF1234567890'
+https://archiving.grnet.gr/api/clients
+```
+
+### GET /api/clients
+
+Fetch all of the user's clients.
+
+#### Request
+
+```
+curl -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN'
+https://archiving.grnet.gr/api/clients
+```
+
+#### Response
+
+```json
+[
+  {
+    "id": 1364,
+    "name": "ser-client.lan",
+    "uname": "5.2.6 (21Feb12) x86_64-pc-linux-gnu,debian,jessie/sid",
+    "port": 9102,
+    "file_retention": "10 days",
+    "job_retention": "10 days",
+    "quota": 104857600,
+    "last_backup": "2016-04-24T13:44:47.000+03:00",
+    "files": 88,
+    "space_used": 5128135,
+    "collaborators": [
+      "tester@example.com",
+      "another_tester@example.com"
+    ],
+    "backup_jobs": [
+      {
+        "id": 30,
+        "name": "backup apt logs",
+        "fileset": "ser-client.lan logs auth"
+      }
+    ],
+    "restorable_filesets": [
+      {
+        "id": 6,
+        "name": "ser-client.lan home files"
+      },
+      {
+        "id": 9,
+        "name": "ser-client.lan logs"
+      }
+    ]
+  }
+]
+```
+
+### GET /api/clients/:id
+
+Fetch a client that belongs to a user.
+
+#### Request
+
+```
+curl -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN'
+https://archiving.grnet.gr/api/clients/1364
+```
+
+#### Response
+
+```json
+{
+  "id": 1364,
+  "name": "ser-client.lan",
+  "uname": "5.2.6 (21Feb12) x86_64-pc-linux-gnu,debian,jessie/sid",
+  "port": 9102,
+  "file_retention": "10 days",
+  "job_retention": "10 days",
+  "quota": 104857600,
+  "last_backup": "2016-04-24T13:44:47.000+03:00",
+  "files": 88,
+  "space_used": 5128135,
+  "collaborators": [
+    "tester@example.com",
+    "another_tester@example.com"
+  ],
+  "backup_jobs": [
+    {
+      "id": 30,
+      "name": "backup apt logs",
+      "fileset": "ser-client.lan logs auth"
+    }
+  ],
+  "restorable_filesets": [
+    {
+      "id": 6,
+      "name": "ser-client.lan home files"
+    },
+    {
+      "id": 9,
+      "name": "ser-client.lan logs"
+    }
+  ]
+}
+```
+
+### POST /api/clients/:id/backup
+
+Initiate a manual full backup for a specific job.
+
+Needs:
+
+* `job_id`: the job's id
+
+#### Request
+
+```
+curl -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN' -d "job_id=30" https://archiving.grnet.gr/api/clients/1361/backup
+```
+
+#### Response
+
+```json
+{
+  "message": "Job is scheduled for backup"
+}
+```
+
+### POST /api/clients/:id/restore
+
+Initiates a full restore for a specific fileset to the most recent restore point.
+
+Needs:
+
+* `fileset_id`: the fileset's id
+
+Accepts:
+
+* `location`: the restore location
+
+> if `location` is not provided the default `/tmp/bacula_restore` is used
+
+
+#### Request
+
+```
+curl -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN' -d "fileset_id=30" https://archiving.grnet.gr/api/clients/1361/backup
+```
+
+#### Response
+
+```json
+{
+  "message": "Restore is scheduled"
+}
+```
