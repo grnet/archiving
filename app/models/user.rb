@@ -113,6 +113,13 @@ class User < ActiveRecord::Base
     hosts_updated_at < Archiving.settings[:skip_host_fetch_time_period].ago
   end
 
+  # Determines if a user has admin access to archiving or not
+  #
+  # @return [Boolean]
+  def has_admin_access?
+    admin? || moderator?
+  end
+
   private
 
   def confirm_passwords

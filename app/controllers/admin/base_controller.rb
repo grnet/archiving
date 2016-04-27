@@ -24,7 +24,7 @@ class Admin::BaseController < ApplicationController
   end
 
   def require_admin
-    return if current_user.try(:admin?)
+    return if current_user.try(:has_admin_access?)
 
     flash[:alert] = 'You need to log in first'
     redirect_to admin_login_path

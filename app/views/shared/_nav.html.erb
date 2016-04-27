@@ -52,7 +52,7 @@
         </ul>
       <% end %>
 
-      <%= render partial: 'shared/admin' if current_user.try(:admin?) %>
+      <%= render partial: 'shared/admin' if current_user.try(:has_admin_access?) %>
     </div><!--/.nav-collapse -->
   </div>
 </nav>
