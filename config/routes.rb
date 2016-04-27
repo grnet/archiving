@@ -103,6 +103,8 @@ Rails.application.routes.draw do
       member do
         patch :ban
         patch :unban
+        patch :revoke_admin
+        patch :grant_admin
       end
     end
 

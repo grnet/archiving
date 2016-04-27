@@ -67,5 +67,21 @@
     <% end %>
   <% end %>
 
+  <% if !@user.admin? %>
+    <% if @user.has_admin_access? %>
+      <%= link_to revoke_admin_admin_user_path(@user), method: :patch, class: 'btn btn-default',
+                  data: { confirm: "User #{@user.username} will be NOT an admin from now on" } do %>
+        <label class="glyphicon glyphicon-ban-circle text-danger"></label>
+        Revoke Admin
+      <% end %>
+    <% else %>
+      <%= link_to grant_admin_admin_user_path(@user), method: :patch, class: 'btn btn-default',
+                  data: { confirm: "User #{@user.username} will an admin from now on" } do %>
+        <label class="glyphicon glyphicon-ok-circle text-success"></label>
+        Grant Admin
+      <% end %>
+    <% end %>
+  <% end %>
+
   <%= link_to 'Back to users', admin_users_path, class: 'right' %>
 </div>

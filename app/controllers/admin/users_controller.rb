@@ -1,5 +1,6 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :fetch_user, only: [:show, :edit, :update, :ban, :unban]
+  before_action :fetch_user, only: [:show, :edit, :update, :ban, :unban,
+                                    :grant_admin, :revoke_admin]
   before_action :editable_users_only, only: [:edit, :update]
 
   # GET /admin/users
@@ -86,6 +87,29 @@ class Admin::UsersController < Admin::BaseController
 
     redirect_to admin_users_path
   end
+
+  # PATCH /admin/users/1/revoke_admin
+  def revoke_admin
+    if @user.update_attribute(:moderator, false)
+      flash[:success] = 'User is no longer an admin'
+    else
+      flash[:error] = 'Admin rights were NOT revoked'
+    end
+
+    redirect_to admin_users_path
+  end
+
+  # PATCH /admin/users/1/grant_admin
+  def grant_admin
+    if @user.update_attribute(:moderator, true)
+      flash[:success] = 'User is now an admin'
+    else
+      flash[:error] = 'Admin rights were NOT granted'
+    end
+
+    redirect_to admin_users_path
+  end
+
 
   private
 

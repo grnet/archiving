@@ -8,13 +8,12 @@
   <td><%= inline_list @baculized_host_names[user.id] %></td>
   <td><%= inline_list @unverified_host_names[user.id] %></td>
   <td><%= inline_list @non_baculized_host_names[user.id] %></td>
+  <td><%= user.has_admin_access? ? 'yes' : 'no' %></td>
   <td>
-    <%= link_to admin_user_path(user) do %>
-      <label class="glyphicon glyphicon-eye-open text-primary" alt="show"></label>
-    <% end %>
     <% if user.editable? %>
-      <%= link_to edit_admin_user_path(user) do %>
+      <%= link_to edit_admin_user_path(user), class: 'btn btn-default' do %>
         <label class="glyphicon glyphicon-edit text-primary" alt="show"></label>
+        Edit
       <% end %>
     <% end %>
   </td>
