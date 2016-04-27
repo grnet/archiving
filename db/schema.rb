@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418163337) do
+ActiveRecord::Schema.define(version: 20160427195249) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20160418163337) do
     t.datetime "hosts_updated_at"
     t.string   "temp_hosts",                 default: "[]"
     t.string   "token"
+    t.boolean  "moderator",                  default: false
   end
 
   add_index "users", ["identifier"], name: "index_users_on_identifier", using: :btree
