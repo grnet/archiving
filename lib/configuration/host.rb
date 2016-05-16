@@ -117,7 +117,7 @@ module Configuration
     def mail_command
       "#{mail_general}" <<
         ' -t %r' <<
-        ' -u \"[Archiving]: %c %t %e\" -m \"Backup Report\\\n\\\nClient: %c\\\nJob: %n (%l)\"'
+        ' -u \"[Archiving]: %c %t %e\"'
     end
 
     def operator_command
