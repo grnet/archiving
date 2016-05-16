@@ -18,7 +18,6 @@ class Admin::BaseController < ApplicationController
   protected
 
   def get_charts
-    days_ago = params.fetch(:days_back, 7).to_i rescue 7
     @job_status = ChartGenerator.job_statuses(@client_ids, days_ago)
     @job_stats = ChartGenerator.job_stats(@client_ids, days_ago - 1)
   end

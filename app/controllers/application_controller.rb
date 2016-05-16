@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :warden
+  helper_method :current_user, :warden, :days_ago
 
   # GET /
   def index
@@ -83,8 +83,6 @@ class ApplicationController < ActionController::Base
   end
 
   def fetch_logs
-    days_ago = params.fetch(:days_back, 7).to_i rescue 7
-
     if @client
       @logs = Log.includes(:job).joins(job: :client).where(Client: { ClientId: @client.id })
     else
@@ -93,6 +91,10 @@ class ApplicationController < ActionController::Base
     end
     @logs = @logs.where('Time > ?', days_ago.days.ago).
       order(Time: :desc, LogId: :desc).page(params[:page])
+  end
+
+  def days_ago
+    params.fetch(:days_back, 7).to_i rescue 7
   end
 
   private
