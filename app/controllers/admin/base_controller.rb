@@ -7,6 +7,11 @@ class Admin::BaseController < ApplicationController
     @client_ids = Client.pluck(:ClientId)
     get_charts
     @global_stats = GlobalStats.new.stats
+
+    @jobs = Job.includes(:file_set, :logs, :client).
+      where('EndTime > ?', days_ago.days.ago).
+      order(EndTime: :desc)
+
     render 'admin/index'
   end
 
