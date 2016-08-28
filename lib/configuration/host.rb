@@ -74,11 +74,11 @@ module Configuration
 
     # Fetches the Director resource for the file-deamon configuration
     # file
-    def bacula_fd_director_config
+    def bacula_fd_director_config(hide_pass = true)
       [
         'Director {',
         "  Name = \"#{Archiving.settings[:director_name]}\"",
-        "  Password = \"*********\"",
+        "  Password = \"#{hide_pass ? '*********' : password }\"",
         '}'
       ].join("\n")
     end

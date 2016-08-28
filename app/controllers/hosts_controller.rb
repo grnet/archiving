@@ -142,7 +142,7 @@ class HostsController < ApplicationController
 
     render text: [
       @host.bacula_fd_filedeamon_config,
-      @host.bacula_fd_director_config,
+      @host.bacula_fd_director_config(false),
       @host.bacula_fd_messages_config
     ].join("\n\n")
   end
