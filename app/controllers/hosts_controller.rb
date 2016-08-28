@@ -1,5 +1,5 @@
 class HostsController < ApplicationController
-  before_action :require_logged_in
+  before_action :require_logged_in, except: :fd_config
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
                                     :revoke, :disable]
   before_action :fetch_hosts_of_user, only: [:new, :create]
@@ -128,6 +128,23 @@ class HostsController < ApplicationController
     end
 
     redirect_to new_host_path
+  end
+
+  # GET /hosts/:id/fd_config?token=A_TOKEN
+  def fd_config
+    user = User.find_by(token: params[:token]) if params[:token]
+
+    return redirect_to clients_path if user.nil?
+
+    @host = user.hosts.find_by(id: params[:id])
+
+    return redirect_to clients_path unless @host
+
+    render text: [
+      @host.bacula_fd_filedeamon_config,
+      @host.bacula_fd_director_config,
+      @host.bacula_fd_messages_config
+    ].join("\n\n")
   end
 
   private

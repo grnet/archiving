@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       post :submit_config
       post :disable
       delete :revoke
+      get :fd_config
     end
 
     collection do
