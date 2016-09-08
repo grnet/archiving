@@ -1,0 +1,23 @@
+<div class="col-xs-4">
+  <h3>Client FileDeamon Config</h3>
+  <pre class="pre">
+<%= @host.bacula_fd_filedeamon_config %>
+  </pre>
+</div>
+<div class="col-xs-4">
+  <h3>Client Director Config</h3>
+  <pre class="pre">
+<%= @host.bacula_fd_director_config %>
+  </pre>
+</div>
+<div class="col-xs-4">
+  <h3>Client Messages Config</h3>
+  <pre class="pre">
+<%= @host.bacula_fd_messages_config %>
+  </pre>
+</div>
+
+<div class='col-xs-10'>
+  <%= link_to 'Download Config', fd_config_host_path(@host, token: current_user.token),
+    class: "btn btn-success", role: "button", download: 'fd_config' %>
+</div>

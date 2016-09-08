@@ -1,0 +1,31 @@
+<div class="row right">
+  <% if @host.can_be_disabled? %>
+    <%= link_to 'Disable client', disable_host_path(@host), method: :post,
+      data: { confirm: 'This will disable the client. Are you sure?' },
+      class: "btn btn-warning", role: "button" %>
+  <% end %>
+
+  <%= link_to 'Remove client', host_path(@host), method: :delete,
+    data: { confirm: 'This will remove the client from Bacula. Are you sure?' },
+    class: "btn btn-danger", role: "button" %>
+</div>
+
+<h2>Configuration for <%= @host.name %>
+  <small><%= host_status_label(@host) %></small>
+</h2>
+
+<br/>
+
+<ul class="nav nav-tabs" role='tablist'>
+  <li role="presentation" class="active">
+    <a aria-controls='details'  role='tab' data-toggle='tab' href="#details">Client Details</a>
+  </li>
+  <li role="presentation">
+    <a aria-controls='jobs' role='tab' data-toggle='tab' href="#jobs">Jobs</a>
+  </li>
+  <li role="presentation">
+    <a aria-controls='fd-config'role='tab' data-toggle='tab' href="#fd-config">FD Config</a>
+  </li>
+</ul>
+
+<br/>
