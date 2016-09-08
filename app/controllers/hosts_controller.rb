@@ -48,7 +48,7 @@ class HostsController < ApplicationController
     updates = fetch_params.slice(:port, :password, :email_recipients)
     if updates.present? && @host.update_attributes(updates)
       @host.recalculate if @host.bacula_ready?
-      flash[:success] = 'Host updated successfully. You must update your file deamon accordingly.'
+      flash[:success] = 'Host updated successfully. You must update your file daemon accordingly.'
       redirect_to host_path @host
     else
       render :edit
@@ -141,7 +141,7 @@ class HostsController < ApplicationController
     return redirect_to clients_path unless @host
 
     render text: [
-      @host.bacula_fd_filedeamon_config,
+      @host.bacula_fd_filedaemon_config,
       @host.bacula_fd_director_config(false),
       @host.bacula_fd_messages_config
     ].join("\n\n")

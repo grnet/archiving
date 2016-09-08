@@ -72,7 +72,7 @@ module Configuration
       ]
     end
 
-    # Fetches the Director resource for the file-deamon configuration
+    # Fetches the Director resource for the file-daemon configuration
     # file
     def bacula_fd_director_config(hide_pass = true)
       [
@@ -83,10 +83,10 @@ module Configuration
       ].join("\n")
     end
 
-    # Fetches the FileDeamon resource for the file-deamon configuration
-    def bacula_fd_filedeamon_config
+    # Fetches the FileDaemon resource for the file-daemon configuration
+    def bacula_fd_filedaemon_config
       [
-        'FileDeamon {',
+        'FileDaemon {',
         "  Name = #{name}",
         "  FDport = #{port}",
         '  WorkingDirectory = /var/lib/bacula',
@@ -97,7 +97,7 @@ module Configuration
       ].join("\n")
     end
 
-    # Fetches the Message resource for the file-deamon configuration file
+    # Fetches the Message resource for the file-daemon configuration file
     def bacula_fd_messages_config
       [
         'Messages {',

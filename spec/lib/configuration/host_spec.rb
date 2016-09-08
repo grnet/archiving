@@ -100,13 +100,13 @@ describe Configuration::Host do
     end
   end
 
-  describe '#bacula_fd_filedeamon_config' do
+  describe '#bacula_fd_filedaemon_config' do
     let!(:host) { FactoryGirl.build(:host) }
 
-    subject { host.bacula_fd_filedeamon_config }
+    subject { host.bacula_fd_filedaemon_config }
 
-    it 'opens and closes a FileDeamon part' do
-      expect(subject).to match(/^FileDeamon {$/)
+    it 'opens and closes a FileDaemon part' do
+      expect(subject).to match(/^FileDaemon {$/)
       expect(subject).to match(/^}$/)
     end
 
