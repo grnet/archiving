@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # PATCH users/1/generate_token
   def generate_token
-    if current_user.create_token
+    if current_user.create_token(save: true)
       flash[:success] = 'Token created'
     else
       flash[:error] = 'Token not created'

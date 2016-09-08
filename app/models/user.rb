@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: { scope: :user_type }
 
   before_create :confirm_passwords, if: :admin?
+  before_create :create_token
 
   # Returns an admin user with the given password
   #
@@ -30,11 +31,11 @@ class User < ActiveRecord::Base
   end
 
   # Initializes a user token which will be used for API access
-  def create_token
+  def create_token(opts = {})
     self.token = Digest::SHA256.hexdigest(
       Time.now.to_s + Rails.application.secrets.salt + email
     )
-    save
+    save if opts[:save] == true
   end
 
   # Composes the user's display name from the user's username and email
