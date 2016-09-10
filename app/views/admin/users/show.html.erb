@@ -35,12 +35,12 @@
           <td><%= inline_list @user.baculized_hosts %></td>
         </tr>
         <tr>
-          <td><b>Pending Hosts</b></td>
+          <td><b>Pending Clients</b></td>
           <td><%= inline_list @user.non_baculized_hosts %></td>
         </tr>
         <% if @user.institutional? %>
           <tr>
-            <td><b>Unverified Hosts</b></td>
+            <td><b>Unverified Clients</b></td>
             <td><%= inline_list @user.unverified_hosts %></td>
           </tr>
         <% end %>
@@ -70,13 +70,13 @@
   <% if !@user.admin? %>
     <% if @user.has_admin_access? %>
       <%= link_to revoke_admin_admin_user_path(@user), method: :patch, class: 'btn btn-default',
-                  data: { confirm: "User #{@user.username} will be NOT an admin from now on" } do %>
+                  data: { confirm: "User #{@user.username} will NOT be an admin from now on" } do %>
         <label class="glyphicon glyphicon-ban-circle text-danger"></label>
         Revoke Admin
       <% end %>
     <% else %>
       <%= link_to grant_admin_admin_user_path(@user), method: :patch, class: 'btn btn-default',
-                  data: { confirm: "User #{@user.username} will an admin from now on" } do %>
+                  data: { confirm: "User #{@user.username} will be an admin from now on" } do %>
         <label class="glyphicon glyphicon-ok-circle text-success"></label>
         Grant Admin
       <% end %>

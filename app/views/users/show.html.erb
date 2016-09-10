@@ -33,12 +33,12 @@
           <td><%= inline_list current_user.baculized_hosts %></td>
         </tr>
         <tr>
-          <td><b>Pending Hosts</b></td>
+          <td><b>Pending Clients</b></td>
           <td><%= inline_list current_user.non_baculized_hosts %></td>
         </tr>
         <% if current_user.institutional? %>
           <tr>
-            <td><b>Unverified Hosts</b></td>
+            <td><b>Unverified Clients</b></td>
             <td><%= inline_list current_user.unverified_hosts %></td>
           </tr>
         <% end %>
