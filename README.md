@@ -252,7 +252,7 @@ Needs:
 #### Request
 
 ```
-curl -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN' -d "job_id=30" https://archiving.grnet.gr/api/clients/1361/backup
+curl -X POST -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN' -d "job_id=30" https://archiving.grnet.gr/api/clients/1361/backup
 ```
 
 #### Response
@@ -281,7 +281,7 @@ Accepts:
 #### Request
 
 ```
-curl -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN' -d "fileset_id=30" https://archiving.grnet.gr/api/clients/1361/backup
+curl -X POST -H 'Accept: application/archiving.v1' -H 'api_token: YOUR_TOKEN' -d "fileset_id=30" https://archiving.grnet.gr/api/clients/1361/backup
 ```
 
 #### Response
