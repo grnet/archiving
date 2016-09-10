@@ -3,6 +3,7 @@ class ClientsController < ApplicationController
   before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :users, :restore, :run_restore,
                                       :restore_selected, :remove_user]
   before_action :fetch_logs, only: [:logs]
+  before_action :require_non_blocked_client, only: [:restore, :restore_selected, :run_restore]
 
   # GET /clients
   # POST /clients
@@ -126,6 +127,13 @@ class ClientsController < ApplicationController
   end
 
   private
+
+  def require_non_blocked_client
+    if @client.host.blocked?
+      flash[:error] = 'Client disabled by admins'
+      redirect_to clients_path
+    end
+  end
 
   def fetch_client
     @client = Client.for_user(current_user.id).find(params[:id])

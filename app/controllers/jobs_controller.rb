@@ -3,6 +3,7 @@ class JobsController < ApplicationController
   before_action :fetch_host, only: [:new, :edit, :show, :create, :update, :destroy,
                                     :toggle_enable, :backup_now]
   before_action :fetch_job, only: [:show, :edit, :update, :destroy, :toggle_enable, :backup_now]
+  before_action :require_non_blocked_client
 
   # GET /jobs
   def new
@@ -80,6 +81,13 @@ class JobsController < ApplicationController
 
   def fetch_host
     @host = current_user.hosts.find(params[:host_id])
+  end
+
+  def require_non_blocked_client
+    if @host.blocked?
+      flash[:error] = 'Client disabled by admins'
+      redirect_to clients_path
+    end
   end
 
   def fetch_params
