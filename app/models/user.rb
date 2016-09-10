@@ -65,6 +65,14 @@ class User < ActiveRecord::Base
   def ban
     self.enabled = false
     save
+
+    hosts.each do |host|
+      if host.client.present?
+        host.disable_jobs_and_lock
+      else
+        host.block
+      end
+    end
   end
 
   # Marks a user as enabled
