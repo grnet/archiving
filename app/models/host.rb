@@ -21,6 +21,9 @@ class Host < ActiveRecord::Base
     blocked: 8
   }
 
+  # The default file daemon port
+  DEFAULT_PORT = 9102
+
   enum origin: { institutional: 0, vima: 1, okeanos: 2 }
   serialize :email_recipients, JSON
 
@@ -60,7 +63,8 @@ class Host < ActiveRecord::Base
 
   scope :unverified, -> { where(verified: false) }
 
-  before_validation :set_retention, :unset_baculized, :sanitize_name, :sanitize_email_recipients
+  before_validation :set_retention, :unset_baculized, :sanitize_name,
+    :sanitize_email_recipients, :set_password, :set_port
 
   state_machine :status, initial: :pending do
     STATUSES.each do |status_name, value|
@@ -292,6 +296,20 @@ class Host < ActiveRecord::Base
 
   def sanitize_email_recipients
     self.email_recipients.reject!(&:blank?)
+  end
+
+  def set_password
+    return true if persisted?
+
+    self.password = Digest::SHA256.hexdigest(
+      Time.now.to_s + Rails.application.secrets.salt + fqdn.to_s
+    )
+  end
+
+  def set_port
+    return true if persisted?
+
+    self.port = DEFAULT_PORT
   end
 
   # validation

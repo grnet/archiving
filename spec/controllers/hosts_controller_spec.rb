@@ -90,7 +90,7 @@ describe HostsController do
       let(:params) do
         {
           host: FactoryGirl.build(:host).attributes.symbolize_keys.
-            slice(:fqdn, :port)
+            slice(:port)
         }
       end
 

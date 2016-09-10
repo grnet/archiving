@@ -2,15 +2,7 @@ require 'spec_helper'
 
 describe Host do
   context 'validates' do
-    it "presence of Password" do
-        expect(Host.new).to have(1).errors_on(:password)
-    end
-
-    it 'numericality of :port' do
-      expect(Host.new(port: :lala)).to have(2).errors_on(:port)
-    end
-
-    [:file_retention, :job_retention, :name].each do |field|
+    [:file_retention, :job_retention, :name, :password, :port].each do |field|
       it "#{field} is set automatically" do
         host = Host.new(fqdn: 'test')
         host.valid?
