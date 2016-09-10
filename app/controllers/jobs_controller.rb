@@ -58,7 +58,7 @@ class JobsController < ApplicationController
     @job.save
     flash[:success] = @job.enabled? ? 'Job enabled' : 'Job disabled'
 
-    redirect_to host_path(@host)
+    redirect_to host_path(@host, anchor: :tab_jobs)
   end
 
   # POST /hosts/1/jobs/1/backup_now
