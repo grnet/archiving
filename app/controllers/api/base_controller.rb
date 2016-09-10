@@ -22,7 +22,7 @@ class Api::BaseController < ApplicationController
   def current_api_user
     @current_api_user ||=
       if token = request.env['HTTP_API_TOKEN'].presence
-        User.find_by(token: token)
+        User.where(enabled: true).find_by(token: token)
       end
   end
 
