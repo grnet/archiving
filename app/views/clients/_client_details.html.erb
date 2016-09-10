@@ -51,8 +51,9 @@
   </div>
   <div>
     <% if @client.is_backed_up? %>
-      <%= link_to 'Restore Files', restore_client_path(@client),
-        class: "btn btn-warning", role: "button" %>
+      <%= button_or_disabled(@client.host.blocked?, 'Restore Files',
+                             restore_client_path(@client),
+                             class: "btn btn-warning", role: "button") %>
     <% end %>
   </div>
 </div>

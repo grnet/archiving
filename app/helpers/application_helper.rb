@@ -130,4 +130,20 @@ module ApplicationHelper
       number_to_percentage(100 * ratio, precision: 1)
     end
   end
+
+  # Generates a button that may be disabled
+  #
+  # @param disabled[Boolean]
+  # @param display_text[String]
+  # @param url[String]
+  # @param opts[Hash]
+  def button_or_disabled(disabled, display_text, url, opts = {})
+    if disabled
+      url = '#'
+      opts.merge!(disabled: true, title: 'Client is disabled')
+      opts.delete(:method)
+    end
+
+    link_to display_text, url, opts
+  end
 end

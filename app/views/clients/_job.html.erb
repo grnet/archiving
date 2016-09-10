@@ -12,8 +12,9 @@
   <td><%= I18n.l(job.created_at, format: :long) %></td>
   <td>
     <% if job.enabled? && job.baculized? && job.backup? %>
-      <%= link_to 'Full Backup Now', backup_now_host_job_path(job.host, job),
-                  method: :post, class: "btn btn-success", role: "button" %>
+      <%= button_or_disabled(@client.host.blocked?, 'Full Backup Now',
+                             backup_now_host_job_path(job.host, job), method: :post,
+                             class: "btn btn-success", role: "button") %>
     <% end %>
   </td>
 </tr>
