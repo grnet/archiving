@@ -2,53 +2,10 @@
   <%= link_to 'New Client', new_host_path, class: 'btn btn-primary', role: 'button' %>
 </div>
 
-<h1>My Clients</h1>
-
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Uname</th>
-        <th>Active Jobs</th>
-        <th>Last Backup</th>
-        <th>File Ret. (days)</th>
-        <th>Job Ret. (days)</th>
-        <th>Space Used</th>
-        <th>Quota</th>
-        <th>Space Used %</th>
-        <th>Files</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <%= render partial: 'client', collection: @clients %>
-    </tbody>
-  </table>
-</div>
-
-<% if @hosts.any? %>
-  <h1>My Pending Clients</h1>
-
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered table-condensed">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>FQDN</th>
-          <th>Port</th>
-          <th>Token</th>
-          <th>FileRetention (days)</th>
-          <th>JobRetention (days)</th>
-          <th>Verified</th>
-          <th>Created At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= render partial: 'hosts/host', collection: @hosts %>
-      </tbody>
-    </table>
-  </div>
+<% if @hosts.empty? && @clients.empty? %>
+  <h3> You have not configured any hosts yet </h2>
+<% else %>
+  <%= render partial: 'clients' if @clients.any? %>
+  <%= render partial: 'pending_clients' if @hosts.any? %>
+  <%= render partial: 'client_graphs', locals: { path: clients_path } if @clients.any? %>
 <% end %>
-
-<%= render partial: 'client_graphs', locals: { path: clients_path } %>
