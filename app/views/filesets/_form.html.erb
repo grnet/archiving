@@ -6,7 +6,7 @@
     <% @fileset.include_directions['file'].each do |file| %>
       <%= text_with_errors_and_plus(@fileset, :fileset, :include_files, 'Files', '/', file) %>
     <% end %>
-    <%= text_with_errors_and_plus(@fileset, :fileset, :exclude_directions, 'Exclude', '/bacula') %>
+    <%= text_with_errors_and_plus(@fileset, :fileset, :exclude_directions, 'Exclude', '/a_restore_location') %>
     <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
   </div>
 

@@ -25,7 +25,7 @@
           <%= f.select(:fileset,
                        options_from_collection_for_select(@client.file_sets, :id, :file_set)) %>
 
-          <%= f.text_field :restore_location, placeholder: '/tmp/bacula_restore' %>
+          <%= f.text_field :restore_location, placeholder: '/tmp/default_restore' %>
 
           <div class="row">
             <div class="col-xs-5 col-xs-offset-6 text-right">

@@ -55,7 +55,7 @@
     <% end %>
     <% if @host.needs_revoke? %>
       <div class='col-xs-4 pull-right text-right'>
-        <%= link_to 'Remove From Bacula', revoke_host_path(@host), method: :delete,
+        <%= link_to 'Remove From Backup service', revoke_host_path(@host), method: :delete,
                     class: 'btn btn-danger', role: 'button' %>
       </div>
     <% end %>
