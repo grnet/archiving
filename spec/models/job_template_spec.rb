@@ -37,6 +37,14 @@ describe JobTemplate do
     end
   end
 
+  context 'when enabled is not given' do
+    let(:job_template) { FactoryGirl.create(:job_template) }
+
+    it 'sets the enabled field to true' do
+      expect(job_template).to be_enabled
+    end
+  end
+
   context 'when enabling a job' do
 
     [:pending, :dispatched].each do |status|

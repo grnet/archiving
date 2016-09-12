@@ -14,11 +14,6 @@ FactoryGirl.define do
       restore_location '/tmp'
     end
 
-    trait :enabled do
-      enabled true
-    end
-
     factory :job_template, traits: [:backup]
-    factory :enabled_job_template, traits: [:backup, :enabled]
   end
 end

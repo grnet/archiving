@@ -15,13 +15,13 @@ FactoryGirl.define do
 
     trait :configured do
       status Host::STATUSES[:configured]
-      job_templates { create_list :enabled_job_template, 1 }
+      job_templates { create_list :job_template, 1 }
       verified true
     end
 
     trait :updated do
       status Host::STATUSES[:updated]
-      job_templates { create_list :enabled_job_template, 1 }
+      job_templates { create_list :job_template, 1 }
       verified true
     end
 
@@ -31,7 +31,7 @@ FactoryGirl.define do
     end
 
     trait :with_enabled_jobs do
-      job_templates { create_list :enabled_job_template, 1 }
+      job_templates { create_list :job_template, 1 }
     end
   end
 end

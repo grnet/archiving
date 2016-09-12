@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427195249) do
+ActiveRecord::Schema.define(version: 20160912175151) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -41,15 +41,15 @@ ActiveRecord::Schema.define(version: 20160427195249) do
   add_index "filesets", ["host_id"], name: "index_filesets_on_host_id", using: :btree
 
   create_table "hosts", force: true do |t|
-    t.binary   "name",                       limit: 255,                 null: false
-    t.binary   "fqdn",                       limit: 255,                 null: false
-    t.integer  "port",                                                   null: false
-    t.integer  "file_retention",                                         null: false
-    t.integer  "job_retention",                                          null: false
+    t.binary   "name",                       limit: 255,                     null: false
+    t.binary   "fqdn",                       limit: 255,                     null: false
+    t.integer  "port",                                                       null: false
+    t.integer  "file_retention",                                             null: false
+    t.integer  "job_retention",                                              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password"
-    t.boolean  "baculized",                              default: false, null: false
+    t.boolean  "baculized",                              default: false,     null: false
     t.datetime "baculized_at"
     t.integer  "status",                     limit: 1,   default: 0
     t.integer  "client_id"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20160427195249) do
     t.integer  "schedule_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "enabled",                          default: false
+    t.boolean  "enabled",                          default: true
     t.binary   "restore_location"
     t.boolean  "baculized",                        default: false
     t.datetime "baculized_at"
