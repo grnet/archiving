@@ -1,34 +1,30 @@
 <%= bootstrap_form_for(@host, layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
-  <div>
 
-    <% if current_user.needs_host_list? %>
-      <%= f.select :fqdn, options_for_select(@hosts_of_user, @host.fqdn), {},
-                   disabled: @host.persisted? %>
-    <% else %>
-      <%= f.text_field :fqdn, disabled: @host.persisted? %>
-    <% end %>
-    <% if @host.persisted? %>
-      <%= f.password_field :password, label: 'Token', value: @host.password %>
-      <%= f.number_field :port, min: 1 %>
-    <% end %>
-    <% emails = (@host.users.pluck(:email) + @host.email_recipients).uniq.select(&:present?) %>
-    <%= f.select :email_recipients, options_for_select(emails, @host.email_recipients), {},
-                 multiple: true %>
-  </div>
+  <% if current_user.needs_host_list? %>
+    <%= f.select :fqdn, options_for_select(@hosts_of_user, @host.fqdn), {},
+                 disabled: @host.persisted? %>
+  <% else %>
+    <%= f.text_field :fqdn, disabled: @host.persisted? %>
+  <% end %>
+  <% if @host.persisted? %>
+    <%= f.password_field :password, label: 'Token', value: @host.password %>
+    <%= f.number_field :port, min: 1 %>
+  <% end %>
+  <% emails = (@host.users.pluck(:email) + @host.email_recipients).uniq.select(&:present?) %>
+  <%= f.select :email_recipients, options_for_select(emails, @host.email_recipients), {},
+               multiple: true %>
 
   <div class="form-group">
-    <div class="col-xs-offset-3 col-xs-2">
+    <div class='row'>
+    <div class="col-xs-offset-5 col-xs-2 text-right">
+      <%= link_to 'Cancel', @host.persisted? ? host_path(@host) : clients_path,
+                            class: 'btn btn-danger' %>
+    </div>
+    <div class="col-xs-2 text-right">
       <%= f.submit 'Submit', class: 'btn btn-success' %>
     </div>
-    <% if current_user.vima? %>
-      <div class="col-xs-offset-3 col-xs-2">
-        <%= link_to fetch_vima_hosts_path, role: :button, class: 'btn btn-default' do %>
-          <label class="glyphicon glyphicon-refresh text-primary"></label>
-          Fetch Clients
-        <% end %>
-      </div>
-    <% end %>
+    </div>
   </div>
 
 <% end %>
