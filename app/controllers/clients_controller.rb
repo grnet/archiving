@@ -41,7 +41,8 @@ class ClientsController < ApplicationController
     if @client.manually_inserted?
       @invitation = @client.host.invitations.new
       excluded_ids = @users.pluck(:id) + @client.host.invitations.pluck(:user_id)
-      @available_users = User.institutional.where.not(id: excluded_ids).pluck(:username, :id)
+      @available_users = User.where(enabled: true).institutional.
+        where.not(id: excluded_ids).pluck(:username, :id)
     end
   end
 
