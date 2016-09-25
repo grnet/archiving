@@ -55,5 +55,10 @@
                              restore_client_path(@client),
                              class: "btn btn-warning", role: "button") %>
     <% end %>
+    <%= link_to fd_config_host_path(@client.host, token: current_user.token),
+                class: "btn btn-default", role: "button", download: 'fd_config' do %>
+      <label class="glyphicon glyphicon-download-alt text-primary"></label>
+      Download Config
+    <% end %>
   </div>
 </div>
