@@ -7,12 +7,6 @@
     Set Quota
   <% end %>
 
-  <% if @client.host.can_set_inactive? %>
-    <%= link_to 'Disable client', disable_admin_client_path(@client), method: :post,
-      data: { confirm: 'This will disable the client. Are you sure?' },
-      class: "btn btn-warning", role: "button" %>
-  <% end %>
-
   <% if @client.host.can_block? %>
     <%= link_to 'Lock client', block_admin_client_path(@client), method: :post,
       data: { confirm: 'This will disable and lock the client. Are you sure?' },
