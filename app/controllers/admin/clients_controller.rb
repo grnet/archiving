@@ -68,7 +68,7 @@ class Admin::ClientsController < Admin::BaseController
   # POST /admin/clients/1/unblock
   def unblock
     if @client.host.unblock
-      flash[:success] = 'Client can know be configured by users'
+      flash[:success] = 'Client can now be configured by users'
     else
       flash[:error] = 'Client is still locked'
     end

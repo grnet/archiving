@@ -1,4 +1,4 @@
-<%= notifier(@host.display_message) unless @host.deployed? %>
+<%= notifier(@host.display_message) unless @host.deployed? || @host.blocked? %>
 
 <%= render partial: 'header' %>
 
