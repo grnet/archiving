@@ -60,5 +60,26 @@
       <label class="glyphicon glyphicon-download-alt text-primary"></label>
       Download Config
     <% end %>
+
+    <%= link_to '#', data: { toggle: 'modal', target: "#js-fd-config"} do %>
+      <label class='glyphicon glyphicon-info-sign'></label>
+    <% end %>
   </div>
 </div>
+
+<div id="js-fd-config" class="modal" tabindex="-1" role="dialog" aria-labelledby="ConfigModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content container">
+        <br />
+        <div class="panel panel-default">
+          <div class="panel-heading">Config Download</div>
+          <div class="panel-body">
+            You can also download the config like this:
+            <pre>
+<%= "$ wget #{fd_config_host_url(@client.host, token: current_user.token)}" %>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
