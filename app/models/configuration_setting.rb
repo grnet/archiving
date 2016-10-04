@@ -14,6 +14,11 @@
 # Admins can reset this change at any time.
 class ConfigurationSetting < ActiveRecord::Base
   establish_connection ARCHIVING_CONF
+  extend ActionView::Helpers::NumberHelper
+
+  MEGA_BYTES = 1024 * 1024
+  GIGA_BYTES = MEGA_BYTES * 1024
+  TERA_BYTES = GIGA_BYTES * 1024
 
   serialize :job, JSON
   serialize :client, JSON
@@ -105,6 +110,10 @@ class ConfigurationSetting < ActiveRecord::Base
   # @return [Hash] with settings
   def current_client_settings
     client.symbolize_keys.reverse_merge(CLIENT.dup)
+  end
+
+  def self.current_client_settings_human
+    current_client_settings.merge(quota: number_to_human_size(current_client_settings[:quota]))
   end
 
   # Fetches the record's configuration for pools.

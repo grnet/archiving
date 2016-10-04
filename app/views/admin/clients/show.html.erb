@@ -51,11 +51,11 @@
       <div class="panel panel-default">
         <div class="panel-heading">Set Quota for "<%= @client.name %>"</div>
         <div class="panel-body">
-          <%= bootstrap_form_for(@client.host,
-                                 url: set_quota_admin_host_path(@client.host),
+          <%= bootstrap_form_tag(url: set_quota_admin_host_path(@client.host),
                                  method: :put, layout: :inline) do |f| %>
-            <%= f.number_field :quota, min: 1 %>
-            <%= f.submit class: 'btn btn-success' %>
+            <%= f.number_field :quota, value: @client.host.quota / ConfigurationSetting::MEGA_BYTES %>
+            <%= f.select(:unit, ['MB', 'GB', 'TB']) %>
+            <%= f.submit 'Update Quota', class: "btn btn-success" %>
           <% end %>
         </div>
       </div>

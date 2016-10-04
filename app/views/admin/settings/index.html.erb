@@ -20,10 +20,10 @@
 
 <div class="row">
   <div class="col-xs-4">
-    <%= table_for(ConfigurationSetting.current_job_settings) %>
+    <%= table_for(ConfigurationSetting.current_client_settings_human) %>
   </div>
   <div class="col-xs-4">
-    <%= table_for(ConfigurationSetting.current_client_settings) %>
+    <%= table_for(ConfigurationSetting.current_job_settings) %>
   </div>
   <div class="col-xs-4">
     <%= table_for(ConfigurationSetting.current_pool_settings) %>

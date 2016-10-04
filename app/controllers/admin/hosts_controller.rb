@@ -14,7 +14,15 @@ class Admin::HostsController < Admin::BaseController
 
   # PUT /admin/hosts/1/set_quota
   def set_quota
-    @host.quota = params[:host][:quota]
+    @host.quota = case params[:unit]
+      when 'MB'
+        params[:quota].to_i * ConfigurationSetting::MEGA_BYTES
+      when 'GB'
+        params[:quota].to_i * ConfigurationSetting::GIGA_BYTES
+      when 'TB'
+        params[:quota].to_i * ConfigurationSetting::TERA_BYTES
+      end
+
     if @host.save
       flash[:success] = 'Changes saved'
     else

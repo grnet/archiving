@@ -51,11 +51,28 @@ class Admin::SettingsController < Admin::BaseController
   end
 
   def fetch_params
+    return @clean_params if @clean_params.present?
+
+    @clean_params = required_params
+
+    @clean_params[:client][:quota] = case @clean_params[:client].delete(:quota_unit)
+    when 'MB'
+      @clean_params[:client][:quota].to_i * ConfigurationSetting::MEGA_BYTES
+    when 'GB'
+      @clean_params[:client][:quota].to_i * ConfigurationSetting::GIGA_BYTES
+    when 'TB'
+      @clean_params[:client][:quota].to_i * ConfigurationSetting::TERA_BYTES
+    end
+
+    @clean_params
+  end
+
+  def required_params
     params.require(:configuration_setting).
       permit(
         job: [:storage, :pool, :messages, :priority, :'Write Bootstrap'],
         client: [:catalog, :file_retention, :file_retention_period_type, :job_retention,
-                 :job_retention_period_type, :autoprune, :quota],
+                 :job_retention_period_type, :autoprune, :quota, :quota_unit],
         pool: [:full, :differential, :incremental]
       )
   end

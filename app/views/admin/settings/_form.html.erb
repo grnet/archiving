@@ -22,7 +22,8 @@
           <%= c.select :autoprune, ConfigurationSetting::AUTOPRUNE_OPTIONS,
             :value => @setting.current_client_settings[:autoprune] %>
           <%= c.number_field :quota,
-            :value => @setting.current_client_settings[:quota] %>
+            value: @setting.current_client_settings[:quota].to_i / ConfigurationSetting::MEGA_BYTES %>
+          <%= c.select(:quota_unit, ['MB', 'GB', 'TB'], value: 'MB') %>
         <% end %>
       </div>
     </div>
