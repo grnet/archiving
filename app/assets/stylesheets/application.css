@@ -14,6 +14,7 @@
  *= require jstree-default
  *= require bootstrap-chosen
  *= require dataTables.bootstrap.min
+ *= require jquery.timepicker.min
  *= require_tree .
  *= require_self
  */
