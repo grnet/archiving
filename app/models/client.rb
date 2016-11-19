@@ -34,7 +34,7 @@ class Client < ActiveRecord::Base
   #
   # @return [ActiveRecord::Relation] of `Job`
   def recent_jobs
-    jobs.order(EndTime: :desc).includes(:file_set, :logs)
+    jobs.order(SchedTime: :desc).includes(:file_set, :logs)
   end
 
   # Helper method. It shows the client's  job retention,
