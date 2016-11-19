@@ -58,6 +58,7 @@ class FilesetsController < ApplicationController
     else
       @fileset.include_files = nil
       @fileset.exclude_directions = nil
+      @fileset.include_directions = { 'file' => [nil] }
       render :new
     end
   end
