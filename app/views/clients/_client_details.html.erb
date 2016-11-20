@@ -32,11 +32,15 @@
         <td><%= @client.job_retention_days %> days</td>
       </tr>
       <tr>
-        <td>Total Space Used</td>
+        <td data-toggle="tooltip" title="The total disk size that this client's backups use">
+          Total Space Used <label class="glyphicon glyphicon-question-sign"></label>
+        </td>
         <td><%= number_to_human_size @client.backup_jobs_size %></td>
       </tr>
       <tr>
-        <td>Client Quota</td>
+        <td data-toggle="tooltip" title="The maximum disk size that this client's backups are allowed to use">
+          Client Quota <label class="glyphicon glyphicon-question-sign"></label>
+        </td>
         <td><%= number_to_human_size @client.quota %></td>
       </tr>
       <tr>
