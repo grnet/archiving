@@ -1,11 +1,3 @@
-<div class="right">
-  <%= link_to 'Edit', edit_host_job_path(@host, @job),
-              class: "btn btn-primary", role: "button" %>
-  <%= link_to 'Delete', host_job_path(@host, @job),
-              method: :delete, data: { confirm: 'This will delete the job' },
-              class: "btn btn-danger", role: "button" %>
-</div>
-
 <div class="row">
   <div class="col-xs-6">
     <div class="panel panel-default">
@@ -20,6 +12,20 @@
     <div class="col-xs-2 col-xs-offset-4 right">
       <%= link_to 'Back to host', host_path(@host),
                   class: "btn btn-success", role: "button" %>
+    </div>
+    <div class="col-xs-1">
+      <%= link_to edit_host_job_path(@host, @job), class: "btn btn-default", role: "button" do %>
+        <label class="glyphicon glyphicon-edit text-primary"></label>
+        Edit
+      <% end %>
+    </div>
+    <div class="col-xs-1">
+      <%= link_to host_job_path(@host, @job),
+                  method: :delete, data: { confirm: 'This will delete the job' },
+                  class: "btn btn-default", role: "button" do %>
+        <label class="glyphicon glyphicon-ban-circle text-danger"></label>
+        Delete
+      <% end %>
     </div>
   </div>
 </div>
