@@ -18,8 +18,14 @@
     %>
   <% end %>
 
-  <%= f.text_field :client_before_run_file, label: 'Client Run Before Job' %>
-  <%= f.text_field :client_after_run_file, label: 'Client Run After Job' %>
+  <div class="form-group">
+    <a id="toggle-advanced" class="col-xs-5 col-xs-offset-5" href="#">show advanced</a>
+  </div>
+
+  <div id="advanced" class="hidden">
+    <%= f.text_field :client_before_run_file, label: 'Client Run Before Job' %>
+    <%= f.text_field :client_after_run_file, label: 'Client Run After Job' %>
+  </div>
 
   <div class="form-group">
     <div class="col-xs-offset-4 col-xs-8">

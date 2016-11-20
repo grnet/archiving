@@ -5,6 +5,11 @@ $(document).ready(function() {
   $("#job_template_fileset_id").change(function() {
     showFileset();
   });
+  if ($('a#toggle-advanced').size() > 0) {
+    $('a#toggle-advanced').click(function() {
+      $('#advanced').toggleClass('hidden');
+    });
+  };
 });
 
 function showSchedule() {
