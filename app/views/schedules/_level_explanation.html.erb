@@ -1,0 +1,31 @@
+<div class="col-xs-5">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Level Explanation</h4>
+        </div>
+
+        <br />
+
+        <div class="panel-body">
+          <h4>Full</h4>
+          <p> When the Level is set to Full all files in the FileSet whether or not they have changed will be backed up.</p>
+          <h4>Differential</h4>
+          <p>When the Level is set to Differential all files specified in the FileSet that have changed since the last successful Full backup of the same Job will be backed up.</p>
+          <p>If there is no successful previous Full backup, a Differential backup is upgraded to a Full backup.</p>
+          <h4>Incremental</h4>
+          <p>When the Level is set to Incremental all files specified in the FileSet that have changed since the last successful backup of the the same Job using the same FileSet and Client, will be backed up.<p>
+          <p>If there is no successful previous Full backup, an Incremental backup is upgraded to a Full backup.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link_to 'Back to job',
+        @job_id.present? ? edit_host_job_path(@host, @job_id) : new_host_job_path(@host) %>
+    </div>
+  </div>
+</div>
