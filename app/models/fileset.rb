@@ -32,6 +32,20 @@ class Fileset < ActiveRecord::Base
       ['}']
   end
 
+  # Provides a human readable projection of the fileset
+  #
+  # @return [String]
+  def human_readable
+    result = "Directories:\n"
+    result << "\t* " << include_directions['file'].join("\n\t* ")
+    if exclude_directions.present?
+      result << "\n\nExcluded:\n"
+      result << "\t* " << exclude_directions.join("\n\t*")
+    end
+
+    result
+  end
+
   # Generates a name that will be used for the configuration file.
   # It is the name that will be sent to Bacula through the configuration
   # files.

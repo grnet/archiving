@@ -15,7 +15,7 @@
       </tr>
       <tr>
         <td><b>Fileset</b></td>
-        <td><pre><%= @job.fileset.to_bacula_config_array.join("\n") %></pre></td>
+        <td><pre><%= @job.fileset.human_readable %></pre></td>
       </tr>
       <% if @job.restore? %>
         <tr>
