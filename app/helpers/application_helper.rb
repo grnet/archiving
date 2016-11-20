@@ -77,7 +77,7 @@ module ApplicationHelper
     content_tag(:ol, class: 'breadcrumb') do
       options.map { |name, path|
         content_tag(:li, active_class(path)) do
-          link_to_if !current_page?(path), name, path
+          link_to name, path
         end
       }.inject { |result, element| result.concat(element) }
     end

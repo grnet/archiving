@@ -89,6 +89,7 @@ class ApplicationController < ActionController::Base
       @logs = Log.includes(:job).joins(job: { client: { host: :users } }).
         where(users: { id: current_user.id })
     end
+    @logs = @logs.where(JobId: params[:job_id]) if params[:job_id]
     @logs = @logs.order(Time: :desc, LogId: :desc)
   end
 
