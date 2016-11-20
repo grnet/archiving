@@ -58,5 +58,25 @@ $(document).ready(function() {
                         }],
                 });
         };
-
+        if ($('table#logs').size() > 0) {
+                $('table#logs').DataTable({
+                        paging: false,
+                        columnDefs: [
+                        {
+                                targets: 'neither-search-nor-order',
+                                orderable: false,
+                                searchable: false
+                        },
+                        {
+                                targets: 'no-order',
+                                orderable: false,
+                                searchable: true
+                        },
+                        {
+                                targets: 'no-search',
+                                orderable: true,
+                                searchable: false
+                        }],
+                });
+        };
 });

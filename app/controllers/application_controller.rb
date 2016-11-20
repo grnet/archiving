@@ -89,8 +89,7 @@ class ApplicationController < ActionController::Base
       @logs = Log.includes(:job).joins(job: { client: { host: :users } }).
         where(users: { id: current_user.id })
     end
-    @logs = @logs.where('Time > ?', days_ago.days.ago).
-      order(Time: :desc, LogId: :desc).page(params[:page])
+    @logs = @logs.order(Time: :desc, LogId: :desc)
   end
 
   def days_ago
