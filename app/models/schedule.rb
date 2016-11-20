@@ -25,6 +25,13 @@ class Schedule < ActiveRecord::Base
       ['}']
   end
 
+  # Provide a human readable projection of the schedule
+  #
+  # @return [String]
+  def human_readable
+    schedule_runs.map(&:human_readable).join("\n")
+  end
+
   # Generates a name that will be used for the configuration file.
   # It is the name that will be sent to Bacula through the configuration
   # files.

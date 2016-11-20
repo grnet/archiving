@@ -67,6 +67,13 @@ class ScheduleRun < ActiveRecord::Base
     [ level_to_config, pool_to_config, month, day, "at #{time}"].join(" ")
   end
 
+  # Provides a human readable projection of the schedule run
+  #
+  # @return [String]
+  def human_readable
+    ["#{level.capitalize} backup", month, day, "at #{time}"].join(' ')
+  end
+
   private
 
   def correct_chars

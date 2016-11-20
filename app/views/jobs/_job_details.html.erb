@@ -26,7 +26,7 @@
         <tr>
           <td><b>Schedule</b></td>
           <td>
-            <pre><%= @job.schedule.to_bacula_config_array.join("\n") %></pre>
+            <pre><%= @job.schedule.human_readable %></pre>
           </td>
         </tr>
       <% end %>

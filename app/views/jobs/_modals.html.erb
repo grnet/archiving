@@ -7,7 +7,7 @@
           <div class="panel-heading">Schedule "<%= schedule.name %>"</div>
           <div class="panel-body">
             <pre>
-<%= schedule.to_bacula_config_array.join("\n") %>
+<%= schedule.human_readable %>
             </pre>
           </div>
         </div>
