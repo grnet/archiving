@@ -18,15 +18,21 @@
         <td>********</td>
       </tr>
       <tr>
-        <td><b>File Retention</b></td>
+        <td data-toggle="tooltip" title="Defines the length of time that the File records will be available">
+          <b>File Retention</b> <label class="glyphicon glyphicon-question-sign"></label>
+        </td>
         <td><%= @host.file_retention %> days</td>
       </tr>
       <tr>
-        <td><b>Job Retention</b></td>
+        <td data-toggle="tooltip" title="Defines the length of time that the Job records will be available">
+          <b>Job Retention</b> <label class="glyphicon glyphicon-question-sign"></label>
+        </td>
         <td><%= @host.job_retention %> days</td>
       </tr>
       <tr>
-        <td><b>Verified</b></td>
+        <td data-toggle="tooltip" title="Determines if a client is backups approved">
+          <b>Verified</b> <label class="glyphicon glyphicon-question-sign"></label>
+        </td>
         <td>
           <% if @host.verified? %>
             <span class="label label-success">yes</span>
