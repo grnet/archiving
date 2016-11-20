@@ -149,4 +149,18 @@ module ApplicationHelper
 
     link_to display_text, url, opts
   end
+
+  # Generates a span that contains a text and a questionmark  label.
+  # hovering on that questionmark will display a helper text
+  #
+  # @param text[String] the displayed text
+  # @param tooltip[String] the displayed helper text
+  def tooltip_label(text, tooltip)
+    content_tag(:span, class: "data-toggle", title: tooltip) do
+      [
+        text,
+        content_tag(:label, class: "glyphicon glyphicon-question-sign") { }
+      ].join(' ').html_safe
+    end
+  end
 end

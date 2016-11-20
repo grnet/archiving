@@ -23,8 +23,13 @@
   </div>
 
   <div id="advanced" class="hidden">
-    <%= f.text_field :client_before_run_file, label: 'Client Run Before Job' %>
-    <%= f.text_field :client_after_run_file, label: 'Client Run After Job' %>
+    <%= f.text_field :client_before_run_file,
+      label: tooltip_label('Client Run Before Job',
+                           'A command that the backed up server will run right before the backup job starts') %>
+
+    <%= f.text_field :client_after_run_file,
+      label: tooltip_label('Client Run After Job',
+                           'A command that the backed up server will run after the backup job has finished') %>
   </div>
 
   <div class="form-group">
