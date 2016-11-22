@@ -1,15 +1,3 @@
-<div class="row right">
-  <% if @host.can_be_disabled? %>
-    <%= link_to 'Disable client', disable_host_path(@host), method: :post,
-      data: { confirm: 'This will disable the client. Are you sure?' },
-      class: "btn btn-warning", role: "button" %>
-  <% end %>
-
-  <%= link_to 'Remove client', host_path(@host), method: :delete,
-    data: { confirm: 'This will remove your client from the Backup service. Are you sure?' },
-    class: "btn btn-danger", role: "button" %>
-</div>
-
 <h2>Configuration for <%= @host.name %>
   <%= host_status_label(@host) %>
 </h2>
