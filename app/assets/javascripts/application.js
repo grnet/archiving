@@ -61,6 +61,7 @@ $(document).ready(function() {
         if ($('table#logs').size() > 0) {
                 $('table#logs').DataTable({
                         paging: false,
+                        order: [],
                         columnDefs: [
                         {
                                 targets: 'neither-search-nor-order',
@@ -77,6 +78,11 @@ $(document).ready(function() {
                                 orderable: true,
                                 searchable: false
                         }],
+                });
+        };
+        if ($('.datepicker').size() > 0) {
+                $('.datepicker').datepicker({
+                        dateFormat: "dd-mm-yy"
                 });
         };
 });

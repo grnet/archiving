@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :warden, :days_ago
 
+  DATE_FORMAT = "%d-%m-%Y"
+  LOGS_DEFAULT_HISTORY = 1.month
+
   # GET /
   def index
     redirect_to clients_path if current_user
@@ -83,12 +86,13 @@ class ApplicationController < ActionController::Base
   end
 
   def fetch_logs
-    if @client
-      @logs = Log.includes(:job).joins(job: :client).where(Client: { ClientId: @client.id })
-    else
-      @logs = Log.includes(:job).joins(job: { client: { host: :users } }).
-        where(users: { id: current_user.id })
-    end
+    date_ranges
+
+    return unless @client
+
+    @logs = Log.preload(:job).joins(job: :client).
+      where(Time: @date_range.first..@date_range.last).
+      where(Client: { ClientId: @client.id })
     @logs = @logs.where(JobId: params[:job_id]) if params[:job_id]
     @logs = @logs.order(Time: :desc, LogId: :desc)
   end
@@ -108,5 +112,19 @@ class ApplicationController < ActionController::Base
 
   def attempted_path
     (request.env['warden.options'] || {})[:attempted_path]
+  end
+
+  private
+
+  def date_ranges
+    @date_range = [
+      (params[:start_date].to_date rescue LOGS_DEFAULT_HISTORY.ago.beginning_of_day),
+      (params[:end_date].to_date rescue Time.now)
+    ]
+
+    @dates = {
+      start: @date_range.first.to_date.strftime(DATE_FORMAT),
+      end: @date_range.last.to_date.strftime(DATE_FORMAT)
+    }
   end
 end
