@@ -25,14 +25,14 @@ describe HostsController do
       let(:params) do
         {
           id: host.id,
-          host: { port: 9999, password: 'wrong_pass' }
+          host: { port: 9999 }
         }
       end
 
       it 'updates the host' do
         expect { patch :update, params }.
-          to change { [host.reload.port, host.reload.password] }.
-          to([9999, 'wrong_pass'])
+          to change { host.reload.port }.
+          to(9999)
       end
 
       it 'redirects to host_show' do
@@ -66,7 +66,7 @@ describe HostsController do
       let(:params) do
         {
           host: FactoryGirl.build(:host).attributes.symbolize_keys.
-            slice(:password, :fqdn, :port)
+            slice(:fqdn, :port)
         }
       end
 

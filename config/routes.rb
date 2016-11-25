@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     member do
       post :submit_config
       post :disable
+      post :regenerate_token
       delete :revoke
       get :fd_config
     end

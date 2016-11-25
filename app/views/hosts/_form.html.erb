@@ -8,23 +8,35 @@
     <%= f.text_field :fqdn, disabled: @host.persisted? %>
   <% end %>
   <% if @host.persisted? %>
-    <%= f.password_field :password, label: 'Token', value: @host.password %>
     <%= f.number_field :port, min: 1 %>
   <% end %>
+
   <% emails = (@host.users.pluck(:email) + @host.email_recipients).uniq.select(&:present?) %>
   <%= f.select :email_recipients, options_for_select(emails, @host.email_recipients), {},
                multiple: true %>
 
   <div class="form-group">
-    <div class='row'>
-    <div class="col-xs-offset-5 col-xs-2 text-right">
-      <%= link_to 'Cancel', @host.persisted? ? host_path(@host) : clients_path,
-                            class: 'btn btn-danger' %>
+    <div class="col-xs-2 col-xs-offset-2">
+      <%= link_to @host.persisted? ? host_path(@host) : clients_path,
+                  class: 'btn btn-default' do %>
+        <label class="glyphicon glyphicon-edit text-danger"></label>
+        Cancel
+      <% end %>
     </div>
-    <div class="col-xs-2 text-right">
+
+    <div class="col-xs-4">
+      <% if @host.persisted? %>
+        <%= link_to regenerate_token_host_path(@host), method: :post,
+                    class: 'btn btn-default',
+                    data: { confirm: 'Are you sure you want to regenrate the server token' } do %>
+          <label class="glyphicon glyphicon-leaf"></label>
+          Regenerate Token
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="col-xs-4">
       <%= f.submit 'Submit', class: 'btn btn-success' %>
     </div>
-    </div>
   </div>
-
 <% end %>

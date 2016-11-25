@@ -1,7 +1,7 @@
 class HostsController < ApplicationController
   before_action :require_logged_in, except: :fd_config
   before_action :fetch_host, only: [:show, :edit, :update, :destroy, :submit_config,
-                                    :revoke, :disable]
+                                    :revoke, :disable, :regenerate_token]
   before_action :fetch_hosts_of_user, only: [:new, :create]
 
   # GET /hosts/new
@@ -45,7 +45,7 @@ class HostsController < ApplicationController
 
   # PATCH /hosts/1
   def update
-    updates = fetch_params.slice(:port, :password, :email_recipients)
+    updates = fetch_params.slice(:port, :email_recipients)
     if updates.present? && @host.update_attributes(updates)
       @host.recalculate if @host.bacula_ready?
       flash[:success] = 'Host updated successfully. You must update your file daemon accordingly.'
@@ -97,6 +97,18 @@ class HostsController < ApplicationController
     end
 
     redirect_to root_path
+  end
+
+  # POST /hosts/1/regenerate_token
+  def regenerate_token
+    if @host.recalculate_token
+      @host.recalculate if @host.bacula_ready?
+      flash[:success] = 'Host updated successfully. You must update your file daemon accordingly.'
+    else
+      flash[:error] = 'Something went wrong, try again later'
+    end
+
+    redirect_to host_path(@host)
   end
 
   # GET /hosts/fetch_vima_hosts
@@ -179,7 +191,7 @@ class HostsController < ApplicationController
   end
 
   def fetch_params
-    params.require(:host).permit(:fqdn, :port, :password, email_recipients: [])
+    params.require(:host).permit(:fqdn, :port, email_recipients: [])
   end
 
   def user_can_add_this_host?

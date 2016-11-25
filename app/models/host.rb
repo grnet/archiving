@@ -273,6 +273,14 @@ class Host < ActiveRecord::Base
     institutional?
   end
 
+  # Resets the hosts token
+  #
+  # @return [Boolean]
+  def recalculate_token
+    self.password = token
+    save
+  end
+
   private
 
   # automatic setters
@@ -301,7 +309,11 @@ class Host < ActiveRecord::Base
   def set_password
     return true if persisted?
 
-    self.password = Digest::SHA256.hexdigest(
+    self.password = token
+  end
+
+  def token
+    Digest::SHA256.hexdigest(
       Time.now.to_s + Rails.application.secrets.salt + fqdn.to_s
     )
   end
