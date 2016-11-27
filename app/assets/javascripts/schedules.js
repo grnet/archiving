@@ -26,7 +26,6 @@ function setTimepickers() {
                                 interval: 1,
                                 minTime: '00:00',
                                 maxTime: '23:59',
-                                defaultTime: '08:00',
                                 startTime: '00:00',
                                 dynamic: false,
                                 dropdown: true,
