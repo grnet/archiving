@@ -62,6 +62,16 @@ class Fileset < ActiveRecord::Base
     Host.joins(:job_templates).where(job_templates: { enabled: true, fileset_id: id }).uniq
   end
 
+  # Creates a default fileset resource for a simple config
+  def default_resource
+    @include_files = DEFAULT_INCLUDE_FILE_LIST
+    self.name = "default_fileset"
+    self.exclude_directions = DEFAULT_EXCLUDED
+
+    save!
+    self
+  end
+
   private
 
   def has_included_files
