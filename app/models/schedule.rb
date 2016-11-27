@@ -49,13 +49,13 @@ class Schedule < ActiveRecord::Base
   end
 
   # Creates a default schedule resource for a simple config
-  def default_resource(day, hour, minute)
+  def default_resource(time_hex, day, hour, minute)
     time = [hour, minute].map { |x| x.to_s.rjust(2, '0') }.join(':')
     full_day = "first #{day}"
     diff_days = "second-fifth #{day}"
     inc_days = (SimpleConfiguration::DAYS.values - [day]).join(',')
 
-    self.name = "daily_at_#{time.gsub(':','_')}"
+    self.name = "daily_at_#{time.gsub(':','_')}_#{time_hex}"
     save!
     self.schedule_runs.create(level: :full, time: time, day: full_day)
     self.schedule_runs.create(level: :differential, time: time, day: diff_days)

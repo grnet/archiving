@@ -63,9 +63,9 @@ class Fileset < ActiveRecord::Base
   end
 
   # Creates a default fileset resource for a simple config
-  def default_resource
+  def default_resource(name, time_hex)
     @include_files = DEFAULT_INCLUDE_FILE_LIST
-    self.name = "default_fileset"
+    self.name = "files_#{name}_#{time_hex}"
     self.exclude_directions = DEFAULT_EXCLUDED
 
     save!

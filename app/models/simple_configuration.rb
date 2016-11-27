@@ -44,8 +44,11 @@ class SimpleConfiguration < ActiveRecord::Base
   #
   # Each resource handles its own defaults.
   def create_config
-    schedule = host.schedules.new.default_resource(day_short, hour, minute)
-    fileset = host.filesets.new.default_resource
-    job = host.job_templates.new(fileset_id: fileset.id, schedule_id: schedule.id).default_resource
+    time_hex = Digest::MD5.hexdigest(Time.now.to_f.to_s).first(4)
+
+    schedule = host.schedules.new.default_resource(time_hex, day_short, hour, minute)
+    fileset = host.filesets.new.default_resource(name, time_hex)
+    host.job_templates.new(fileset_id: fileset.id, schedule_id: schedule.id).
+      default_resource(name, time_hex)
   end
 end
