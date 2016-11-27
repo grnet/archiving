@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       get :fetch_vima_hosts, to: 'hosts#fetch_vima_hosts', as: :fetch_vima
     end
 
+    resources :simple_configs, only: [:new, :create]
+
     resources :jobs, only: [:new, :create, :show, :edit, :update, :destroy] do
       member do
         patch :toggle_enable

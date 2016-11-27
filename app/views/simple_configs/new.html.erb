@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-xs-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>New Client Config</h3>
+      </div>
+
+      <div class="panel-body">
+        <%= bootstrap_form_for(@simple_config, url: host_simple_configs_path(@host),
+                               layout: :horizontal, label_col: 'col-xs-3',
+                               control_col: 'col-xs-8') do |f| %>
+          <%= f.text_field :name %>
+          <hr />
+          <%= f.select :day, options_for_select(SimpleConfiguration.days.keys, @simple_config.day), require: true %>
+          <%= f.number_field :hour, value: @simple_config.hour, min: 0, max: 23 %>
+          <%= f.number_field :minute, value: @simple_config.minute, min: 0, max: 59 %>
+          <%= f.submit 'Create Config', class: 'btn btn-success col-xs-3 col-xs-offset-9' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

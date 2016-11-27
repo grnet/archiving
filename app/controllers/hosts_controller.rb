@@ -23,7 +23,7 @@ class HostsController < ApplicationController
       flash[:success] = 'Host created successfully'
       current_user.hosts << @host
       UserMailer.notify_admin(current_user, @host.fqdn).deliver
-      redirect_to host_path @host
+      redirect_to new_host_simple_config_path @host
     else
       flash[:error] = 'Host was not created'
       render :new
