@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912175151) do
+ActiveRecord::Schema.define(version: 20161126164445) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -117,6 +117,15 @@ ActiveRecord::Schema.define(version: 20160912175151) do
   end
 
   add_index "schedules", ["host_id"], name: "index_schedules_on_host_id", using: :btree
+
+  create_table "simple_configurations", force: true do |t|
+    t.integer  "host_id"
+    t.integer  "day",        limit: 1, null: false
+    t.integer  "hour",       limit: 1, null: false
+    t.integer  "minute",     limit: 1, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "username",                                   null: false
