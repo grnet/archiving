@@ -3,7 +3,7 @@
 class Fileset < ActiveRecord::Base
   establish_connection ARCHIVING_CONF
 
-  serialize :exclude_directions
+  serialize :exclude_directions, Array
   serialize :include_directions, JSON
 
   attr_accessor :include_files
