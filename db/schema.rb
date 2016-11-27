@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161126164445) do
+ActiveRecord::Schema.define(version: 20161127123038) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20161126164445) do
     t.integer  "minute",     limit: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "users", force: true do |t|

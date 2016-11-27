@@ -18,6 +18,7 @@ class SimpleConfiguration < ActiveRecord::Base
   validates :host, :day, :hour, :minute, presence: true
   validates :hour, numericality: { greater_than_or_equal: 0, less_then: 24 }
   validates :minute, numericality: { greater_than_or_equal: 0, less_then: 60 }
+  validates_with NameValidator
 
   # Initializes the configuration's 3 parameters randomnly.
   # Default configurations must be randomized in order to distribute the backup server's
