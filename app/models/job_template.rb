@@ -78,6 +78,15 @@ class JobTemplate < ActiveRecord::Base
     }
   end
 
+  # Creates a default job resource for a simple config
+  def default_resource
+    self.name = "default_backup_job"
+
+    save!
+
+    self
+  end
+
   private
 
   def name_format
