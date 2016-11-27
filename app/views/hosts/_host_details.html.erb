@@ -76,6 +76,15 @@
       <% end %>
     </div>
 
+    <% if @host.needs_simple_config? %>
+      <div class='col-xs-2'>
+        <%= link_to new_host_simple_config_path(@host), role: 'button', class: 'btn btn-default' do %>
+          <label class="glyphicon glyphicon-cog text-primary"></label>
+          Configure
+        <% end %>
+      </div>
+    <% end %>
+
     <% if @host.needs_dispatch? %>
       <div class='col-xs-4 pull-right text-right'>
         <%= link_to submit_config_host_path(@host), method: :post,

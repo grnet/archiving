@@ -160,6 +160,13 @@ class Host < ActiveRecord::Base
     bacula_handler.undeploy_config
   end
 
+  # Determines if a host needs a simple config
+  #
+  # @return [Boolean]
+  def needs_simple_config?
+    job_templates.none? && simple_configurations.none?
+  end
+
   # Restores a host's backup to a preselected location
   #
   # @param fileset_id[Integer] the desired fileset
