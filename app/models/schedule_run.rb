@@ -78,7 +78,7 @@ class ScheduleRun < ActiveRecord::Base
 
   def correct_chars
     [:month, :day, :time].each do |x|
-      if self.send(x) && self.send(x).to_s.gsub(/[0-9a-zA-Z\-:]/, '').present?
+      if self.send(x) && self.send(x).to_s.gsub(/[0-9a-zA-Z\-:,]/, '').present?
         self.errors.add(x, 'Invalid characters')
       end
     end
@@ -114,7 +114,8 @@ class ScheduleRun < ActiveRecord::Base
       return false
     end
 
-    if !valid_day?(components.last) && !valid_day_range?(components.last)
+    if !valid_day?(components.last) && !valid_day_range?(components.last) &&
+        !valid_day_listing?(components.last)
       self.errors.add(:day, 'Invalid day')
       return false
     end
@@ -125,6 +126,10 @@ class ScheduleRun < ActiveRecord::Base
       return false
     end
     true
+  end
+
+  def valid_day_listing?(listing)
+    listing.split(',').all? { |d| WDAY_KW.include? d }
   end
 
   def valid_day?(a_day)

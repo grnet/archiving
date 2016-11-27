@@ -47,4 +47,20 @@ class Schedule < ActiveRecord::Base
   def participating_hosts
     Host.joins(:job_templates).where(job_templates: { enabled: true, schedule_id: id }).uniq
   end
+
+  # Creates a default schedule resource for a simple config
+  def default_resource(day, hour, minute)
+    time = [hour, minute].map { |x| x.to_s.rjust(2, '0') }.join(':')
+    full_day = "first #{day}"
+    diff_days = "second-fifth #{day}"
+    inc_days = (SimpleConfiguration::DAYS.values - [day]).join(',')
+
+    self.name = "daily_at_#{time.gsub(':','_')}"
+    save!
+    self.schedule_runs.create(level: :full, time: time, day: full_day)
+    self.schedule_runs.create(level: :differential, time: time, day: diff_days)
+    self.schedule_runs.create(level: :incremental , time: time, day: inc_days)
+
+    self
+  end
 end
