@@ -4,7 +4,7 @@
 class Schedule < ActiveRecord::Base
   establish_connection ARCHIVING_CONF
 
-  has_many :schedule_runs
+  has_many :schedule_runs, dependent: :destroy
 
   belongs_to :host
   has_many :job_templates
