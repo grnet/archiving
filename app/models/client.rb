@@ -69,21 +69,21 @@ class Client < ActiveRecord::Base
 
   # Helper method for fetching the last job's datetime
   def last_job_datetime
-    jobs.backup_type.last.try(:end_time)
+    jobs.backup_type.terminated.last.try(:end_time)
   end
 
   # Fetches the first and last job's end times.
   #
   # @return [Array] of datetimes in proper format
   def backup_enabled_datetime_range
-    jobs.backup_type.pluck(:end_time).minmax.map { |x| x.strftime('%Y-%m-%d') }
+    jobs.backup_type.terminated.pluck(:end_time).minmax.map { |x| x.strftime('%Y-%m-%d') }
   end
 
   # Shows if a client has any backup jobs to Bacule config
   #
   # @return [Boolean]
   def is_backed_up?
-    jobs.backup_type.any?
+    jobs.backup_type.terminated.any?
   end
 
   # Shows the total file size of the jobs that run for a specific client
