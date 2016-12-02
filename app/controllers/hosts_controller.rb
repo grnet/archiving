@@ -22,7 +22,7 @@ class HostsController < ApplicationController
     if user_can_add_this_host? && @host.save
       flash[:success] = 'Host created successfully'
       current_user.hosts << @host
-      UserMailer.notify_admin(current_user, @host.fqdn).deliver
+      UserMailer.notify_admin(current_user, @host.fqdn).deliver if @host.institutional?
       redirect_to new_host_simple_config_path @host
     else
       flash[:error] = 'Host was not created'
