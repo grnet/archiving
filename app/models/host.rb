@@ -102,7 +102,7 @@ class Host < ActiveRecord::Base
     end
 
     event :set_inactive do
-      transition [:deployed, :dispatched, :updated, :redispatched] => :inactive
+      transition [:configured, :deployed, :dispatched, :updated, :redispatched] => :inactive
     end
 
     event :disable do
