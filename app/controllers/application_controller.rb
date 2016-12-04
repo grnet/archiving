@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :warden, :days_ago
 
   DATE_FORMAT = "%d-%m-%Y"
-  LOGS_DEFAULT_HISTORY = 1.month
+  LOGS_DEFAULT_HISTORY = 1.week
 
   # GET /
   def index
