@@ -1,11 +1,14 @@
 <%= bootstrap_form_for(@host, layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
 
+  <p class="col-xs-10 col-xs-offset-1 help-block text-right">
+    FQDN should have a valid DNS A record
+  </p>
   <% if current_user.needs_host_list? %>
-    <%= f.select :fqdn, options_for_select(@hosts_of_user, @host.fqdn), {},
+    <%= f.select :fqdn, options_for_select(@hosts_of_user, @host.fqdn), { label: 'FQDN' },
                  disabled: @host.persisted? %>
   <% else %>
-    <%= f.text_field :fqdn, disabled: @host.persisted? %>
+    <%= f.text_field :fqdn, label: 'FQDN', disabled: @host.persisted? %>
   <% end %>
   <% if @host.persisted? %>
     <%= f.number_field :port, min: 1 %>
