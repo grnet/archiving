@@ -1,10 +1,23 @@
-<div class="row right">
-  <%= link_to 'New Client', new_host_path, class: 'btn btn-primary', role: 'button' %>
-</div>
-
 <% if @hosts.empty? && @clients.empty? %>
-  <h3> You have not configured any hosts yet </h2>
+  <div class="col-xs-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3> You have not configured any hosts yet </h3>
+      </div>
+      <div class="panel-body">
+        <p>You should follow the application procedure as described <a href="https://grnet.gr/services/cloud-services/archiving/">here</a>.
+        </p>
+        <p>When your application will be approved, you may proceed with your clients configuration</p>
+        <br />
+        <%= link_to 'New Client', new_host_path, class: 'btn btn-primary', role: 'button' %>
+      </div>
+    </div>
+  </div>
 <% else %>
+  <div class="row right">
+    <%= link_to 'New Client', new_host_path, class: 'btn btn-primary', role: 'button' %>
+  </div>
+
   <%= render partial: 'clients' if @clients.any? %>
   <%= render partial: 'pending_clients' if @hosts.any? %>
   <%= render partial: 'client_graphs', locals: { path: clients_path } if @clients.any? %>
