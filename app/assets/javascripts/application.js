@@ -45,6 +45,7 @@ $(document).ready(function() {
         if ($('table#admin_jobs').size() > 0) {
                 $('table#admin_jobs').DataTable({
                         paging: false,
+                        order: [],
                         columnDefs: [
                         {
                                 targets: 'neither-search-nor-order',
