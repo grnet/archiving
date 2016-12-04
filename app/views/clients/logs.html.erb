@@ -9,7 +9,7 @@
 <div class="row">
   <div class="col-xs-12">
     <%= bootstrap_form_tag(url: '', method: :get, layout: :inline) do |form| %>
-      <%= form.date_field :start_date, value: @dates[:start],
+      <%= form.text_field :start_date, value: @dates[:start],
         class: 'datepicker' %>
       <%= form.text_field :end_date, value: @dates[:end],
         class: 'datepicker' %>
