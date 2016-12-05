@@ -2,7 +2,7 @@
   <div class="col-xs-4">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3>New Client Config</h3>
+        <h3>New Backup Job Config</h3>
       </div>
 
       <div class="panel-body">
@@ -14,7 +14,12 @@
           <%= f.select :day, options_for_select(SimpleConfiguration.days.keys, @simple_config.day), require: true %>
           <%= f.number_field :hour, value: @simple_config.hour, min: 0, max: 23 %>
           <%= f.number_field :minute, value: @simple_config.minute, min: 0, max: 59 %>
-          <%= f.submit 'Create Config', class: 'btn btn-success col-xs-3 col-xs-offset-9' %>
+          <hr />
+          <%= f.select :included_files,
+                       options_for_select(SimpleConfiguration::INCLUDED_FILE_OPTIONS, ['/']),
+                       { label: 'Fileset' }, multiple: true %>
+          <hr />
+          <%= f.submit 'Create Config', class: 'btn btn-success col-xs-3 col-xs-offset-8' %>
         <% end %>
       </div>
     </div>
@@ -28,7 +33,10 @@
         <p>This the basic Backup configuration.</p>
         <p>Your server is going to receive daily backups, on the selected <strong>hour</strong> and <strong>minute</strong>.</p>
         <p>The backup plan is optimized to have the minimum overhead to your system, while maintaining a high performance restore system.</p>
-        <p>The most time consuming backup will be on the selected <strong>day</strong>.</p>
+        <p>The most time consuming backups will be on the selected <strong>day</strong>.</p>
+        <hr />
+        <p>You can specify a set of files you want to backup from a list of preselected Fileset</p>
+        <hr />
         <p>You can alter this configuration later on according to your specific needs.</p>
       </div>
     </div>

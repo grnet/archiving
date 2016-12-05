@@ -11,9 +11,12 @@ class SimpleConfigsController < ApplicationController
   # POST /hosts/1/simple_configs
   def create
     @simple_config = @host.simple_configurations.new(fetch_config_params)
-    @simple_config.save
-    @simple_config.create_config
-    redirect_to host_path(@host, anchor: :jobs)
+    if @simple_config.save
+      @simple_config.create_config
+      redirect_to host_path(@host, anchor: :jobs)
+    else
+      render :new
+    end
   end
 
   private
@@ -23,6 +26,6 @@ class SimpleConfigsController < ApplicationController
   end
 
   def fetch_config_params
-    params.require(:simple_configuration).permit(:name, :day, :hour, :minute)
+    params.require(:simple_configuration).permit(:name, :day, :hour, :minute, included_files: [])
   end
 end
