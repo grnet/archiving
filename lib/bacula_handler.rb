@@ -70,8 +70,12 @@ class BaculaHandler
   # @param file_set_name[String] the fileset that is going to be restored
   # @param restore_point[String] the restore datetime
   # @param location[String] the desired restore location
-  def restore(job_ids, file_set_name, restore_point, location="/tmp/bacula-restore")
+  # @param restore_client[String] the desired restore client
+  def restore(job_ids, file_set_name, restore_point, location="/tmp/bacula-restore", restore_client = nil)
     command = "echo \"restore client=\\\"#{host.name}\\\" "
+    if restore_client && restore_client != host.name
+      command << "restoreclient=\\\"#{restore_client}\\\" "
+    end
     command << "jobid=#{job_ids.join(',')} "
     command << "where=\\\"#{location}\\\" "
     command << "fileset=\\\"#{file_set_name}\\\" "

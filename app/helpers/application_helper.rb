@@ -171,4 +171,22 @@ module ApplicationHelper
       ].join(' ').html_safe
     end
   end
+
+  # Generate a div that contains a helper text that is properly aligned with a form
+  #
+  # @param text[String] the displayed text
+  # @param label_class[String] the form's labe_col
+  # @param control_class[String] the form's control_col
+  def help_block(text, label_class, control_class)
+    content_tag(:div, class: 'form-group') do
+      [
+        content_tag(:label, class: "#{label_class} control-label") { },
+        content_tag(:div, class: control_class) do
+          content_tag(:p, class: 'form-control-static help-block') do
+            text
+          end
+        end
+      ].join(' ').html_safe
+    end
+  end
 end

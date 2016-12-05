@@ -6,19 +6,13 @@
           <h3>Restore files for "<%= @client.name %>"</h3>
         </div>
 
-        <br />
+        <div class="panel-body">
 
         <%= bootstrap_form_tag(url: run_restore_client_path(@client), remote: true,
                                layout: :horizontal, label_col: 'col-xs-4', control_col: 'col-xs-7',
                                html: { id: 'basic-form' } ) do |f| %>
-          <div class="form-group">
-            <label class="col-xs-4 control-label"></label>
-            <div class="col-xs-7">
-              <p class="form-control-static">
-                Restore to most recent backup by leaving date and time blank
-              </p>
-            </div>
-          </div>
+          <%= help_block('Restore to most recent backup by leaving date and time blank',
+                         'col-xs-4', 'col-xs-7') %>
           <%= f.text_field :restore_date %>
           <%= f.time_select :restore_time, ignore_date: true, minute_step: 30, prompt: true %>
 
@@ -26,6 +20,21 @@
                        options_from_collection_for_select(@client.file_sets, :id, :file_set)) %>
 
           <%= f.text_field :restore_location, placeholder: '/tmp/default_restore' %>
+
+          <hr />
+
+          <%= help_block(
+            'Restore and backup clients <strong>must</strong> have the same encryption key'.html_safe,
+            'col-xs-4', 'col-xs-7') %>
+
+          <%= f.select(
+            :restore_client,
+            options_from_collection_for_select(@restore_clients,
+                                               :id, :name, @client.id),
+            label: tooltip_label('Restore Client',
+                                 'Client where the backup will be restored to')) %>
+
+          <hr />
 
           <div class="row">
             <div class="col-xs-5 col-xs-offset-6 text-right">
@@ -41,7 +50,7 @@
             </div>
           </div>
         <% end %>
-        </br>
+        </div>
       </div>
     <% else %>
       <div class="alert alert-warning">

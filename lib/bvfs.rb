@@ -62,7 +62,8 @@ class Bvfs
   # @param file_ids[Array] the file ids that will be restored
   # @param location[String] the client's restore location
   # @param dir_ids[Array] the directory ids that will be restored
-  def restore_selected_files(file_ids, location  = nil, dir_ids = nil)
+  # @param restore_client[String] the client where the restore will be sent
+  def restore_selected_files(file_ids, location  = nil, dir_ids = nil, restore_client = nil)
     location ||= '/tmp/bacula_restore/'
     dir_ids ||= []
 
@@ -70,7 +71,7 @@ class Bvfs
 
     shell_command = [
       create_restore_db(dbname, file_ids, dir_ids),
-      restore_command(dbname, location),
+      restore_command(dbname, location, restore_client),
       clear_cache
     ].map { |command| pipe_to_bconsole(command) }.join(' && ')
 
@@ -107,10 +108,16 @@ class Bvfs
   #
   # @param dbname[String] the name of the db table that has the desired files
   # @param location[String] the client's restore location
+  # @param restore_client[String] the client that will receive the restored files
   #
   # @return [String] bconsole's restore command
-  def restore_command(dbname, location)
-    "restore file=?#{dbname} client=\\\"#{client.name}\\\" where=\\\"#{location}\\\" yes"
+  def restore_command(dbname, location, restore_client)
+    command = "restore file=?#{dbname} client=\\\"#{client.name}\\\" where=\\\"#{location}\\\" "
+    if restore_client && restore_client != client.name
+      command << "restoreclient=\\\"#{restore_client}\\\" "
+    end
+    command << "yes"
+    command
   end
 
   def clear_cache

@@ -172,11 +172,12 @@ class Host < ActiveRecord::Base
   # @param fileset_id[Integer] the desired fileset
   # @param location[String] the desired restore location
   # @param restore_point[Datetime] the desired restore_point datetime
-  def restore(file_set_id, location, restore_point=nil)
+  # @param restore_client[String]] the desired restore client
+  def restore(file_set_id, location, restore_point=nil, restore_client=nil)
     return false if not restorable?
     job_ids = client.get_job_ids(file_set_id, restore_point)
     file_set_name = FileSet.find(file_set_id).file_set
-    bacula_handler.restore(job_ids, file_set_name, restore_point, location)
+    bacula_handler.restore(job_ids, file_set_name, restore_point, location, restore_client)
   end
 
   # Runs the given backup job ASAP

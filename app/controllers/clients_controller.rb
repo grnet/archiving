@@ -72,6 +72,8 @@ class ClientsController < ApplicationController
 
   # GET /clients/1/restore
   def restore
+    @restore_clients = Client.for_user(current_user.id)
+
     return if @client.is_backed_up?
 
     flash[:error] = 'Can not issue a restore for this client'
@@ -83,17 +85,21 @@ class ClientsController < ApplicationController
     @location = params[:restore_location].blank? ? '/tmp/bacula_restore' : params[:restore_location]
     fileset = params[:fileset]
     restore_point = fetch_restore_point
+    restore_client = fetch_restore_client
 
     if params[:commit] == 'Restore All Files'
-      if @location.nil? || fileset.nil? || !@client.host.restore(fileset, @location, restore_point)
+      if @location.nil? || fileset.nil? ||
+        !@client.host.restore(fileset, @location, restore_point, restore_client)
         flash[:error] = 'Something went wrong, try again later'
       else
-        flash[:success] =
-          "Restore job issued successfully, files will be soon available in #{@location}"
+        msg = "Restore job issued successfully, files will be soon available in #{@location}"
+        msg << " of client #{restore_client}" if restore_client.present?
+        flash[:success] = msg
       end
       render js: "window.location = '#{client_path(@client)}'"
     else
       session[:job_ids] = @client.get_job_ids(fileset, restore_point)
+      session[:restore_client] = restore_client
       Bvfs.new(@client, session[:job_ids]).update_cache
       render 'select_files'
     end
@@ -101,8 +107,10 @@ class ClientsController < ApplicationController
 
   # POST /clients/1/restore_selected
   def restore_selected
-    Bvfs.new(@client, session[:job_ids]).restore_selected_files(params[:files], params[:location])
+    Bvfs.new(@client, session[:job_ids]).
+      restore_selected_files(params[:files], params[:location], nil, session[:restore_client])
     session.delete(:job_ids)
+    session.delete(:restore_client)
     flash[:success] =
       "Restore job issued successfully, files will be soon available in #{params[:location]}"
     redirect_to client_path(@client)
@@ -146,6 +154,12 @@ class ClientsController < ApplicationController
   def fetch_client
     @client = Client.for_user(current_user.id).find(params[:id])
     @client_ids = [@client.id]
+  end
+
+  def fetch_restore_client
+    if params[:restore_client]
+      Client.for_user(current_user.id).find_by(ClientId: params[:restore_client]).try(:name)
+    end
   end
 
   def fetch_jobs_info
