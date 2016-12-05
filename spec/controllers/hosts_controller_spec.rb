@@ -78,9 +78,9 @@ describe HostsController do
           to change { Host.count }.by(1)
       end
 
-      it 'redirects to root' do
+      it 'redirects to the host\'s simple config' do
         post :create, params
-        expect(response).to redirect_to(host_path(Host.last))
+        expect(response).to redirect_to(new_host_simple_config_path(Host.last))
       end
 
       it 'assigns the host to the user' do
