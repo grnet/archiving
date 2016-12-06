@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   DATE_FORMAT = "%d-%m-%Y"
   LOGS_DEFAULT_HISTORY = 1.week
+  LOGS_PAGE_SIZE = 50
 
   # GET /
   def index
@@ -94,7 +95,7 @@ class ApplicationController < ActionController::Base
       where(Time: @date_range.first..@date_range.last).
       where(Client: { ClientId: @client.id })
     @logs = @logs.where(JobId: params[:job_id]) if params[:job_id]
-    @logs = @logs.order(Time: :desc, LogId: :desc)
+    @logs = @logs.order(Time: :desc, LogId: :desc).page(params[:page]).per(LOGS_PAGE_SIZE)
   end
 
   def days_ago
