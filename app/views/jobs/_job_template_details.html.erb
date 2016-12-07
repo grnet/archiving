@@ -11,13 +11,18 @@
   </td>
   <td><%= job.client_before_run_file %></td>
   <td><%= job.client_after_run_file %></td>
+  <td><%= yes_no(job.enabled? ? 1 : 0) %></td>
   <td>
     <% if job.enabled? %>
-      <%= button_or_disabled(@host.blocked?, 'Disable', toggle_enable_host_job_path(@host, job),
-                             method: :patch, class: "btn btn-warning", role: "button") %>
+      <%= button_or_disabled_with_label(
+        @host.blocked?, 'Disable', toggle_enable_host_job_path(@host, job),
+        method: :patch, class: "btn btn-default", role: "button",
+        icon_class: 'glyphicon glyphicon-remove', text_class: 'text-warning') %>
     <% else %>
-      <%= button_or_disabled(@host.blocked?, 'Enable', toggle_enable_host_job_path(@host, job),
-                             method: :patch, class: "btn btn-info", role: "button") %>
+      <%= button_or_disabled_with_label(
+        @host.blocked?, 'Enable', toggle_enable_host_job_path(@host, job),
+        method: :patch, class: "btn btn-default", role: "button",
+        icon_class: 'glyphicon glyphicon-ok', text_class: 'text-success') %>
     <% end %>
   </td>
 </tr>

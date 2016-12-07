@@ -1,9 +1,11 @@
 <div class="row">
   <div class="col-xs-12">
     <% if @client.is_backed_up? %>
-      <%= button_or_disabled(@client.host.blocked?, 'Restore Files',
-                             restore_client_path(@client),
-                             class: "btn btn-warning", role: "button") %>
+      <%= button_or_disabled_with_label(
+        @client.host.blocked?, 'Restore Files',
+        restore_client_path(@client),
+        class: "btn btn-default", role: "button",
+        icon_class: 'glyphicon glyphicon-cloud-download', text_class: 'text-warning') %>
     <% end %>
 
     <% if @client.host %>

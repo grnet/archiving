@@ -12,10 +12,12 @@
   <td><%= I18n.l(job.created_at, format: :long) %></td>
   <td>
     <% if job.baculized? && job.backup? %>
-      <%= button_or_disabled(@client.host.blocked? || !job.enabled?, 'Full Backup Now',
-                             backup_now_host_job_path(job.host, job), method: :post,
-                             class: "btn btn-success", role: "button",
-                             title: @client.host.blocked? ? 'Client is blocked' : 'Job not enabled') %>
+      <%= button_or_disabled_with_label(
+        @client.host.blocked? || !job.enabled?, 'Full Backup Now',
+        backup_now_host_job_path(job.host, job), method: :post,
+        class: "btn btn-default", role: "button",
+        title: @client.host.blocked? ? 'Client is blocked' : 'Job not enabled',
+        icon_class: 'glyphicon glyphicon-hdd', text_class: 'text-success') %>
     <% end %>
   </td>
 </tr>

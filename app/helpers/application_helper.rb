@@ -137,7 +137,9 @@ module ApplicationHelper
   # @param display_text[String]
   # @param url[String]
   # @param opts[Hash]
-  def button_or_disabled(disabled, display_text, url, opts = {})
+  def button_or_disabled_with_label(disabled, display_text, url, opts = {})
+    icon_class = opts.delete(:icon_class)
+    text_class = opts.delete(:text_class)
     if disabled
       url = '#'
       opts.merge!(disabled: true)
@@ -147,8 +149,14 @@ module ApplicationHelper
       opts.delete(:title)
     end
 
-    link_to display_text, url, opts
+    link_to url, opts do
+      [
+        content_tag(:label, class: [icon_class, text_class].join(' ')) { },
+        display_text
+      ].join(' ').html_safe
+    end
   end
+
 
   # Generates a span that contains a text and a questionmark  label.
   # hovering on that questionmark will display a helper text
