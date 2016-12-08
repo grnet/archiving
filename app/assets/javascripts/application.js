@@ -29,6 +29,7 @@ $(document).ready(function() {
         if ($('table#admin_clients').size() > 0) {
                 $('table#admin_clients').DataTable({
                         paging: false,
+                        order: [],
                         columnDefs: [
                         {
                                 targets: 'neither-search-nor-order',
