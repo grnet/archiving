@@ -49,18 +49,25 @@ class ClientsController < ApplicationController
   # DELETE /clients/1/user
   def remove_user
     user = @client.host.users.find(params[:user_id])
-    if @client.host.users.delete(user)
+    redirect_path = users_client_path(@client)
+
+    if @client.host.users.count == 1
+      flash[:alert] = 'You can not remove the last user'
+    elsif @client.host.users.delete(user)
       flash[:success] =
         if @client.manually_inserted?
           'User successfully removed'
         else
-          'User must be removed from the VM\'s list form your VM provider too (ViMa or Okeanos).'
+          'User must be removed from the VM\'s list from your VM provider too (ViMa or Okeanos).'
         end
+      if user.id == current_user.id
+        redirect_path = clients_path
+      end
     else
       flash[:alert] = 'User not removed, something went wrong'
     end
 
-    redirect_to users_client_path(@client)
+    redirect_to redirect_path
   end
 
   # GET /clients/1/restore
