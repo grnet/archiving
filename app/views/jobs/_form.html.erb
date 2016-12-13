@@ -33,8 +33,12 @@
   </div>
 
   <div class="form-group">
-    <div class="col-xs-offset-4 col-xs-8">
-      <%= f.submit class: "btn btn-success" %>
+    <div class="col-xs-2 col-xs-offset-7">
+      <%= link_to 'Cancel', @job.persisted? ? host_job_path(@host, @job) : host_path(@job.host, anchor: :jobs),
+                  class: 'btn btn-danger', role: 'button' %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.submit 'Submit', class: "btn btn-success" %>
     </div>
   </div>
 <% end %>
