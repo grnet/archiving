@@ -65,7 +65,7 @@ class Host < ActiveRecord::Base
   scope :unverified, -> { where(verified: false) }
 
   before_validation :set_retention, :unset_baculized, :sanitize_name,
-    :sanitize_email_recipients, :set_password, :set_port
+    :sanitize_email_recipients, :set_password, :set_port, :set_quota
 
   state_machine :status, initial: :pending do
     STATUSES.each do |status_name, value|
@@ -330,6 +330,12 @@ class Host < ActiveRecord::Base
     return true if persisted?
 
     self.port = DEFAULT_PORT
+  end
+
+  def set_quota
+    return true if persisted?
+
+    self.quota = ConfigurationSetting.client_quota
   end
 
   # validation

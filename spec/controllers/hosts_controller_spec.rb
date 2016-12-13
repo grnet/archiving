@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe HostsController do
   let(:user) { FactoryGirl.create(:user) }
+
   before { controller.stub(:current_user) { user } }
 
   describe 'GET #new' do
@@ -63,6 +64,8 @@ describe HostsController do
 
   describe 'POST #create' do
     context 'with valid params' do
+      before { FactoryGirl.create(:user, :admin) }
+
       let(:params) do
         {
           host: FactoryGirl.build(:host).attributes.symbolize_keys.
