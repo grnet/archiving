@@ -16,7 +16,7 @@
     <% end %>
 
     <%= link_to fd_config_host_path(@client.host, token: current_user.token),
-                class: "btn btn-default", role: "button", download: 'fd_config' do %>
+                class: "btn btn-default", role: "button", download: 'bacula-fd.conf' do %>
       <label class="glyphicon glyphicon-download-alt text-primary"></label>
       Download Config
     <% end %>
@@ -40,7 +40,8 @@
         <div class="panel-body">
           You can also download the config like this:
           <pre>
-<%= "$ wget #{fd_config_host_url(@client.host, token: current_user.token)}" %>
+<%= "$ wget -O bacula-fd.conf #{fd_config_host_url(@client.host, token: current_user.token,
+                                                   protocol: 'https://')}" %>
           </pre>
         </div>
       </div>
