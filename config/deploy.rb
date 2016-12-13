@@ -2,7 +2,6 @@
 lock '3.2.1'
 
 set :application, 'archiving'
-set :repo_url, 'git@bitbucket.org:xlembouras/baas.git'
 
 set :deploy_to, '/srv/archiving'
 
