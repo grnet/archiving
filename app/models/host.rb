@@ -258,7 +258,7 @@ class Host < ActiveRecord::Base
     self.verified_at = Time.now
     recipients = users.pluck(:email)
     if save
-      UserMailer.notify_for_verification(recipients, name).deliver if recipients.any?
+      UserMailer.notify_for_verification(recipients, self).deliver if recipients.any?
       return true
     end
     false

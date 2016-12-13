@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
   # @param host[String] the host's FQDN
   def notify_for_verification(user_emails, host)
     @host = host
-    s = "[Archiving] Host #{host} verification"
+    s = "[Archiving] Host #{host.name} verification"
     mail(to: user_emails, subject: s)
   end
 
