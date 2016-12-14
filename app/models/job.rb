@@ -112,7 +112,9 @@ class Job < ActiveRecord::Base
   #
   # @return [String] the compression
   def compression
-    logs.map { |log| log.compression }.uniq.compact.first
+    Rails.cache.fetch(['compression', 'v1', cache_key]) do
+      logs.map { |log| log.compression }.uniq.compact.first
+    end
   end
 
   # Extracts the job's encryption info by looking at the job's
@@ -120,7 +122,9 @@ class Job < ActiveRecord::Base
   #
   # @return [String] the encryption
   def encryption
-    logs.map { |log| log.encryption }.uniq.compact.first
+    Rails.cache.fetch(['encryption', 'v1', cache_key]) do
+      logs.map { |log| log.encryption }.uniq.compact.first
+    end
   end
 
   # The duration of the job.
@@ -150,5 +154,9 @@ class Job < ActiveRecord::Base
     if end_time
       I18n.l(end_time, format: :long)
     end
+  end
+
+  def cache_key
+    "jobs/#{job_id}/#{job_t_date}"
   end
 end
