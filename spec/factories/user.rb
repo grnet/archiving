@@ -7,6 +7,7 @@ FactoryGirl.define do
 
   trait :admin do
     after(:create) do |user|
+      user.enabled = true
       user.admin!
     end
   end

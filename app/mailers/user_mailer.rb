@@ -28,7 +28,7 @@ class UserMailer < ActionMailer::Base
   # @param user[User] the user that created the host
   # @param host[String] the host's FQDN
   def notify_admin(user, host)
-    admin_emails = User.admin.pluck(:email)
+    admin_emails = User.admin.where(enabled: true).pluck(:email)
     @user = user
     @host = host
     mail(to: admin_emails, subject: 'New host pending verification')
