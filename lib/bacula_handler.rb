@@ -61,7 +61,7 @@ class BaculaHandler
     return false unless job
     command = "echo \"run level=full job=\\\"#{job.name_for_config}\\\" yes\" | #{bconsole}"
     log(command)
-    exec_with_timeout(command, 2)
+    exec_with_timeout(command, 10)
   end
 
   # Schedules an immediate restore to the bacula director for the given host.
@@ -87,7 +87,7 @@ class BaculaHandler
     command << "select all done yes\" "
     command << "| #{bconsole}"
     log(command)
-    exec_with_timeout(command, 2)
+    exec_with_timeout(command, 10)
   end
 
   private
@@ -179,6 +179,8 @@ class BaculaHandler
         `#{command}`
       end
     rescue
+      last_job = host.client.jobs.last
+      log "[#{host.name}] process took too long: #{sec} for command: #{command} last job: #{last_job.try(:id)}"
       return false
     end
     true
@@ -200,6 +202,6 @@ class BaculaHandler
   end
 
   def log(msg)
-    Rails.logger.warn("[BaculaHandler]: #{msg}")
+    Rails.logger.warn("[BaculaHandler][#{Time.now.to_s}]: #{msg}")
   end
 end
