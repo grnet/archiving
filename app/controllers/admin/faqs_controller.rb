@@ -58,6 +58,6 @@ class Admin::FaqsController < Admin::BaseController
   end
 
   def fetch_params
-    params.require(:faq).permit(:title, :body)
+    params.require(:faq).permit(:title, :body, :priority)
   end
 end
