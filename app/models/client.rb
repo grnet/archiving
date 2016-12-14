@@ -138,6 +138,6 @@ class Client < ActiveRecord::Base
 
   # Fetches the bacula filesets that are associated with the client
   def file_sets
-    FileSet.joins(:jobs).where(Job: { JobId: job_ids }).uniq
+    FileSet.joins(:jobs).where(Job: { JobStatus: 'T', Type: 'B', ClientId: id }).uniq
   end
 end
