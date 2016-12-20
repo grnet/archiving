@@ -1,9 +1,14 @@
-<h1>New Fileset</h1>
+<div class="row">
+  <div class="col-xs-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>New Fileset</h3>
+      </div>
 
-<div class="container graybox">
-  <%= render partial: 'form',
-             locals: { url: host_filesets_path(@host), method: :post } %>
+      <div class="panel-body">
+        <%= render partial: 'form',
+                   locals: { url: host_filesets_path(@host), method: :post } %>
+      </div>
+    </div>
+  </div>
 </div>
-
-<%= link_to 'Back to job',
-  @job_id.present? ? edit_host_job_path(@host, @job_id) : new_host_job_path(@host) %>
