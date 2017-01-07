@@ -8,6 +8,7 @@ class FilesetsController < ApplicationController
   def new
     @fileset = @host.filesets.new
     @fileset.include_directions = { 'file' => [nil] }
+    @fileset.exclude_directions = ['']
   end
 
   # GET /hosts/:host_id/filesets/:id
@@ -22,11 +23,17 @@ class FilesetsController < ApplicationController
   # GET /hosts/:host_id/filesets/:id/edit
   def edit
     @fileset.include_files = @fileset.include_directions['file']
+    @fileset.exclude_directions ||= ['']
   end
 
   # PATCH /hosts/:host_id/filesets/:id/
   def update
-    if @fileset.update(fetch_params)
+    fileset_params = fetch_params
+    if fileset_params[:exclude_directions].nil?
+      fileset_params[:exclude_directions] = []
+    end
+
+    if @fileset.update(fileset_params)
       flash[:success] = 'Fileset updated successfully'
       participating_hosts = @fileset.participating_hosts
       if participating_hosts.size.nonzero?
@@ -57,7 +64,7 @@ class FilesetsController < ApplicationController
       end
     else
       @fileset.include_files = nil
-      @fileset.exclude_directions = nil
+      @fileset.exclude_directions = ['']
       @fileset.include_directions = { 'file' => [nil] }
       render :new
     end

@@ -1,12 +1,13 @@
 module FilesetsHelper
-  # Creates a bootstrap form-group div with an additional 'Add' button next to the text field
+  # Creates a bootstrap form-group div with an additional 'Remove' button next to the text field
   #
   # @param object[ActiveRecord::Object] the form's subject
   # @param resource[Symbol] the objects class
   # @param attr[Symbol] the select box's attribute
   # @param attr_name[String] the attribute's display name
   # @param placeholder[String] the text box's placeholder
-  def text_with_errors_and_plus(object, resource, attr, attr_name, placeholder, value=nil)
+  def text_with_errors_and_remove(object, resource, attr,
+                                  attr_name, placeholder, value=nil, no_sign=false)
     has_errors = object.errors[attr].present?
     content_tag(:div, class: "form-group #{attr} #{' has_error' if has_errors }") do
       attr_label = label(resource, attr, attr_name, class: 'control-label col-xs-3')
@@ -26,15 +27,12 @@ module FilesetsHelper
       end
 
       actions_part = content_tag(:div, class: 'col-xs-1') do
-        add_link = content_tag(:a, href: '#', class: "#{attr}-plus-sign") do
-          content_tag(:span, class: 'glyphicon glyphicon-plus') {}
-        end
+        attrs = { href: '#', class: "#{attr}-remove-sign" }
+        attrs[:style] = "display:none" if value.nil? || no_sign
 
-        remove_link = content_tag(:a, href: '#',
-                                  class: "#{attr}-remove-sign", style: "display:none") do
+        remove_link = content_tag(:a, attrs) do
           content_tag(:span, class: 'glyphicon glyphicon-remove text-danger') {}
         end
-        add_link.concat(remove_link)
       end
 
       attr_label.concat(text_div).concat(actions_part)

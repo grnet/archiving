@@ -3,14 +3,46 @@
   <div>
     <%= f.text_field :name %>
 
+    <% no_remove_sign = @fileset.include_directions['file'].length <= 1 %>
+
     <% @fileset.include_directions['file'].each do |file| %>
-      <%= text_with_errors_and_plus(@fileset, :fileset, :include_files, 'Files', '/', file) %>
+      <%= text_with_errors_and_remove(
+        @fileset, :fileset, :include_files, 'Files', '/', file, no_remove_sign) %>
     <% end %>
+
+    <p class='here-included' />
+
+    <div class="form-group">
+      <div class="col-xs-offset-3 col-xs-1">
+        <%= link_to '#', class: 'include_files-plus-sign' do %>
+          <span class="glyphicon glyphicon-plus text-success"></span>
+        <% end %>
+      </div>
+    </div>
+
     <hr />
+
     <% @fileset.exclude_directions.each do |file| %>
-      <%= text_with_errors_and_plus(@fileset, :fileset, :exclude_directions, 'Exclude', '/an_exluded_dir', file) %>
+      <%= text_with_errors_and_remove(@fileset, :fileset, :exclude_directions, 'Exclude', '/an_exluded_dir', file) %>
     <% end %>
+
+    <p class='here-excluded' />
+
+    <div class="form-group">
+      <div class="col-xs-offset-3 col-xs-1">
+        <%= link_to '#', class: 'exclude_directions-plus-sign' do %>
+          <span class="glyphicon glyphicon-plus text-success"></span>
+        <% end %>
+      </div>
+    </div>
+
     <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
+  </div>
+
+  <div class='templates hidden'>
+    <%= text_with_errors_and_remove(@fileset, :fileset, :include_files, 'Files', '/') %>
+    <%= text_with_errors_and_remove(@fileset, :fileset, :exclude_directions, 'Exclude',
+                                    '/an_excluded_dir', '') %>
   </div>
 
 
