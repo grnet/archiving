@@ -58,7 +58,10 @@
       </div>
     <% end %>
 
-    <%= link_to 'Back to client', client_path(@client), class: 'btn btn-danger', role: 'button' %>
+    <%= link_to client_path(@client), class: 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-menu-left text-primary"></span>
+      Back to client
+    <% end %>
   </div>
   <%= render partial: 'file_selector' %>
 </div>

@@ -10,6 +10,13 @@
   </div>
 </div>
 
-<%= form_tag(restore_selected_client_path, { id: 'file-submitter', style: 'display:none' }) do %>
-  <%= submit_tag 'Restore Selected Files', class: 'btn btn-default', disabled: true %>
-<% end %>
+<div class="col-xs-2">
+  <%= form_tag(restore_selected_client_path, { id: 'file-submitter', style: 'display:none' }) do %>
+    <%= submit_tag 'Restore Selected Files', class: 'btn btn-default', disabled: true %>
+  <% end %>
+</div>
+
+<div class="col-xs-1" id="reset-button">
+  <%= link_to 'Cancel', restore_client_path(@client), role: 'button',
+              class: 'btn btn-default text-warning' %>
+</div>

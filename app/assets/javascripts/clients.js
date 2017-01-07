@@ -1,8 +1,10 @@
 $(document).ready(function() {
         if ($('#select-files').size() > 0) {
                 $('#file-selector').hide();
+                $('#reset-button').hide();
                 $('#select-files').click(function() {
                           $('#file-selector').show();
+                          $('#reset-button').show();
                 });
         }
 });
