@@ -106,8 +106,11 @@
 
   <div class='row'>
     <% if @host.client %>
-      <div class='col-xs-12 text-right'>
-        <%= link_to "Back to <b>#{@host.name}</b> client".html_safe, client_path(@host.client) %>
+      <div class='col-xs-12'>
+        <%= link_to client_path(@host.client), class: 'btn btn-default' do %>
+          <label class="glyphicon glyphicon-menu-left text-primary"></label>
+          Back to client
+        <% end %>
       </div>
     <% end %>
   </div>

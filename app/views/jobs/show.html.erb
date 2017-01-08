@@ -5,13 +5,13 @@
         <h1>"<%= @job.name %>" Job Template</h1>
       </div>
 
-      <div class="row">
-        <%= render partial: 'job_details' %>
-      </div>
+      <%= render partial: 'job_details' %>
     </div>
     <div class="col-xs-2 col-xs-offset-4 right">
-      <%= link_to 'Back to host', host_path(@host),
-                  class: "btn btn-success", role: "button" %>
+      <%= link_to host_path(@host), class: "btn btn-default" do %>
+        <label class="glyphicon glyphicon-menu-left text-primary"></label>
+        Back to host
+      <% end %>
     </div>
     <div class="col-xs-1">
       <%= link_to edit_host_job_path(@host, @job), class: "btn btn-default", role: "button" do %>

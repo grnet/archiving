@@ -32,12 +32,12 @@
                            'A command that the backed up server will run after the backup job has finished') %>
   </div>
 
-  <div class="form-group">
-    <div class="col-xs-2 col-xs-offset-7">
+  <div class="form-group text-right">
+    <div class="col-xs-5">
       <%= link_to 'Cancel', @job.persisted? ? host_job_path(@host, @job) : host_path(@job.host, anchor: :jobs),
                   class: 'btn btn-danger', role: 'button' %>
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-5">
       <%= f.submit 'Submit', class: "btn btn-success" %>
     </div>
   </div>
