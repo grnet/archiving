@@ -82,6 +82,11 @@ li.logo > a > p {
   visibility: hidden;
 }
 
+.time-selects {
+  width: 47%;
+  display: inline-block;
+}
+
 h2:hover > a.faq-link > svg {
   visibility: visible;
 }

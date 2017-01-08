@@ -78,6 +78,12 @@ class SchedulesController < ApplicationController
   end
 
   def fetch_params
+    params[:schedule][:schedule_runs_attributes].each do |sched, attrs|
+      hour = attrs.delete('time_wrapper(4i)')
+      minute = attrs.delete('time_wrapper(5i)')
+      attrs[:time] = Time.new.change(hour: hour, min: minute).strftime('%H:%M')
+      params[:schedule][:schedule_runs_attributes][sched] = attrs
+    end
     params.require(:schedule).
       permit(:name, { schedule_runs_attributes: [[:id, :level, :month, :day, :time, :_destroy]] })
   end

@@ -30,6 +30,8 @@
 class ScheduleRun < ActiveRecord::Base
   establish_connection ARCHIVING_CONF
 
+  attr_accessor :time_wrapper
+
   enum level: { full: 0, differential: 1, incremental: 2 }
 
   MONTH_KW = %w{jan feb mar apr may jun jul aug sep oct nov dec january february march
@@ -51,6 +53,9 @@ class ScheduleRun < ActiveRecord::Base
     levels.keys.zip levels.keys
   end
 
+  def time_wrapper
+    time.to_time
+  end
   # Builds a sane default schedule_run
   #
   # @return [ScheduleRun]

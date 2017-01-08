@@ -24,7 +24,8 @@
         <p class="col-xs-10 col-xs-offset-1 help-block text-right">
   eg: first sun, second-fifth mon, mon-sat
         </p>
-        <%= r.text_field :time, placeholder: 'HH:MM', class: 'timepicker', required: true %>
+        <%= r.time_select :time_wrapper, { ignore_date: true, required: true, label: :Time },
+                          { class: 'time-selects' } %>
         <hr />
       </div>
     <% end %>
@@ -43,7 +44,14 @@
     <%= (hidden_field_tag :job_id, @job_id) if @job_id %>
 
     <div class="form-group">
-      <div class="col-xs-offset-3 col-xs-8">
+      <div class="col-xs-offset-3 col-xs-4">
+        <%= link_to (@job_id.present? ? edit_host_job_path(@host, @job_id) : new_host_job_path(@host)), class: 'btn btn-default' do %>
+          <label class="glyphicon glyphicon-menu-left text-primary"></label>
+          Back to job
+        <% end %>
+      </div>
+
+      <div class="col-xs-4">
         <%= f.submit class: 'btn btn-success' %>
       </div>
     </div>
