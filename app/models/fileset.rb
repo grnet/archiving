@@ -81,14 +81,23 @@ class Fileset < ActiveRecord::Base
   end
 
   def sanitize_include_directions
-    files = include_files.compact.uniq.keep_if(&:present?)
+    files = include_files.compact.uniq.keep_if(&:present?) rescue nil
     return false if files.blank?
+
+    files = files.map {|file| Shellwords.escape(file) }
 
     self.include_directions = { options: DEFAULT_INCLUDE_OPTIONS, file: files }
   end
 
   def sanitize_exclude_directions
-    self.exclude_directions = exclude_directions.keep_if(&:present?).uniq rescue nil
+    self.exclude_directions =
+      begin
+        exclude_directions.keep_if(&:present?).uniq.map do |x|
+          Shellwords.escape(x)
+        end
+      rescue
+        nil
+      end
   end
 
   def exclude_directions_to_config_array
