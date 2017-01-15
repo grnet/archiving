@@ -3,7 +3,7 @@ class Admin::FaqsController < Admin::BaseController
 
   # GET /admin/faqs
   def index
-    @faqs = Faq.all
+    @faqs = Faq.order(priority: :desc).all
   end
 
   # GET /admin/faqs/:id
