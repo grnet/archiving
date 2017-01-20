@@ -16,6 +16,7 @@ else
   require 'warden'
   require 'net/scp'
   require 'redcarpet'
+  require 'raven'
 end
 
 module Archiving
@@ -45,6 +46,11 @@ module Archiving
     # config.i18n.default_locale = :de
     config.autoload_paths << Rails.root.join('lib')
 #    config.x = {}
+    if sentry_dsn = Rails.application.secrets.sentry_dsn
+      Raven.configure do |config|
+        config.dsn = sentry_dsn
+      end
+    end
   end
 end
 

@@ -14,6 +14,7 @@ end
 # Lock jessie versions
 #
 
+gem 'sentry-raven', '2.3.0'
 gem 'rails', '4.1.8'
 gem 'i18n', '0.6.9'
 gem 'json', '1.8.1'
