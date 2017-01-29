@@ -170,6 +170,7 @@ class BaculaHandler
 
   def reload_bacula
     command = "echo \"reload quit\" | #{bconsole}"
+    log("Bacula reload [#{host.name}]")
     exec_with_timeout(command, 2)
   end
 
