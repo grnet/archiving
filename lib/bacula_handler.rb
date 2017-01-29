@@ -61,7 +61,7 @@ class BaculaHandler
     return false unless job
     command = "echo \"run level=full job=\\\"#{job.name_for_config}\\\" yes\" | #{bconsole}"
     log(command)
-    exec_with_timeout(command, 10)
+    exec_with_timeout(command, 10, issuer: :backup)
   end
 
   # Schedules an immediate restore to the bacula director for the given host.
@@ -87,7 +87,7 @@ class BaculaHandler
     command << "select all done yes\" "
     command << "| #{bconsole}"
     log(command)
-    exec_with_timeout(command, 10)
+    exec_with_timeout(command, 10, issuer: :restore)
   end
 
   private
@@ -174,15 +174,31 @@ class BaculaHandler
     exec_with_timeout(command, 2)
   end
 
-  def exec_with_timeout(command, sec)
+  def exec_with_timeout(command, sec, options = {})
     begin
+      job_id =
+        if options[:issuer] == :restore
+          host.client.jobs.restore_type.last.try(:id)
+        elsif options[:issuer] == :backup
+          host.client.jobs.backup_type.last.try(:id)
+        end
       Timeout::timeout(sec) do
         `#{command}`
       end
     rescue
-      last_job = host.client.jobs.last
-      log "[#{host.name}] process took too long: #{sec} for command: #{command} last job: #{last_job.try(:id)}"
-      return false
+      job_issued =
+        if options[:issuer] == :restore
+          last_job_id = host.client.jobs.restore_type.last.try(:id)
+          job_id.to_i < last_job_id.to_i
+        elsif options[:issuer] == :backup
+          last_job_id = host.client.jobs.backup_type.last.try(:id)
+          job_id.to_i < last_job_id.to_i
+        else
+          false
+        end
+
+      log "[#{host.name}] process took too long: #{sec} for command: #{command} last job: #{last_job_id}, ISSUED: #{job_issued}"
+      return job_issued
     end
     true
   end
