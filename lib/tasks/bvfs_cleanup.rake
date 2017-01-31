@@ -1,7 +1,8 @@
 namespace :bvfs do
   desc 'Cleans up the restore database'
   task cleanup: :environment do
-    for_purge = ActiveRecord::Base.connection.tables.select do |name|
+    for_purge = ActiveRecord::Base.establish_connection(BACULA_CONF).connection.tables.
+        select do |name|
       match_data = name.match(/^b2\d+(\d{12}$)/)
       match_data.present? && 
         match_data[1].present? &&
