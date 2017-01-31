@@ -29,7 +29,8 @@ class ConfigurationSetting < ActiveRecord::Base
     pool: Archiving.settings[:default_pool],
     messages: :Standard,
     priority: 10,
-    :'Write Bootstrap' => '"/var/lib/bacula/%c.bsr"'
+    :'Write Bootstrap' => '"/var/lib/bacula/%c.bsr"',
+    :'Spool Data' => 'yes'
   }
 
   CLIENT = {
