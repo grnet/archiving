@@ -11,6 +11,11 @@
   </td>
   <td><%= I18n.l(job.created_at, format: :long) %></td>
   <td>
+    <% if @jobs[job.name_for_config] %>
+      <%= I18n.l(@jobs[job.name_for_config], format: :long) %>
+    <% end %>
+  </td>
+  <td>
     <% if job.baculized? && job.backup? %>
       <%= button_or_disabled_with_label(
         @client.host.blocked? || !job.enabled?, 'Full Backup Now',

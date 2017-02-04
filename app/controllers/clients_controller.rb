@@ -19,6 +19,7 @@ class ClientsController < ApplicationController
   def show
     @schedules = @client.host.job_templates.map(&:schedule)
     @filesets = @client.host.job_templates.map(&:fileset)
+    @jobs = @client.jobs.backup_type.terminated.group(:name).maximum(:EndTime)
   end
 
   # GET /clients/1/jobs
