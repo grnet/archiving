@@ -82,7 +82,10 @@ class Fileset < ActiveRecord::Base
 
   def sanitize_include_directions
     files = include_files.compact.uniq.keep_if(&:present?) rescue nil
-    return false if files.blank?
+    if files.blank?
+      self.errors[:include_files] << "Include files can't be empty"
+      return false
+    end
 
     files = files.map {|file| Shellwords.escape(file) }
 

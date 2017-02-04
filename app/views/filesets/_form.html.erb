@@ -14,7 +14,7 @@
 
     <div class="form-group">
       <div class="col-xs-offset-3 col-xs-1">
-        <%= link_to '#', class: 'include_files-plus-sign' do %>
+        <%= link_to '#', class: 'include_files-plus-sign', title: 'New File' do %>
           <span class="glyphicon glyphicon-plus text-success"></span>
         <% end %>
       </div>
@@ -30,7 +30,7 @@
 
     <div class="form-group">
       <div class="col-xs-offset-3 col-xs-1">
-        <%= link_to '#', class: 'exclude_directions-plus-sign' do %>
+        <%= link_to '#', class: 'exclude_directions-plus-sign', title: 'New Excluded File' do %>
           <span class="glyphicon glyphicon-plus text-success"></span>
         <% end %>
       </div>
@@ -38,13 +38,6 @@
 
     <%= (hidden_field_tag :job_id, @job_id) if @job_id%>
   </div>
-
-  <div class='templates hidden'>
-    <%= text_with_errors_and_remove(@fileset, :fileset, :include_files, 'Files', '/') %>
-    <%= text_with_errors_and_remove(@fileset, :fileset, :exclude_directions, 'Exclude',
-                                    '/an_excluded_dir', '') %>
-  </div>
-
 
   <div class="form-group">
     <div class="col-xs-offset-3 col-xs-3">
@@ -57,3 +50,9 @@
     </div>
   </div>
 <% end %>
+
+<div class='templates hidden'>
+  <%= text_with_errors_and_remove(@fileset, :fileset, :include_files, 'Files', '/', '') %>
+  <%= text_with_errors_and_remove(@fileset, :fileset, :exclude_directions, 'Exclude',
+                                  '/an_excluded_dir', '') %>
+</div>

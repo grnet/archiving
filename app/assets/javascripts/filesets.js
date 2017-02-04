@@ -37,7 +37,7 @@ function addExcludeDirectionsTextArea() {
 
 function removeIncludedFileTextArea(element) {
   element.closest('div.include_files').remove();
-  if ($('.include_files').size() <= 1) {
+  if ($('form .include_files').size() <= 1) {
     $('.include_files-remove-sign').hide();
   };
 }

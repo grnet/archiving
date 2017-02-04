@@ -23,7 +23,7 @@ class FilesetsController < ApplicationController
   # GET /hosts/:host_id/filesets/:id/edit
   def edit
     @fileset.include_files = @fileset.include_directions['file']
-    @fileset.exclude_directions ||= ['']
+    @fileset.exclude_directions = [''] if @fileset.exclude_directions.empty?
   end
 
   # PATCH /hosts/:host_id/filesets/:id/
