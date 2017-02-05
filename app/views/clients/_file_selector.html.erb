@@ -10,13 +10,48 @@
   </div>
 </div>
 
-<div class="col-xs-2">
-  <%= form_tag(restore_selected_client_path, { id: 'file-submitter', style: 'display:none' }) do %>
-    <%= submit_tag 'Restore Selected Files', class: 'btn btn-default', disabled: true %>
-  <% end %>
-</div>
+<div class="col-xs-4">
+  <div class="panel panel-default" id="restore-details" style="display:none">
+    <div class="panel-heading">
+      <h3>Restore details</h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-4" id="reset-button">
+          <%= link_to restore_client_path(@client), class: 'btn btn-default' do %>
+            <span class="glyphicon glyphicon-menu-left text-primary"></span>
+            Cancel
+          <% end %>
+        </div>
 
-<div class="col-xs-1" id="reset-button">
-  <%= link_to 'Cancel', restore_client_path(@client), role: 'button',
-              class: 'btn btn-default text-warning' %>
+        <div class="col-xs-4 text-right">
+          <%= form_tag(restore_selected_client_path, { id: 'file-submitter' }) do %>
+            <%= submit_tag 'Restore Selected Files', class: 'btn btn-default', disabled: true %>
+          <% end %>
+        </div>
+      </div>
+      <hr />
+      <br />
+      <div class="row">
+        <table class="table table-bordered table-condensed">
+          <tr>
+            <td>DateTime</td>
+            <td id="restore_data_point"></td>
+          </tr>
+          <tr>
+            <td>Restore Location</td>
+            <td id="restore_data_location"></td>
+          </tr>
+          <tr>
+            <td>Restore Client</td>
+            <td id="restore_data_client"></td>
+          </tr>
+          <tr>
+            <td>Files</td>
+            <td><ul id="restore_data_files"></ul></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

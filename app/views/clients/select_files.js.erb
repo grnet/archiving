@@ -22,6 +22,9 @@ $('#file-tree').jstree({
     "plugins" : ["types", "checkbox"]
 });
 
-$('#file-submitter').show();
+$('#restore-details').show();
 $('#file-submitter').
   append('<input type="hidden" name="location" value="<%= escape_javascript(@location) %>"/>');
+$('#restore_data_point').html("<%= @restore_point || Time.now.strftime('%Y-%m-%d %H:%M:%S') %>");
+$('#restore_data_location').html("<%= @location %>");
+$('#restore_data_client').html("<%= @restore_client || @client.name %>");

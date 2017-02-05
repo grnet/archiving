@@ -85,12 +85,12 @@ class ClientsController < ApplicationController
   def run_restore
     @location = params[:restore_location].blank? ? '/tmp/bacula_restore' : params[:restore_location]
     fileset = params[:fileset]
-    restore_point = fetch_restore_point
-    restore_client = fetch_restore_client
+    fetch_restore_point
+    fetch_restore_client
 
     if params[:commit] == 'Restore All Files'
       if @location.nil? || fileset.nil? ||
-        !@client.host.restore(fileset, @location, restore_point, restore_client)
+        !@client.host.restore(fileset, @location, @restore_point, @restore_client)
         flash[:error] = 'Something went wrong, try again later'
       else
         msg = "Restore job issued successfully, files will be soon available in #{@location}"
@@ -99,8 +99,8 @@ class ClientsController < ApplicationController
       end
       render js: "window.location = '#{client_path(@client)}'"
     else
-      session[:job_ids] = @client.get_job_ids(fileset, restore_point)
-      session[:restore_client] = restore_client
+      session[:job_ids] = @client.get_job_ids(fileset, @restore_point)
+      session[:restore_client] = @restore_client
       Bvfs.new(@client, session[:job_ids]).update_cache
       render 'select_files'
     end
@@ -159,7 +159,7 @@ class ClientsController < ApplicationController
 
   def fetch_restore_client
     if params[:restore_client]
-      Client.for_user(current_user.id).find_by(ClientId: params[:restore_client]).try(:name)
+      @restore_client = Client.for_user(current_user.id).find_by(ClientId: params[:restore_client]).try(:name)
     end
   end
 
@@ -177,13 +177,13 @@ class ClientsController < ApplicationController
         params[:restore_date].blank?
       return nil
     end
-    restore_point =
-      "#{params[:restore_date]} #{params['restore_time(4i)']}:#{params['restore_time(5i)']}:00"
-    begin
-      DateTime.strptime(restore_point, '%Y-%m-%d %H:%M:%S')
-    rescue
-      return nil
-    end
-    restore_point
+    @restore_point =
+      begin
+        DateTime.strptime(
+          "#{params[:restore_date]} #{params['restore_time(4i)']}:#{params['restore_time(5i)']}:00",
+          '%Y-%m-%d %H:%M:%S')
+      rescue
+        nil
+      end
   end
 end
