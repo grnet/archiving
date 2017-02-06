@@ -134,7 +134,7 @@ class Fileset < ActiveRecord::Base
   end
 
   def included_files
-    include_directions['file'].map { |f| "    File = #{f}" }
+    include_directions['file'].map { |f| "    File = \"#{f}\"" }
   end
 
   def included_wildfile
