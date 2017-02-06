@@ -94,7 +94,7 @@ class ClientsController < ApplicationController
         flash[:error] = 'Something went wrong, try again later'
       else
         msg = "Restore job issued successfully, files will be soon available in #{@location}"
-        msg << " of client #{restore_client}" if restore_client.present?
+        msg << " of client #{@restore_client}" if @restore_client.present?
         flash[:success] = msg
       end
       render js: "window.location = '#{client_path(@client)}'"
