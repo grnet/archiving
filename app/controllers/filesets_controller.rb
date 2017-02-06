@@ -1,7 +1,7 @@
 class FilesetsController < ApplicationController
   before_action :require_logged_in
   before_action :fetch_host, only: [:new, :create, :show, :edit, :update]
-  before_action :fetch_job_id, only: [:new, :create, :edit, :update]
+  before_action :fetch_job_id, only: [:new, :create, :edit, :update, :show]
   before_action :fetch_fileset, only: [:show, :edit, :update]
 
   # GET /hosts/:host_id/filesets/new

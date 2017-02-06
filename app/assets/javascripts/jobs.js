@@ -23,6 +23,7 @@ function showSchedule() {
 function showFileset() {
   var filesetId = $("#job_template_fileset_id").val();
   $.ajax({
-    url: "/hosts/" + hostId + "/filesets/" + filesetId
+    url: "/hosts/" + hostId + "/filesets/" + filesetId,
+    data: jobIdParam
   });
 }
