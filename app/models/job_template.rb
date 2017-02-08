@@ -115,10 +115,10 @@ class JobTemplate < ActiveRecord::Base
     ]
 
     if client_before_run_file.present?
-      result += ["Client Run Before Job = \"#{client_before_run_file}\""]
+      result += ["Client Run Before Job = \"#{Shellwords.escape(client_before_run_file)}\""]
     end
     if client_after_run_file.present?
-      result += ["Client Run After Job = \"#{client_after_run_file}\""]
+      result += ["Client Run After Job = \"#{Shellwords.escape(client_after_run_file)}\""]
     end
 
     result
