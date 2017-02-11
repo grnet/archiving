@@ -22,3 +22,33 @@
     </table>
   </div>
 <% end %>
+
+<div id="reject-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading">Reject host <em></em></div>
+        <div class="panel-body">
+          <%= bootstrap_form_tag(url: reject_admin_host_path('host_id'),
+                                 method: :post) do |f| %>
+            <%= f.text_area :reason, cols: 40, rows: 5, placeholder: '...', required: true %>
+            <%= f.submit 'Reject', class: "btn btn-danger" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#reject-modal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var host_id = button.data('id');
+    var host_name = button.data('name');
+    var form = $(this).find('form');
+
+    form_url = form.attr('action');
+    form.attr('action', form_url.replace('host_id', host_id));
+    $(this).find('em').text(host_name);
+  })
+</script>

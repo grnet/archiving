@@ -9,5 +9,8 @@
       class: "btn btn-success", role: "button",
       data: { confirm: "Client #{host.name} will be ready to be dispatched to Bacula" }
     %>
+    <%= link_to 'Reject', '#', class: "btn btn-danger", role: "button",
+                data: { toggle: 'modal', target: '#reject-modal',
+                        id: host.id, name: host.name } %>
   </td>
 </tr>

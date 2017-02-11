@@ -99,6 +99,7 @@ Rails.application.routes.draw do
 
       member do
         post :verify
+        post :reject
         put :set_quota
       end
     end

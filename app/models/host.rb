@@ -265,6 +265,29 @@ class Host < ActiveRecord::Base
     false
   end
 
+  # Creates the RejectedHost and then destroys the initial host
+  #
+  # @param rejecter_id[Integer] the responsible admin's id
+  # @param reason[Text] the reject reason
+  def reject(rejecter_id, reason)
+    transaction do
+      begin
+        rejected_host = RejectedHost.new
+        rejected_host.user = users.first
+        rejected_host.rejecter_id = rejecter_id
+        rejected_host.fqdn = fqdn
+        rejected_host.name = name
+        rejected_host.host_created_at = created_at
+        rejected_host.reason = reason
+        rejected_host.save!
+        destroy!
+        true
+      rescue
+        false
+      end
+    end
+  end
+
   # Determines if a host can be disabled or not.
   # Equivalent to is_deployed
   #
