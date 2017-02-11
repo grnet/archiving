@@ -12,6 +12,18 @@ class UserMailer < ActionMailer::Base
     mail(to: user_emails, subject: s)
   end
 
+  # Notifies the host's owners that the host has been rejected by an admin
+  #
+  # @param user_emails[Array] the ownerss emails
+  # @param host[String] the host's FQDN
+  # @param reason[String] the rejection reason
+  def notify_for_rejection(user_emails, host, reason)
+    @host = host
+    @reason = reason
+    s = "[Archiving] Host #{host.name} rejection"
+    mail(to: user_emails, subject: s)
+  end
+
   # Notifies the user that another user has requested that he should be able to
   # manage the given client's backups
   #

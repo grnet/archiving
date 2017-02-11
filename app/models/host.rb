@@ -270,21 +270,21 @@ class Host < ActiveRecord::Base
   # @param rejecter_id[Integer] the responsible admin's id
   # @param reason[Text] the reject reason
   def reject(rejecter_id, reason)
+    return false if verified?
+
     transaction do
-      begin
-        rejected_host = RejectedHost.new
-        rejected_host.user = users.first
-        rejected_host.rejecter_id = rejecter_id
-        rejected_host.fqdn = fqdn
-        rejected_host.name = name
-        rejected_host.host_created_at = created_at
-        rejected_host.reason = reason
-        rejected_host.save!
-        destroy!
-        true
-      rescue
-        false
-      end
+      rejected_host = RejectedHost.new
+      rejected_host.user = users.first
+      rejected_host.rejecter_id = rejecter_id
+      rejected_host.fqdn = fqdn
+      rejected_host.name = name
+      rejected_host.host_created_at = created_at
+      rejected_host.reason = reason
+      rejected_host.save!
+      recipients = users.pluck(:email)
+      destroy!
+      UserMailer.notify_for_rejection(recipients, self, reason).deliver if recipients.any?
+      true
     end
   end
 

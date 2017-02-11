@@ -20,6 +20,7 @@ class Admin::HostsController < Admin::BaseController
   # POST /admin/hosts/1/reject
   def reject
     msg = 'You need to provide a reason' if params[:reason].blank?
+    msg = 'Host is already verified' if @host.verified?
 
     if msg.blank?
       if @host.reject(current_user.id, params[:reason])
