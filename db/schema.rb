@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161127123038) do
+ActiveRecord::Schema.define(version: 20170211130636) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -97,6 +97,19 @@ ActiveRecord::Schema.define(version: 20161127123038) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "rejected_hosts", force: true do |t|
+    t.binary   "name",            limit: 255, null: false
+    t.binary   "fqdn",            limit: 255, null: false
+    t.integer  "user_id"
+    t.integer  "rejecter_id"
+    t.text     "reason"
+    t.datetime "host_created_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rejected_hosts", ["name"], name: "index_arch.rejected_hosts_on_name", using: :btree
 
   create_table "schedule_runs", force: true do |t|
     t.integer  "schedule_id"
