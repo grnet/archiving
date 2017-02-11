@@ -6,6 +6,11 @@ class Admin::HostsController < Admin::BaseController
     @hosts = Host.unverified
   end
 
+  # GET /admin/hosts/rejected
+  def rejected
+    @hosts = RejectedHost.order(created_at: :desc)
+  end
+
   # POST /admin/hosts/1/verify
   def verify
     @host.verify(current_user.id)

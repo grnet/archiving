@@ -60,6 +60,13 @@ $(document).ready(function() {
                         }],
                 });
         };
+        if ($('table#rejected_hosts').size() > 0) {
+                $('table#rejected_hosts').DataTable({
+                        paging: false,
+                        order: [],
+                        columnDefs: [],
+                });
+        };
         if ($('table#logs').size() > 0) {
                 $('table#logs').DataTable({
                         paging: false,

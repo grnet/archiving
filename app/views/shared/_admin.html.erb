@@ -5,8 +5,21 @@
   <%= content_tag(:li, active_class(admin_clients_path, true)) do %>
     <%= link_to 'Clients', admin_clients_path %>
   <% end %>
-  <%= content_tag(:li, active_class(unverified_admin_hosts_path, true)) do %>
-    <%= link_to 'Unverified Clients', unverified_admin_hosts_path %>
+  <%= content_tag(:li,
+                  { class: "dropdown #{active_class(unverified_admin_hosts_path)[:class]}" }) do %>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      Unverified Clients <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <%= link_to 'Unverified Clients', unverified_admin_hosts_path %>
+      </li>
+      <li>
+        <%= link_to 'Rejected Clients', rejected_admin_hosts_path %>
+      </li>
+    </ul>
+  <%#= content_tag(:li, active_class(unverified_admin_hosts_path, true)) do %>
+    <%#= link_to 'Unverified Clients', unverified_admin_hosts_path %>
   <% end %>
   <%= content_tag(:li, { class: "dropdown #{active_class(admin_users_path)[:class]}" }) do %>
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

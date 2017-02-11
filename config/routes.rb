@@ -95,6 +95,7 @@ Rails.application.routes.draw do
     resources :hosts, only: [] do
       collection do
         get :unverified
+        get :rejected
       end
 
       member do

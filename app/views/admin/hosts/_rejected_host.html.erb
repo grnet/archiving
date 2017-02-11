@@ -1,0 +1,9 @@
+<tr>
+  <td><%= rejected_host.name %></td>
+  <td><%= rejected_host.fqdn %></td>
+  <td><%= I18n.l(rejected_host.host_created_at, format: :long) %></td>
+  <td><%= link_to rejected_host.user.display_name, admin_user_path(rejected_host.user) %></td>
+  <td><%= I18n.l(rejected_host.rejected_at, format: :long) %></td>
+  <td><%= rejected_host.reason %></td>
+  <td><%= link_to rejected_host.rejecter.username, admin_user_path(rejected_host.rejecter.id) %></td>
+</tr>
