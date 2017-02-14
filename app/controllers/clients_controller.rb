@@ -179,9 +179,9 @@ class ClientsController < ApplicationController
     end
     @restore_point =
       begin
-        DateTime.strptime(
-          "#{params[:restore_date]} #{params['restore_time(4i)']}:#{params['restore_time(5i)']}:00",
-          '%Y-%m-%d %H:%M:%S')
+        DateTime.parse(
+          "#{params[:restore_date]} #{params['restore_time(4i)']}:#{params['restore_time(5i)']}:00").
+        strftime('%Y-%m-%d %H:%M:%S')
       rescue
         nil
       end
