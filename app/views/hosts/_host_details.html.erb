@@ -1,4 +1,4 @@
-<div class="col-xs-4">
+<div class="col-xs-6 col-md-4">
   <div class="table-responsive">
     <table class="table table-striped table-bordered table-condensed">
       <tr>
@@ -47,58 +47,46 @@
       </tr>
     </table>
   </div>
+</div>
 
-  <div class='row'>
-    <div class='col-xs-2'>
-      <%= link_to edit_host_path(@host), class: "btn btn-default", role: "button" do %>
-        <label class="glyphicon glyphicon-edit text-primary"></label>
-        Edit
-      <% end %>
-    </div>
+<div class='col-xs-12'>
+  <%= link_to edit_host_path(@host), class: "btn btn-default", role: "button" do %>
+    <label class="glyphicon glyphicon-edit text-primary"></label>
+    Edit
+  <% end %>
 
-    <% if @host.can_be_disabled? %>
-      <div class='col-xs-2'>
-        <%= link_to disable_host_path(@host), method: :post,
-          data: { confirm: 'This will disable the client. Are you sure?' },
-          class: "btn btn-default", role: "button" do %>
-          <label class="glyphicon glyphicon-ban-circle text-warning"></label>
-          Disable
-        <% end %>
-      </div>
+  <% if @host.can_be_disabled? %>
+    <%= link_to disable_host_path(@host), method: :post,
+      data: { confirm: 'This will disable the client. Are you sure?' },
+      class: "btn btn-default", role: "button" do %>
+      <label class="glyphicon glyphicon-ban-circle text-warning"></label>
+      Disable
     <% end %>
+  <% end %>
 
-    <div class='col-xs-2'>
-      <%= link_to host_path(@host), method: :delete,
-        data: { confirm: 'This will remove your client from the Backup service. Are you sure?' },
-        class: "btn btn-default", role: "button" do %>
-        <label class="glyphicon glyphicon-trash text-danger"></label>
-        Remove
-      <% end %>
-    </div>
+  <%= link_to host_path(@host), method: :delete,
+    data: { confirm: 'This will remove your client from the Backup service. Are you sure?' },
+    class: "btn btn-default", role: "button" do %>
+    <label class="glyphicon glyphicon-trash text-danger"></label>
+    Remove
+  <% end %>
 
-    <% if @host.needs_simple_config? %>
-      <div class='col-xs-2'>
-        <%= link_to new_host_simple_config_path(@host), role: 'button', class: 'btn btn-default' do %>
-          <label class="glyphicon glyphicon-cog text-primary"></label>
-          Configure
-        <% end %>
-      </div>
+  <% if @host.needs_simple_config? %>
+    <%= link_to new_host_simple_config_path(@host), role: 'button', class: 'btn btn-default' do %>
+      <label class="glyphicon glyphicon-cog text-primary"></label>
+      Configure
     <% end %>
+  <% end %>
 
-    <% if @host.needs_dispatch? %>
-      <div class='col-xs-4 pull-right text-right'>
-        <%= link_to submit_config_host_path(@host), method: :post,
-                    class: 'btn btn-success', role: 'button' do %>
-          <label class="glyphicon glyphicon-cloud-upload"></label>
-          Deploy Changes
-        <% end %>
-      </div>
+  <% if @host.needs_dispatch? %>
+    <%= link_to submit_config_host_path(@host), method: :post,
+      class: 'btn btn-success', role: 'button' do %>
+      <label class="glyphicon glyphicon-cloud-upload"></label>
+      Deploy Changes
     <% end %>
-    <% if @host.needs_revoke? %>
-      <div class='col-xs-4 pull-right text-right'>
-        <%= link_to 'Remove From Backup service', revoke_host_path(@host), method: :delete,
-                    class: 'btn btn-danger', role: 'button' %>
-      </div>
-    <% end %>
-  </div>
+  <% end %>
+  <% if @host.needs_revoke? %>
+    <%= link_to 'Remove From Backup service', revoke_host_path(@host), method: :delete,
+      class: 'btn btn-danger', role: 'button' %>
+  <% end %>
 </div>

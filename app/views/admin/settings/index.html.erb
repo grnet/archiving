@@ -7,42 +7,30 @@
 <% end %>
 
 <div class="row">
-  <div class="col-xs-4">
+  <div class="col-xs-10 col-md-4">
     <h3>Client Settings</h3>
-  </div>
-  <div class="col-xs-4">
-    <h3>Job Settings</h3>
-  </div>
-  <div class="col-xs-4">
-    <h3>Pool Settings</h3>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-4">
     <%= table_for(ConfigurationSetting.current_client_settings_human) %>
   </div>
-  <div class="col-xs-4">
+  <div class="col-xs-10 col-md-4">
+    <h3>Job Settings</h3>
     <%= table_for(ConfigurationSetting.current_job_settings) %>
   </div>
-  <div class="col-xs-4">
+  <div class="col-xs-10 col-md-4">
+    <h3>Pool Settings</h3>
     <%= table_for(ConfigurationSetting.current_pool_settings) %>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-xs-2">
+  <div class="col-xs-12">
     <%= link_to 'Change Config',
       @settings.persisted? ? edit_admin_setting_path(@settings) : new_admin_setting_path,
-      class: 'btn btn-primary', role: 'button'
-    %>
-  </div>
-  <% if @settings.persisted? %>
-    <div class="col-xs-2">
+      class: 'btn btn-primary', role: 'button' %>
+    <% if @settings.persisted? %>
       <%= link_to 'Restore to defaults', reset_admin_setting_path(@settings), method: :delete,
           data: { confirm: 'This will reset the configuration to the defaults' },
           class: 'btn btn-danger', role: 'button'
       %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
