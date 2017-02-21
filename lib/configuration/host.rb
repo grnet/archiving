@@ -85,25 +85,20 @@ module Configuration
 
     # Fetches the FileDaemon resource for the file-daemon configuration
     def bacula_fd_filedaemon_config
-      disclaimer = ['','',
-        '# if you have a Windows machine to backup, then you should change',
-        '# the above configuration as below:',
-        '#WorkingDirectory = "C:/Program Files/Bacula/workdir"',
-        '#Pid Directory = "C:/Program Files/Bacula/piddir"'
+      [
+        'FileDaemon {',
+        "  Name = #{name}",
+        "  FDport = #{port}",
+        '  WorkingDirectory = /var/lib/bacula',
+        '  Pid Directory = /var/run/bacula',
+        '# if you have a Windows machine to backup, then you',
+        '# should change the above configuration as below:',
+        '# WorkingDirectory = "C:/Program Files/Bacula/workdir"',
+        '# Pid Directory = "C:/Program Files/Bacula/piddir"',
+        '  Maximum Concurrent Jobs = 10',
+        '  FDAddress = 0.0.0.0',
+        '}'
       ].join("\n")
-
-      config =
-        [
-          'FileDaemon {',
-          "  Name = #{name}",
-          "  FDport = #{port}",
-          '  WorkingDirectory = /var/lib/bacula',
-          '  Pid Directory = /var/run/bacula',
-          '  Maximum Concurrent Jobs = 10',
-          '  FDAddress = 0.0.0.0',
-          '}'
-        ].join("\n")
-      config + disclaimer
     end
 
     # Fetches the Message resource for the file-daemon configuration file
