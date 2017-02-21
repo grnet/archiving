@@ -1,10 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<%= breadcrumb_with Client: admin_client_path(@client),
-                    Jobs: jobs_admin_client_path(@client),
-                    Stats: stats_admin_client_path(@client),
-                    Logs: logs_admin_client_path(@client),
-                    Config: configuration_admin_client_path(@client) %>
+<%= tabs_with Client: admin_client_path(@client),
+              'Recent Jobs' => jobs_admin_client_path(@client),
+              Stats: stats_admin_client_path(@client),
+              Logs: logs_admin_client_path(@client),
+              Config: configuration_admin_client_path(@client) %>
 
 <h2>
   <%= @client.name %>

@@ -83,6 +83,20 @@ module ApplicationHelper
     end
   end
 
+  # Constructs a tabbed navigation menu out of the given options
+  #
+  # @param options[Hash] a hash containing the menu links in name: path sets
+  # @return an html ul menu
+  def tabs_with(options)
+    content_tag(:ul, class: 'nav nav-tabs', role: 'tablist') do
+      options.map { |title, path|
+        content_tag(:li, active_class(path).merge({ role: 'presentation' })) do
+          link_to title, path, 'role' => 'tab', 'aria-controls' => title.downcase
+        end
+      }.inject { |result, element| result.concat(element) }
+    end
+  end
+
   # Constructs a list with the given array elements
   #
   # @example:
