@@ -11,7 +11,7 @@
                                control_col: 'col-xs-8') do |f| %>
           <%= f.text_field :name %>
           <hr />
-          <%= f.select :day, options_for_select(SimpleConfiguration.days.keys, @simple_config.day), require: true %>
+          <%= f.select :day, options_for_select(SimpleConfiguration::DAY_NAMES, @simple_config.day), require: true %>
           <%= f.number_field :hour, value: @simple_config.hour, min: 0, max: 23 %>
           <%= f.number_field :minute, value: @simple_config.minute, min: 0, max: 59 %>
           <hr />

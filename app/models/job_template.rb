@@ -81,6 +81,7 @@ class JobTemplate < ActiveRecord::Base
   # Creates a default job resource for a simple config
   def default_resource(name, time_hex)
     self.name = "job_#{name}_#{time_hex}"
+    self.enabled = true
 
     save!
 

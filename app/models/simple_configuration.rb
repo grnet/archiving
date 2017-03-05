@@ -1,7 +1,7 @@
-class SimpleConfiguration < ActiveRecord::Base
-  establish_connection ARCHIVING_CONF
+class SimpleConfiguration
+  include ActiveModel::Model
 
-  attr_accessor :included_files
+  attr_accessor :included_files, :day, :hour, :minute, :name
 
   INCLUDED_FILE_OPTIONS =
     %w{/ /bin /boot /etc /home /lib /media /mnt /opt /root /run /sbin /srv /usr /var}
@@ -16,22 +16,19 @@ class SimpleConfiguration < ActiveRecord::Base
       sunday: :sun
   }
 
-  enum day: { monday: 0, tuesday: 1, wednesday: 2, thursday: 3, friday: 4, saturday: 5, sunday: 6 }
+  DAY_NAMES = %w{monday tuesday wednesday thursday friday saturday sunday }
 
-  belongs_to :host
-
-  validates :host, :day, :hour, :minute, presence: true
+  validates_inclusion_of :day, in: DAY_NAMES
+  validates :day, :hour, :minute, presence: true
   validates :hour, numericality: { greater_than_or_equal: 0, less_then: 24 }
   validates :minute, numericality: { greater_than_or_equal: 0, less_then: 60 }
   validates_with NameValidator
-
-  before_save :sanitize_included_files
 
   # Initializes the configuration's 3 parameters randomnly.
   # Default configurations must be randomized in order to distribute the backup server's
   # load.
   def randomize
-    self.day = SimpleConfiguration.days.keys.sample
+    self.day = DAY_NAMES.sample
     self.hour = rand(24)
     self.minute = rand(60)
   end
@@ -50,18 +47,16 @@ class SimpleConfiguration < ActiveRecord::Base
   # * job
   #
   # Each resource handles its own defaults.
-  def create_config
+  #
+  # @param host[Host] the host that will receive the config
+  def create_config(host)
+    self.included_files = included_files.keep_if(&:present?).uniq.presence
+
     time_hex = Digest::MD5.hexdigest(Time.now.to_f.to_s).first(4)
 
     schedule = host.schedules.new.default_resource(time_hex, day_short, hour, minute)
     fileset = host.filesets.new.default_resource(name, time_hex, files: included_files)
     host.job_templates.new(fileset_id: fileset.id, schedule_id: schedule.id).
       default_resource(name, time_hex)
-  end
-
-  private
-
-  def sanitize_included_files
-    self.included_files = included_files.keep_if(&:present?).uniq.presence
   end
 end

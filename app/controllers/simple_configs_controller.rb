@@ -4,15 +4,15 @@ class SimpleConfigsController < ApplicationController
 
   # GET /hosts/1/simple_configs/new
   def new
-    @simple_config = @host.simple_configurations.new
+    @simple_config = SimpleConfiguration.new
     @simple_config.randomize
   end
 
   # POST /hosts/1/simple_configs
   def create
-    @simple_config = @host.simple_configurations.new(fetch_config_params)
-    if @simple_config.save
-      @simple_config.create_config
+    @simple_config = SimpleConfiguration.new(fetch_config_params)
+
+    if @simple_config.valid? && @simple_config.create_config(@host)
       redirect_to host_path(@host, anchor: :jobs)
     else
       render :new
