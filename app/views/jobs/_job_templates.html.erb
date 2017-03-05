@@ -21,7 +21,7 @@
     </table>
   </div>
   <%= button_or_disabled_with_label(
-    @host.blocked?, 'Add Job', new_host_job_path(host_id: @host.id),
+    @host.blocked?, 'Add Job', new_host_simple_config_path(host_id: @host.id),
     class: "btn btn-default", role: "button",
     icon_class: 'glyphicon glyphicon-plus', text_class: 'text-success') %>
 </div>
