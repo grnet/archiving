@@ -7,9 +7,23 @@ class Admin::ClientsController < Admin::BaseController
   #
   # GET /admin/clients
   def index
-    @clients = Client.includes(:jobs).all
+    @clients = Client.joins(:host).includes(:jobs).distinct.all
     @client_ids = @clients.map(&:id)
     fetch_jobs_info
+  end
+
+  # Shows all clients that are not in Archiving but are still persisted to bacula
+  #
+  # GET /admin/clients/obsolete
+  def obsolete
+    in_archiving = Client.joins(:host).distinct.pluck(:ClientId)
+    @clients = Client.includes(:jobs).where.not(ClientId: in_archiving).
+      distinct.all
+    @client_ids = @clients.map(&:id)
+    fetch_jobs_info
+    @obsolete = true
+
+    render :index
   end
 
   # Shows a specific client

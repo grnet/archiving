@@ -90,6 +90,10 @@ Rails.application.routes.draw do
         post :unblock
         delete :revoke
       end
+
+      collection do
+        get :obsolete
+      end
     end
 
     resources :hosts, only: [] do

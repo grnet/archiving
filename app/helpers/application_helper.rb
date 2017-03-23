@@ -61,8 +61,8 @@ module ApplicationHelper
   # @param partial[Boolean] forces a left partial match
   #
   # @return [Hash] { class: 'active' } if the given path is the current page
-  def active_class(path, partial = false)
-    if current_page?(path) || (partial && request.path.starts_with?(path))
+  def active_class(paths, partial = false)
+    if [paths].flatten.any? { |path| current_page?(path) || (partial && request.path.starts_with?(path)) }
       { class: 'active' }
     else
       {}

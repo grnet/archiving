@@ -1,4 +1,11 @@
-<h1>Bacula Clients</h1>
+<% if @obsolete %>
+  <h1 data-toggle="tooltip" title="These clients are not in Archiving but they are present to the Bacula db">
+    Obsolete Clients
+    <small><label class="glyphicon glyphicon-question-sign"></label></small>
+  </h1>
+<% else %>
+  <h1>Bacula Clients</h1>
+<% end %>
 
 <div class="datatable-wrapper">
   <div class="table-responsive">
