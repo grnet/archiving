@@ -30,6 +30,20 @@ body {
   float: right;
 }
 
+footer.footer {
+  position: fixed;
+  width: 100%;
+  background-color: #F7F7F7;
+  color: #b4b4bf;
+  text-align: center;
+  padding-top: 5px;
+  bottom: 0px;
+}
+
+.footer a {
+  color: #08c;
+}
+
 .graybox {
   max-width: 500px;
   margin-right: 0;
