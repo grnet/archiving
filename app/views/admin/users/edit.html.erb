@@ -6,7 +6,8 @@
       <div class="panel-heading">
         <h3>Edit Admin</h3>
 
-        <%= render partial: 'form', locals: { url: admin_user_path(@user), method: :patch } %>
+        <%= render partial: 'form', locals: { url: admin_user_path(@user), method: :patch,
+                                              new_user: false } %>
       </div>
     </div>
   </div>

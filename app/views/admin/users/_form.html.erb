@@ -1,8 +1,8 @@
 <%= bootstrap_form_for(@user, url: url, method: method, layout: :horizontal,
                        label_col: 'col-xs-3', control_col: 'col-xs-8') do |f| %>
   <%= f.text_field :username, required: true %>
-  <%= f.password_field :password, required: true %>
-  <%= f.password_field :retype_password, required: true %>
+  <%= f.password_field :password, required: new_user %>
+  <%= f.password_field :retype_password, required: new_user %>
   <%= f.email_field :email, required: true %>
 
   <div class="form-group">

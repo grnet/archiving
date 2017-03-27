@@ -6,7 +6,8 @@
       <div class="panel-heading">
         <h3>New Admin</h3>
 
-        <%= render partial: 'form', locals: { url: admin_users_path, method: :post } %>
+        <%= render partial: 'form', locals: { url: admin_users_path, method: :post,
+                                              new_user: true } %>
       </div>
     </div>
   </div>

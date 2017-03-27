@@ -81,6 +81,20 @@ class User < ActiveRecord::Base
     save
   end
 
+  # Updates the user and handles the password field accordingly
+  #
+  # @param attrs[Hash] the desired attributes
+  def update_attributes_and_password(attrs)
+    self.assign_attributes(attrs)
+    self.valid?
+    if self.password.present? && confirm_passwords
+      self.password_hash = Digest::SHA256.hexdigest(self.password + Rails.application.secrets.salt)
+    end
+    if self.errors.empty?
+      self.save
+    end
+  end
+
   # Stores a hashed password as a password_hash
   #
   # @param a_password[String] the user submitted password

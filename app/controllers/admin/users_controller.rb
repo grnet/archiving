@@ -54,15 +54,15 @@ class Admin::UsersController < Admin::BaseController
 
   # PATCH /admin/users/1/update
   def update
-    if @user.admin? && @user.update_attributes(fetch_params)
+    if @user.admin? && @user.update_attributes_and_password(fetch_params)
       flash[:success] = 'User updated'
       redirect_to admin_user_path(@user)
     elsif @user.admin?
       flash[:error] = 'User not updated'
-      redirect_to edit_admin_user_path(@user)
+      render :edit
     else
       flash[:error] = "User is #{@user.user_type} and thus accepts no updates"
-      redirect_to admin_user_path(@user)
+      render :edit
     end
   end
 
