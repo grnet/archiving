@@ -36,12 +36,11 @@ html {
 }
 
 .main-container {
-  min-height: 100%;
-  margin: 0 auto -110px;
+  min-height: calc(100% - 110px);
+  margin: 0 auto;
 }
 
 footer.footer {
-  position: relative;
   width: 100%;
   color: #b4b4bf;
   text-align: center;
