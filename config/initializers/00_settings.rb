@@ -15,3 +15,11 @@ Archiving.settings skip_host_fetch_time_period: 1.month
 Archiving.settings mail_settings: YAML::load(File.open("#{Rails.root}/config/mailer.yml"))[Rails.env].symbolize_keys
 
 Archiving.settings client_quota: 100.megabytes
+
+jira_src = Rails.application.secrets.jira_src
+jira_field = Rails.application.secrets.jira_custom_field_name
+jira_value = Rails.application.secrets.jira_custom_field_value
+
+if jira_src && jira_field && jira_value
+  Archiving.settings jira_src: jira_src
+end

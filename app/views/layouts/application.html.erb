@@ -21,15 +21,10 @@
         <div class="col-xs-12">
           <%= flash_messages %>
           <%= yield %>
-
-          <% if current_user %>
-            <script type="text/javascript"
-                    src="https://tts.grnet.gr/jira/s/0d8377abaee87897fb536fce0d7ee820-T/en_US-xvtzbt/6346/19/1.4.16/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=7e9ca8be">
-            </script>
-          <% end %>
         </div> <!-- /layout-col -->
       </div> <!-- /layout-row -->
     </div> <!-- /container -->
     <%= render 'shared/footer' %>
+    <%= render 'jira' %>
   </body>
 </html>

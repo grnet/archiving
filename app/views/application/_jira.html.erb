@@ -1,0 +1,21 @@
+<% if current_user && Archiving.settings[:jira_src] %>
+  <script type="text/javascript" src="<%= Archiving.settings[:jira_src] %>"></script>
+  <script type="text/javascript">
+    $(function(){
+      window.ATL_JQ_PAGE_PROPS = $.extend(window.ATL_JQ_PAGE_PROPS, {
+
+        // ==== custom trigger function ====
+        triggerFunction : function( showCollectorDialog ) {
+          $('#atlwdg-trigger').on( 'click', function(e) {
+            e.preventDefault();
+            showCollectorDialog();
+          });
+        },
+        // ==== we add the code below to set the field values ====
+        fieldValues: {
+          '<%= Rails.application.secrets.jira_custom_field_name %>':'<%= Rails.application.secrets.jira_custom_field_value %>',
+        }
+      });
+    });
+  </script>
+<% end %>
