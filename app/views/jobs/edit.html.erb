@@ -1,17 +1,19 @@
 <h1>Edit Job Template <%= @job.name %></h1>
 
 <div class="row">
-  <div class="col-xs-4">
+  <div class="col-lg-4 col-md-5 col-sm-6">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3> Job Attributes</h3>
       </div>
       <br />
-      <%= render 'form' %>
+      <div class="panel-body">
+        <%= render 'form' %>
+      </div>
     </div>
   </div>
 
-  <div class="col-xs-4">
+  <div class="col-lg-5 col-md-6 col-sm-6">
     <div id="fileset">
       <% fileset = @fileset || @job.fileset %>
       <%= render partial: 'fileset', locals: { fileset: fileset } if fileset %>
