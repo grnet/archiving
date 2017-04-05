@@ -9,6 +9,7 @@
                   { class: ['dropdown',
                              active_class([obsolete_admin_clients_path,
                                            unverified_admin_hosts_path,
+                                           pending_admin_hosts_path,
                                            rejected_admin_hosts_path])[:class]].join(' ')}) do %>
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
       Inactive Clients <span class="caret"></span>
@@ -19,6 +20,9 @@
       </li>
       <li>
         <%= link_to 'Unverified Clients', unverified_admin_hosts_path %>
+      </li>
+      <li>
+        <%= link_to 'Pending Clients', pending_admin_hosts_path %>
       </li>
       <li>
         <%= link_to 'Rejected Clients', rejected_admin_hosts_path %>

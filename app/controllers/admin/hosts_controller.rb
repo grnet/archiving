@@ -6,6 +6,11 @@ class Admin::HostsController < Admin::BaseController
     @hosts = Host.unverified
   end
 
+  # GET /admin/hosts/pending
+  def pending
+    @hosts = Host.where(verified: true).not_baculized
+  end
+
   # GET /admin/hosts/rejected
   def rejected
     @hosts = RejectedHost.order(created_at: :desc)

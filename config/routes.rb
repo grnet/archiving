@@ -100,6 +100,7 @@ Rails.application.routes.draw do
       collection do
         get :unverified
         get :rejected
+        get :pending
       end
 
       member do
