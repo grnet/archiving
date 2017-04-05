@@ -1,46 +1,26 @@
-<%= render partial: 'header' %>
-
-<div class="row right">
-  <%= link_to '#', data: { toggle: 'modal', target: ".js-quota:first"},
-              class: "btn btn-default", role: "button" do %>
-    <label class="glyphicon glyphicon-edit text-primary"></label>
-    Set Quota
-  <% end %>
-
-  <% if @client.host.can_block? %>
-    <%= link_to 'Lock client', block_admin_client_path(@client), method: :post,
-      data: { confirm: 'This will disable and lock the client. Are you sure?' },
-      class: "btn btn-warning", role: "button" %>
-  <% end %>
-
-  <% if @client.host.blocked? %>
-    <%= link_to 'Unlock client', unblock_admin_client_path(@client), method: :post,
-      data: { confirm: 'This will unlock the client. Are you sure?' },
-      class: "btn btn-warning", role: "button" %>
-  <% end %>
-
-  <%= link_to 'Remove client', revoke_admin_client_path(@client), method: :delete,
-    data: { confirm: 'This will REMOVE the client from Bacula. Are you sure?' },
-    class: "btn btn-danger", role: "button" %>
-</div>
-
+<%= render partial: 'header', locals: { actions: true } %>
 
 <div class="row">
-  <div class="col-xs-4">
-    <h3>Client Details</h3>
+  <div class="col-xs-12 col-sm-10 col-md-6 col-lg-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>Client Details</h3>
+      </div>
+      <div class="panel-body">
+        <%= render partial: 'client_details' %>
+      </div>
+    </div>
   </div>
-  <div class="col-xs-6">
-    <h3>Bacula Jobs</h3>
-  </div>
-</div>
-
-<div class="row">
-  <%= render partial: 'client_details' %>
-  <div class="col-xs-8">
-    <div class="row">
-      <% if @client.host %>
-        <%= render partial: 'jobs' %>
-      <% end %>
+  <div class="col-xs-12 col-sm-10 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>Bacula Jobs</h3>
+      </div>
+      <div class="panel-body">
+        <% if @client.host %>
+          <%= render partial: 'jobs' %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

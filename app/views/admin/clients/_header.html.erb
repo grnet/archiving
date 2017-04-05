@@ -1,12 +1,40 @@
 <p id="notice"><%= notice %></p>
 
+<h2>
+  <%= @client.name %>
+  <%= host_status_label(@client.host) %>
+</h2>
+
+<% if local_assigns[:actions].presence == true %>
+  <div class="row right">
+    <%= link_to '#', data: { toggle: 'modal', target: ".js-quota:first"},
+                class: "btn btn-default", role: "button" do %>
+      <label class="glyphicon glyphicon-edit text-primary"></label>
+      Set Quota
+    <% end %>
+
+    <% if @client.host.can_block? %>
+      <%= link_to 'Lock client', block_admin_client_path(@client), method: :post,
+        data: { confirm: 'This will disable and lock the client. Are you sure?' },
+        class: "btn btn-warning", role: "button" %>
+    <% end %>
+
+    <% if @client.host.blocked? %>
+      <%= link_to 'Unlock client', unblock_admin_client_path(@client), method: :post,
+        data: { confirm: 'This will unlock the client. Are you sure?' },
+        class: "btn btn-warning", role: "button" %>
+    <% end %>
+
+    <%= link_to 'Remove client', revoke_admin_client_path(@client), method: :delete,
+      data: { confirm: 'This will REMOVE the client from Bacula. Are you sure?' },
+      class: "btn btn-danger", role: "button" %>
+  </div>
+<% end %>
+
 <%= tabs_with Client: admin_client_path(@client),
               'Recent Jobs' => jobs_admin_client_path(@client),
               Stats: stats_admin_client_path(@client),
               Logs: logs_admin_client_path(@client),
               Config: configuration_admin_client_path(@client) %>
 
-<h2>
-  <%= @client.name %>
-  <%= host_status_label(@client.host) %>
-</h2>
+<br />
