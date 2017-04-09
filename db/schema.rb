@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170305140326) do
+ActiveRecord::Schema.define(version: 20170408130414) do
 
   create_table "configuration_settings", force: true do |t|
     t.string   "job",        default: "{}"
@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 20170305140326) do
     t.string   "password_hash"
     t.datetime "login_at"
     t.datetime "hosts_updated_at"
-    t.string   "temp_hosts",                 default: "[]"
+    t.string   "temp_hosts",       limit: 5000, default: "[]"
     t.string   "token"
     t.boolean  "moderator",                  default: false
   end
