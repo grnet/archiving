@@ -17,6 +17,7 @@ else
   require 'net/scp'
   require 'redcarpet'
   require 'raven'
+  %w(railties rack rake).each { |ig| Raven.load_integration(ig) }
 end
 
 module Archiving
