@@ -71,6 +71,7 @@ Rails.application.routes.draw do
     match '/', to: 'base#index', via: [:get, :post]
 
     get '/login' => 'base#login', as: :login
+    get '/raiser' => 'base#raiser', as: :raiser
 
     resources :settings, only: [:index, :new, :create, :edit, :update] do
       member do

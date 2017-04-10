@@ -20,6 +20,12 @@ class Admin::BaseController < ApplicationController
     render 'admin/login'
   end
 
+  # GET /admin/raiser
+  # Raises an exception on demand, for sentry testing
+  def raiser
+    raise 'Error on Demand'
+  end
+
   protected
 
   def get_charts
