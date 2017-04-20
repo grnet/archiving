@@ -133,6 +133,13 @@ Rails.application.routes.draw do
           post :restore
         end
       end
+      namespace :admin do
+        resources :clients, only: [] do
+          collection do
+            get :unverified
+          end
+        end
+      end
     end
   end
 end

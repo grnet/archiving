@@ -122,6 +122,8 @@ class Host < ActiveRecord::Base
   def as_json(opts={})
     if for_api = opts.delete(:for_api)
       api_json
+    elsif for_admin = opts.delete(:for_admin_api)
+      admin_api_json
     else
       super(opts)
     end
@@ -394,6 +396,17 @@ class Host < ActiveRecord::Base
       collaborators: email_recipients,
       backup_jobs: job_templates.enabled.backup.map(&:api_json),
       restorable_filesets: client.file_sets.map(&:api_json)
+    }
+  end
+
+  # Simple attributes for admin api
+  #
+  # @return [Hash] of the desired attribues for api use
+  def admin_api_json
+    {
+      id: id,
+      name: name,
+      fqdn: fqdn
     }
   end
 
