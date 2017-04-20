@@ -18,7 +18,10 @@ class Admin::HostsController < Admin::BaseController
 
   # POST /admin/hosts/1/verify
   def verify
-    @host.verify(current_user.id)
+    if @host.verify(current_user.id)
+      UserMailer.notify_admin_for_verification(current_user, @host.fqdn).deliver
+    end
+
     redirect_to unverified_admin_hosts_path
   end
 

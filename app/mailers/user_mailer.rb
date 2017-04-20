@@ -45,4 +45,15 @@ class UserMailer < ActionMailer::Base
     @host = host
     mail(to: admin_emails, subject: 'New host pending verification')
   end
+
+  # Notifies admins about a host that was verified
+  #
+  # @param user[User] the admin that verified the host
+  # @param host[String] the host's FQDN
+  def notify_admin_for_verification(user, host)
+    admin_emails = User.admin.where(enabled: true).pluck(:email)
+    @user = user
+    @host = host
+    mail(to: admin_emails, subject: 'New host verification')
+  end
 end
