@@ -27,7 +27,6 @@ class Host < ActiveRecord::Base
   enum origin: { institutional: 0, vima: 1, okeanos: 2 }
   serialize :email_recipients, JSON
 
-  has_many :simple_configurations
   has_many :ownerships
   has_many :users, through: :ownerships, inverse_of: :hosts
   has_many :invitations
@@ -164,7 +163,7 @@ class Host < ActiveRecord::Base
   #
   # @return [Boolean]
   def needs_simple_config?
-    job_templates.none? && simple_configurations.none?
+    job_templates.none?
   end
 
   # Restores a host's backup to a preselected location
