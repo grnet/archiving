@@ -1,7 +1,7 @@
 <tr>
   <td><%= log.log_id %></td>
-  <td><%= log.job.id %></td>
-  <td><%= log.job.name %></td>
+  <td><%= @job.id %></td>
+  <td><%= @job.name %></td>
   <td><%= log.time_formatted %></td>
   <td style='max-width: 650px'><pre class='pre-scrollable'>
 <%= log.log_text %>

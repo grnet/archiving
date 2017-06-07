@@ -1,4 +1,27 @@
-<%= render partial: 'header' %>
+<p id="notice"><%= notice %></p>
+
+<h2>
+  <%= @client.name %>
+  <%= host_status_label(@client.host) %>
+</h2>
+
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation">
+    <%= link_to 'Client', admin_client_path(@client), 'aria-controls' => "client", role: "tab" %>
+  </li>
+  <li role="presentation" class="active">
+    <%= link_to 'Recent Jobs', jobs_admin_client_path(@client),
+                'aria-controls' => "recent jobs", role: "tab" %>
+  <li role="presentation">
+    <%= link_to 'Stats', stats_admin_client_path(@client), 'aria-controls' => "stats", role: "tab" %>
+  </li>
+  <li role="presentation">
+    <%= link_to 'Config', configuration_admin_client_path(@client),
+                'aria-controls' => "config", role: "tab" %>
+  </li>
+</ul>
+
+<br />
 
 <div class='row'>
   <div class='col-xs-3'>
@@ -7,18 +30,6 @@
   <div class="col-xs-4 right text-right">
     <%= page_entries_info @logs, entry_name: 'log' %>
     <%= paginate @logs %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-12">
-    <%= bootstrap_form_tag(url: '', method: :get, layout: :inline) do |form| %>
-      <%= form.text_field :start_date, value: @dates[:start],
-        class: 'datepicker' %>
-      <%= form.text_field :end_date, value: @dates[:end],
-        class: 'datepicker' %>
-      <%= form.submit 'Show Logs', class: 'btn btn-default' %>
-    <% end %>
   </div>
 </div>
 

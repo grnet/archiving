@@ -1,7 +1,6 @@
 class Admin::ClientsController < Admin::BaseController
   before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :configuration,
                                       :disable, :revoke, :block, :unblock]
-  before_action :fetch_logs, only: [:logs]
 
   # Shows all available clients
   #
@@ -43,8 +42,10 @@ class Admin::ClientsController < Admin::BaseController
     @jobs = @client.recent_jobs.page(params[:page])
   end
 
-  # GET /admin/clients/1/logs
+  # GET /admin/clients/1/logs?job_id=1
   def logs
+    @job = @client.jobs.find(params[:job_id])
+    @logs = @job.logs.page(params[:page]).per(50)
   end
 
   # GET /admin/clients/1/stats
