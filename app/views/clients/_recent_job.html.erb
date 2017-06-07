@@ -1,6 +1,6 @@
 <tr class="<%= success_class(recent_job.job_status) %>">
   <td><%= recent_job.name %></td>
-  <td><%= recent_job.job_id %></td>
+  <td><%= link_to recent_job.job_id, logs_client_path(@client.id, job_id: recent_job.job_id) %></td>
   <td><%= recent_job.level_human %></td>
   <td><%= recent_job.fileset %></td>
   <td><%= recent_job.start_time_formatted %></td>

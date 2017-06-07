@@ -2,7 +2,6 @@ class ClientsController < ApplicationController
   before_action :require_logged_in
   before_action :fetch_client, only: [:show, :jobs, :logs, :stats, :users, :restore, :run_restore,
                                       :restore_selected, :remove_user]
-  before_action :fetch_logs, only: [:logs]
   before_action :require_non_blocked_client, only: [:restore, :restore_selected, :run_restore]
 
   # GET /clients
@@ -27,8 +26,11 @@ class ClientsController < ApplicationController
     @jobs = @client.recent_jobs.page(params[:page])
   end
 
-  # GET /clients/1/logs
-  def logs; end
+  # GET /clients/1/logs?job_id=1
+  def logs
+    @job = @client.jobs.find(params[:job_id])
+    @logs = @job.logs.page(params[:page]).per(50)
+  end
 
   # GET /clients/1/stats
   # POST /clients/1/stats
